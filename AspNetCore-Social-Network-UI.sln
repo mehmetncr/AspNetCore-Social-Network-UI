@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore-Social-Network-UI", "AspNetCore-Social-Network-UI.csproj", "{F88177A2-E1AB-49CB-B675-34B59D9BAE04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F88177A2-E1AB-49CB-B675-34B59D9BAE04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F88177A2-E1AB-49CB-B675-34B59D9BAE04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F88177A2-E1AB-49CB-B675-34B59D9BAE04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F88177A2-E1AB-49CB-B675-34B59D9BAE04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56662C7D-A8C3-485E-AAFF-7CFB563707DB}
+	EndGlobalSection
+EndGlobal
