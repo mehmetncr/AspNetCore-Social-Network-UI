@@ -12,5 +12,10 @@ namespace AspNetCore_Social_Network_UI.Controllers
 		{
 			return View();
 		}
+		public IActionResult MyFriends()
+		{
+			return View();
+		}
 	}
+
 }
