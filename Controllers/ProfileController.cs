@@ -12,5 +12,13 @@ namespace AspNetCore_Social_Network_UI.Controllers
 		{
 			return View();
 		}
+		public IActionResult MyAbout()
+		{
+			return View();
+		}
+		public IActionResult MyVideos()
+		{
+			return View();
+		}
 	}
 }
