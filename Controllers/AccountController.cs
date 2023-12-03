@@ -27,10 +27,13 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			var http = _httpClientFactory.CreateClient();
 			var content = new StringContent(jsonData, encoding: Encoding.UTF8, "application/json");
 			var result = await http.PostAsync("https://localhost:7091/api/Accounts/Register", content);
+			var errorMessage = await result.Content.ReadAsStringAsync();
 			if (result.IsSuccessStatusCode)
 			{
+				
 				return RedirectToAction("Index");
 			}
+			ModelState.AddModelError("Error", errorMessage);
 
 			return View(model);
 

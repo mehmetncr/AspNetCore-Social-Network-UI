@@ -46,14 +46,16 @@
 								<div class="form-group">
 									<input asp-for=Email type="text" id="input" required="required" />
 									<label class="control-label" for="input">Email</label><i class="mtrl-select"></i>
+									<span asp-validation-for="Email" class="text-danger"></span>
 								</div>
 								<div class="form-group">
 									<input asp-for=Password type="password" required="required" />
 									<label class="control-label" for="input">Şifre</label><i class="mtrl-select"></i>
+									<span asp-validation-for="Password" class="text-danger"></span>
 								</div>
 								<div class="checkbox">
 									<label>
-										<input type="checkbox" checked="checked" /><i class="check-box"></i>Beni Her Zaman Hatırla.
+										<input asp-for=RememberMe type="checkbox" checked="checked" /><i class="check-box"></i>Beni Her Zaman Hatırla.
 									</label>
 								</div>
 								<a href="#" title="" class="forgot-pwd">Şifreni Mi Unuttun?</a>
@@ -65,8 +67,9 @@
 						</div>
 						<div class="log-reg-area reg">
 							<h2 class="log-title">Kayıt Ol</h2>
-							<form asp-controller="Account" asp-action="Register" method="post">
-								<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+							<form asp-controller="Account" asp-action="Register" method="post" id="registerForm">
+								<div asp-validation-summary="ModelOnly" class="text-danger"  ></div>
+								<span class="text-danger" id="registerValid"></span>
 								<input asp-for=Gender type="hidden"  />
 								<div class="form-group">
 									<input asp-for=FirstName type="text" required="required" />
@@ -84,17 +87,17 @@
 									<span asp-validation-for="UserName" class="text-danger"></span>
 								</div>
 								<div class="form-group">
-									<input asp-for=Email type="text" required="required" />
+									<input asp-for=Email id="registerEmail" type="text" required="required" />
 									<label class="control-label" for="input">Email</label><i class="mtrl-select"></i>
 									<span asp-validation-for="Email" class="text-danger"></span>
 								</div>
 								<div class="form-group">
-									<input asp-for=Password type="password" required="required" />
+									<input asp-for=Password type="password" required="required" id="registerPassword" />
 									<label class="control-label" for="input">Şifre</label><i class="mtrl-select"></i>
 									<span asp-validation-for="Password" class="text-danger"></span>
 								</div>
 								<div class="form-group">
-									<input asp-for=ConfirmPassword type="password" required="required" />
+									<input asp-for=ConfirmPassword type="password" required="required" id="registerComfirm" />
 									<label class="control-label" for="input">Şifre Tekrar</label><i class="mtrl-select"></i>
 									<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 								</div>
@@ -113,7 +116,7 @@
 
 								<div class="checkbox">
 									<label>
-										<input type="checkbox" checked="checked"/><i class="check-box"></i>Şartları Kabul Ediyorum?
+										<input asp-for=AcceptPolicy type="checkbox" checked="checked"/><i class="check-box"></i>Şartları Kabul Ediyorum?
 									</label>
 								</div>
 								<a href="#" title="" class="already-have">Zaten Hesabım Var</a>
@@ -148,6 +151,49 @@
 			$('input[name="Gender"]').val("Kadın");
 		}
 	});
+
+	$(document).ready(function () {
+		$('#registerForm').submit(function (e) {
+			e.preventDefault(); // Form submit işlemini engelle
+
+			var formData = {
+				FirstName: $('input[name="FirstName"]').val(),
+				LastName: $('input[name="LastName"]').val(),
+				UserName: $('input[name="UserName"]').val(),
+				Email: $('#registerEmail').val(),
+				Password: $('#registerPassword').val(),
+				ConfirmPassword: $('#registerComfirm').val(),
+				Gender: $('input[name="radio"]:checked').val()
+			};
+
+			$.ajax({
+				url: 'https://localhost:7091/api/Accounts/Register',
+				method: 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify(formData),
+				success: function (response) {
+					$('.login-reg-bg').removeClass('show');
+					return false;
+				},
+				error: function (xhr, status, error) {
+					var errorMessage = xhr.responseText;
+					$('#registerValid').text(errorMessage);
+					console.log(errorMessage);		
+				}
+			});
+		});
+	});
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 	@{

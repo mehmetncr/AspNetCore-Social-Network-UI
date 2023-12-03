@@ -21,6 +21,7 @@ namespace AspNetCore_Social_Network_UI.Models
         [Compare("Password",ErrorMessage ="Şifreler Uyuşmuyor")]
 		[DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+		public bool RememberMe { get; set; }
 
     }
 }
