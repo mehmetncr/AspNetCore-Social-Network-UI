@@ -1,4 +1,4 @@
-﻿
+﻿@model UserViewModel
 @{
     ViewData["Title"] = "MyProfile";
     Layout = "~/Views/Shared/LayoutPage.cshtml";
@@ -6,7 +6,7 @@
 
 
 <!--Profile Top Nav-->
-<partial name="ProfileNavPartialView" />
+<partial name="ProfileNavPartialView" data=@Model/>
 <!--Profile Top Nav-->
 
 <section>

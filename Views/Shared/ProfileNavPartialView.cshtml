@@ -1,8 +1,9 @@
-﻿<section>
+﻿@model UserViewModel
+<section>
 	<div class="feature-photo">
-		<figure><img src="~/SocialUI/images/resources/timeline-1.jpg" alt=""></figure>
+		<figure><img src=@Model.CoverPicture alt=""></figure>
 		<div class="add-btn">
-			<span>1205 followers</span>
+			<span>@Model.FollowerCount Arkadaş</span>
 			<a href="#" title="" data-ripple="">Add Friend</a>
 		</div>
 		<form class="edit-phto">
@@ -17,7 +18,7 @@
 				<div class="col-lg-2 col-sm-3">
 					<div class="user-avatar">
 						<figure>
-							<img src="~/SocialUI/images/resources/user-avatar.jpg" alt="">
+							<img src=@Model.ProfilePicture alt="">
 							<form class="edit-phto">
 								<i class="fa fa-camera-retro"></i>
 								<label class="fileContainer">
@@ -32,8 +33,8 @@
 					<div class="timeline-info">
 						<ul>
 							<li class="admin-name">
-								<h5>Janice Griffith</h5>
-								<span>Group Admin</span>
+								<h5>@Model.FirstName @Model.LastName</h5>
+								@* <span>Group Admin</span> *@
 							</li>
 							<li>
 								<a class="active" asp-action="MyProfile"  asp-controller="Profile" title="" data-ripple="">time line</a>
