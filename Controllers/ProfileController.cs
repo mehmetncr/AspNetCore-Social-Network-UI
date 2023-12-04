@@ -17,7 +17,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
         public async Task<IActionResult> MyProfile()
 		{
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
-            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/1");  //API adresi ve get isteği 
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/4");  //API adresi ve get isteği 
             if (respons.StatusCode == System.Net.HttpStatusCode.OK)  //gelen sonuç Ok ise  kodu ise
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();  //gelen datanın içindeki veriler çıkarılır
