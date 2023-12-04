@@ -2,11 +2,11 @@
 
 namespace AspNetCore_Social_Network_UI.Controllers
 {
-    public class HomeController : Controller
+    public class AddPostController : Controller
     {
-        public IActionResult Index()
-        {         
-
+        [HttpPost]
+        public IActionResult NewPost()
+        {
             return View();
         }
     }

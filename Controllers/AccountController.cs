@@ -47,7 +47,8 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			var result = await http.PostAsync("https://localhost:7091/api/Accounts/Login", content);
 			if (result.IsSuccessStatusCode)
 			{
-				return RedirectToAction("Index");
+				HttpContext.Session.SetString("userId", await result.Content.ReadAsStringAsync());
+				return RedirectToAction("Index", "Home");
 			}
 
 			return View(model);
