@@ -2,16 +2,16 @@
 {
     public class ReplyCommentViewModel
     {
-        public int Id { get; set; }
-        public DateTime CommentDate { get; set; }
-        public string Content { get; set; }
+		public int ReplyCommentId { get; set; }
+		public DateTime ReplyCommentDate { get; set; }
+		public string ReplyCommentContent { get; set; }
 
 
-        public int UserViewModelId { get; set; }
-        public virtual UserViewModel UserViewModel { get; set; }
+		public int ReplyCommentUserDtoId { get; set; }
+		public virtual UserViewModel ReplyCommentUserDto { get; set; }
 
-        public int CommentViewModelId { get; set; }
-        public virtual CommentViewModel CommentViewModel { get; set; }
+		public int ReplyCommentCommentDtoId { get; set; }
+		public virtual CommentViewModel ReplyCommentCommentDto { get; set; }
 
     }
 }

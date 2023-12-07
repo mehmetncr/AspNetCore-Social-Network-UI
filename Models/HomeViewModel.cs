@@ -2,8 +2,8 @@
 {
     public class HomeViewModel
     {
-        public List<PostViewModel> PostViewModel { get; set; } //Postlar
-        public List<FriendsViewModel> OnlineFriendsViewModel { get; set; } //Online kullanıcılar
-        public List<UserViewModel> OfferUserViewModel { get; set; }
+        public List<PostViewModel> PostDtos { get; set; } //Postlar
+        public List<FriendsViewModel> OnlineFriendsDtos { get; set; } //Online kullanıcılar
+        public List<UserViewModel> OfferUserDtos { get; set; }
     }
 }

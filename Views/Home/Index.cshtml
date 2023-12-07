@@ -1,4 +1,4 @@
-﻿
+﻿@model HomeViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/LayoutPage.cshtml";
@@ -166,7 +166,9 @@
 										<div class="activity-meta">
 											<i>10 hours Ago</i>
 											<span><a href="#" title="">Commented on Video posted </a></span>
-											<h6>by <a href="time-line.html">black demon.</a></h6>
+											<h6>by <a href="time-line.html">black demon.
+														
+											</a></h6>
 										</div>
 									</li>
 									<li>
@@ -231,7 +233,7 @@
 						<partial name="NewPostPartialView" />
 							<!--New Post Form-->
 						<div class="loadMore">
-							<vc:posts></vc:posts>
+							<partial name="PostsPartialView" data="@Model.PostDtos" />
 						</div>
 					</div><!-- centerl meta -->
 					<div class="col-lg-3">
