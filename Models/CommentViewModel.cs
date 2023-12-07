@@ -5,16 +5,17 @@ namespace AspNetCore_Social_Network_UI.Models
 {
     public class CommentViewModel
     {
-        public int Id { get; set; }
-        public DateTime CommentDate { get; set; }
-        public string Content { get; set; }
+		public int CommentId { get; set; }
+		public DateTime CommentDate { get; set; }
+		public string CommentContent { get; set; }
 
-        [ForeignKey("UserViewModelId")]
-        public int UserViewModelId { get; set; }
-        public virtual UserViewModel UserViewModel { get; set; }
+		[ForeignKey("UserViewModelId")]
+		public int CommentUserDtoId { get; set; }
+		public virtual UserViewModel CommentUserDto { get; set; }
         [ForeignKey("PostViewModelId")]
-        public int PostViewModelId { get; set; }
-        public virtual PostViewModel PostViewModel { get; set; }
+		public int CommentPostDtoId { get; set; }
+		public virtual PostViewModel CommentPostDto { get; set; }
+		public virtual List<ReplyCommentViewModel> ReplyCommentsDto { get; set; }
 
-    }
+	}
 }

@@ -2,10 +2,10 @@
 {
     public class FriendsViewModel
     {
-        public int Id { get; set; }
-        public int UserViewModelId { get; set; }
-        public int FriendsUserId { get; set; }
+		public int FriendsId { get; set; }
+		public int FriendsUserId { get; set; }
+		public int FriendId { get; set; }
 
-        public virtual UserViewModel UserViewModel { get; set; }
+		public virtual UserViewModel Friend { get; set; }
     }
 }
