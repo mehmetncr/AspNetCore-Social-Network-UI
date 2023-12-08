@@ -1,0 +1,13 @@
+﻿@model HomeViewModel
+
+<ul class="chat-users">
+	@foreach (var friend in Model.OnlineFriendsDtos)
+	{
+		<li>
+			<div class="author-thmb">
+				<img src="@friend.Friend.UserProfilePicture" alt="">
+				<span class="status f-online"></span>
+			</div>
+		</li>
+	}
+</ul>

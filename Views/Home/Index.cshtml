@@ -7,74 +7,7 @@
 
 <div class="fixed-sidebar right">
 	<div class="chat-friendz">
-		<ul class="chat-users">
-			<li>
-				<div class="author-thmb">
-					<img src="~/SocialUI/images/resources/side-friend1.jpg" alt="">
-					<span class="status f-online"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend2.jpg" alt="">
-					<span class="status f-away"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend3.jpg" alt="">
-					<span class="status f-online"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend4.jpg" alt="">
-					<span class="status f-offline"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend5.jpg" alt="">
-					<span class="status f-online"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend6.jpg" alt="">
-					<span class="status f-online"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend7.jpg" alt="">
-					<span class="status f-offline"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend8.jpg" alt="">
-					<span class="status f-online"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend9.jpg" alt="">
-					<span class="status f-away"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend10.jpg" alt="">
-					<span class="status f-away"></span>
-				</div>
-			</li>
-			<li>
-				<div class="author-thmb">
-					<img src="images/resources/side-friend8.jpg" alt="">
-					<span class="status f-online"></span>
-				</div>
-			</li>
-		</ul>
+		<partial name="OnlineFriendsPartialView" data="@Model.OnlineFriendsDtos" />
 		<div class="chat-box">
 			<div class="chat-head">
 				<span class="status f-online"></span>
