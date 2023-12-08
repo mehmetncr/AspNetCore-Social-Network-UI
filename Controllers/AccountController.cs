@@ -1,4 +1,5 @@
 ﻿using AspNetCore_Social_Network_UI.Models;
+using AspNetCore_Social_Network_UI.SessionExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -47,7 +48,9 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			var result = await http.PostAsync("https://localhost:7091/api/Accounts/Login", content);
 			if (result.IsSuccessStatusCode)
 			{
-				HttpContext.Session.SetString("userId", await result.Content.ReadAsStringAsync());
+				var asdsad = await result.Content.ReadAsStringAsync();
+				HttpContext.Session.SetString("user", await result.Content.ReadAsStringAsync());
+				//var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));  Her User çekildiğinde bu şekilde alınacak
 				return RedirectToAction("Index", "Home");
 			}
 

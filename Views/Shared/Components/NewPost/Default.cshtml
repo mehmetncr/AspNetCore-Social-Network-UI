@@ -1,4 +1,4 @@
-﻿@model HomeViewModel
+﻿@model PostViewModel
 
 <div class="central-meta">
 	<div class="new-postbox">
@@ -7,7 +7,7 @@
 		</figure>
 		<div class="newpst-input">
 			<form asp-controller="Post" asp-action="AddPost" method="post">
-				<textarea rows="2"  placeholder="write something"></textarea>
+				<textarea rows="2" asp-for="PostTextContent" placeholder="write something"></textarea>
 				<div class="attachments">
 					<ul>
 						<li>
