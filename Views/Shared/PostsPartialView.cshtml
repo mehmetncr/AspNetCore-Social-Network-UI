@@ -97,7 +97,7 @@
                                     </div>
                                     <div class="we-comment">
                                         <div class="coment-head">
-                                            <h5><a href="time-line.html" title="">@comment.CommentUserDto.UserFirstName @comment.CommentUserDto.UserLastName</a></h5>
+                                            <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
                                             <span>1 year ago</span>
                                             <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                         </div>
@@ -105,7 +105,7 @@
                                     </div>
                                     <ul>
 
-                                        @foreach (var reply in comment.ReplyCommentsDto)
+                                        @foreach (var reply in comment.ReplyComments)
                                         {
                                             if (reply.ReplyCommentId != 0)
                                             {
@@ -146,8 +146,10 @@
                                 <img src="images/resources/comet-1.jpg" alt="">
                             </div>
                             <div class="post-comt-box">
-                                <form method="post">
-                                    <textarea placeholder="Post your comment"></textarea>
+                                <form method="post" id="addcomment1" onsubmit="submitForm('addcomment1')">
+                                    <input type="hidden" name="postId" value="@post.PostId">
+                                    <textarea name="comment" placeholder="Yorumunuz..."></textarea>
+
                                     <div class="add-smiles">
                                         <span class="em em-expressionless" title="add icon"></span>
                                     </div>
@@ -191,27 +193,21 @@
                         <div class="we-video-info">
                             <ul>
                                 <li>
-                                    <span class="views" data-toggle="tooltip" title="views">
-                                        <i class="fa fa-eye"></i>
-                                        <ins>1.2k</ins>
-                                    </span>
-                                </li>
-                                <li>
                                     <span class="comment" data-toggle="tooltip" title="Comments">
                                         <i class="fa fa-comments-o"></i>
-                                        <ins>52</ins>
+                                        <ins>@post.PostCommentNumber</ins>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="like" data-toggle="tooltip" title="like">
                                         <i class="ti-heart"></i>
-                                        <ins>2.2k</ins>
+                                        <ins>@post.PostLikeNumber</ins>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="dislike" data-toggle="tooltip" title="dislike">
                                         <i class="ti-heart-broken"></i>
-                                        <ins>200</ins>
+                                        <ins>@post.PostDislikeNumber</ins>
                                     </span>
                                 </li>
                                 <li class="social-media">
@@ -272,7 +268,7 @@
                                     </div>
                                     <div class="we-comment">
                                         <div class="coment-head">
-                                            <h5><a href="time-line.html" title="">@comment.CommentUserDto.UserFirstName @comment.CommentUserDto.UserLastName</a></h5>
+                                            <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
                                             <span>1 year ago</span>
                                             <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                         </div>
@@ -280,7 +276,7 @@
                                     </div>
                                     <ul>
 
-                                        @foreach (var reply in comment.ReplyCommentsDto)
+                                        @foreach (var reply in comment.ReplyComments)
                                         {
                                             if (reply.ReplyCommentId != 0)
                                             {
@@ -321,8 +317,10 @@
                                 <img src="images/resources/comet-2.jpg" alt="">
                             </div>
                             <div class="post-comt-box">
-                                <form method="post">
-                                    <textarea placeholder="Post your comment"></textarea>
+                                <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                    <input type="hidden" name="postId" value="@post.PostId">
+                                    <textarea name="comment" placeholder="Yorumunuz..."></textarea>
+
                                     <div class="add-smiles">
                                         <span class="em em-expressionless" title="add icon"></span>
                                     </div>
@@ -444,7 +442,7 @@
                                     </div>
                                     <div class="we-comment">
                                         <div class="coment-head">
-                                            <h5><a href="time-line.html" title="">@comment.CommentUserDto.UserFirstName @comment.CommentUserDto.UserLastName</a></h5>
+                                            <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
                                             <span>1 year ago</span>
                                             <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                         </div>
@@ -452,7 +450,7 @@
                                     </div>
                                     <ul>
 
-                                        @foreach (var reply in comment.ReplyCommentsDto)
+                                        @foreach (var reply in comment.ReplyComments)
                                         {
                                             if (reply.ReplyCommentId != 0)
                                             {
@@ -491,11 +489,13 @@
                         </li>
                         <li class="post-comment">
                             <div class="comet-avatar">
-                                <img src="images/resources/comet-1.jpg" alt="">
+                                <img src="~/SocialUI/soimages/resources/comet-1.jpg" alt="">
                             </div>
                             <div class="post-comt-box">
-                                <form method="post">
-                                    <textarea placeholder="Post your comment"></textarea>
+                                <form method="post" id="addcomment3" onsubmit="submitForm('addcomment3')">
+                                    <input type="hidden" name="postId" value="@post.PostId">
+                                    <textarea name="comment" placeholder="Yorumunuz..."></textarea>
+
                                     <div class="add-smiles">
                                         <span class="em em-expressionless" title="add icon"></span>
                                     </div>
@@ -539,27 +539,21 @@
                         <div class="we-video-info">
                             <ul>
                                 <li>
-                                    <span class="views" data-toggle="tooltip" title="views">
-                                        <i class="fa fa-eye"></i>
-                                        <ins>1.2k</ins>
-                                    </span>
-                                </li>
-                                <li>
                                     <span class="comment" data-toggle="tooltip" title="Comments">
                                         <i class="fa fa-comments-o"></i>
-                                        <ins>52</ins>
+                                        <ins>@post.PostCommentNumber</ins>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="like" data-toggle="tooltip" title="like">
                                         <i class="ti-heart"></i>
-                                        <ins>2.2k</ins>
+                                        <ins>@post.PostLikeNumber</ins>
                                     </span>
                                 </li>
                                 <li>
                                     <span class="dislike" data-toggle="tooltip" title="dislike">
                                         <i class="ti-heart-broken"></i>
-                                        <ins>200</ins>
+                                        <ins>@post.PostDislikeNumber</ins>
                                     </span>
                                 </li>
                                 <li class="social-media">
@@ -620,7 +614,7 @@
                                     </div>
                                     <div class="we-comment">
                                         <div class="coment-head">
-                                            <h5><a href="time-line.html" title="">@comment.CommentUserDto.UserFirstName @comment.CommentUserDto.UserLastName</a></h5>
+                                            <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
                                             <span>1 year ago</span>
                                             <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                         </div>
@@ -628,7 +622,7 @@
                                     </div>
                                     <ul>
 
-                                        @foreach (var reply in comment.ReplyCommentsDto)
+                                        @foreach (var reply in comment.ReplyComments)
                                         {
                                             if (reply.ReplyCommentId != 0)
                                             {
@@ -669,8 +663,10 @@
                                 <img src="images/resources/comet-2.jpg" alt="">
                             </div>
                             <div class="post-comt-box">
-                                <form method="post">
-                                    <textarea placeholder="Post your comment"></textarea>
+                                <form method="post" id="addcomment4" onsubmit="submitForm('addcomment4')">
+                                    <input type="hidden" name="postId" value="@post.PostId">
+                                    <textarea name="comment" placeholder="Yorumunuz..."></textarea>
+
                                     <div class="add-smiles">
                                         <span class="em em-expressionless" title="add icon"></span>
                                     </div>

@@ -51,5 +51,21 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			var errorMessage = await result.Content.ReadAsStringAsync();
 			return RedirectToAction("Index", "Home");
         }
+        public async Task AddComment(string comment, int postId)
+        {
+            var user = HttpContext.Session.GetJsonUser();
+            CommentViewModel model = new CommentViewModel()
+            {
+                CommentContent = comment,
+                CommentDate = DateTime.Now,
+                CommentPostId = postId,
+                CommentUserId = user.UserId
+            };
+            var http = _httpClientFactory.CreateClient();
+            var jsondata = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsondata, encoding: Encoding.UTF8, "application/json");
+            var result = await http.PostAsync("https://localhost:7091/api/Post/AddComment", content);
+            var errorMessage = await result.Content.ReadAsStringAsync();
+        }
     }
 }
