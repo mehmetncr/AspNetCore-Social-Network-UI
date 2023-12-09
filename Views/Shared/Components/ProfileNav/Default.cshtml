@@ -1,0 +1,53 @@
+﻿@model UserViewModel
+
+<section>
+    <div class="feature-photo">
+        <figure><img src=@Model.UserCoverPicture alt=""></figure>
+        <div class="add-btn">
+            <span>@Model.UserFollowerCount Arkadaş</span>
+        </div>
+        <form class="edit-phto">
+            <i class="fa fa-camera-retro"></i>
+            <label class="fileContainer">
+                Fotoğrafı değiştir
+                <input type="file" />
+            </label>
+        </form>
+        <div class="container-fluid">
+            <div class="row merged">
+                <div class="col-lg-2 col-sm-3">
+                    <div class="user-avatar">
+                        <figure>
+                            <img src=@Model.UserProfilePicture alt="">
+                            <form class="edit-phto">
+                                <i class="fa fa-camera-retro"></i>
+                                <label class="fileContainer">
+                                    Profil Fotoğrafını Değiştir
+                                    <input type="file" />
+                                </label>
+                            </form>
+                        </figure>
+                    </div>
+                </div>
+                <div class="col-lg-10 col-sm-9">
+                    <div class="timeline-info">
+                        <ul>
+                            <li class="admin-name">
+                                <h5>@Model.UserFirstName @Model.UserLastName</h5>
+                            </li>
+                            <li>
+                                <a class="@((Context.Request.Path == "/profile/myProfile") ? "active" : "")" asp-action="myProfile" asp-controller="profile" title="" data-ripple="">Postlarım</a>
+                                <a class="@((Context.Request.Path == "/profile/myPhotos") ? "active" : "")" asp-action="myPhotos" asp-controller="profile" title="" data-ripple="">Fotoğraflarım</a>
+                                <a class="@((Context.Request.Path == "/profile/myVideos") ? "active" : "")" asp-action="myVideos" asp-controller="profile" title="" data-ripple="">Videolarım</a>
+                                <a class="@((Context.Request.Path == "/profile/myFriends") ? "active" : "")" asp-action="myFriends" asp-controller="profile" title="" data-ripple="">Arkadaşlarım</a>
+                                @* <a class="" href="timeline-groups.html" title="" data-ripple="">Groups</a>  *@
+                                <a class="@((Context.Request.Path == "/profile/myAbout") ? "active" : "")" asp-action="myAbout" asp-controller="profile" title="" data-ripple="">Hakkımda</a>
+                                <a class="" href="#" title="" data-ripple="">Daha Fazla</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- top area -->

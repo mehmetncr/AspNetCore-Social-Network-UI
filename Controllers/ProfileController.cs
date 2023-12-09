@@ -1,13 +1,14 @@
 ﻿using AspNetCore_Social_Network_UI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System.Net.Http;
 
 namespace AspNetCore_Social_Network_UI.Controllers
 {
-	public class ProfileController : Controller
+    public class ProfileController : Controller
     {
-		private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         public ProfileController(IHttpClientFactory httpClientFactory)
         {
@@ -15,7 +16,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
         }
 
         public async Task<IActionResult> MyProfile()
-		{
+        {
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles");  //API adresi ve get isteği 
             if (respons.StatusCode == System.Net.HttpStatusCode.OK)  //gelen sonuç Ok ise  kodu ise
@@ -26,23 +27,48 @@ namespace AspNetCore_Social_Network_UI.Controllers
             }
             return View();
         }
-		public IActionResult MyPhotos()
-		{
-			return View();
-		}
+        public async Task<IActionResult> MyPhotos()
+        {
+            var http = _httpClientFactory.CreateClient(); 
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Images");  
+            if (respons.StatusCode == System.Net.HttpStatusCode.OK) 
+            {
+                var jsonData = await respons.Content.ReadAsStringAsync(); 
+                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData); 
+                return View(data);
+            }
+            return View();
+        }
 
-		public IActionResult MyAbout()
-		{
+        public async Task<IActionResult> MyAbout()
+        {
+			var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));
+			return View(user);
+        }
+        public async Task<IActionResult> MyVideos()
+        {
+            var http = _httpClientFactory.CreateClient(); 
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Videos"); 
+            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var jsonData = await respons.Content.ReadAsStringAsync(); 
+                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData);  
+                return View(data);
+            }
+            return View();
+        }
+        public async Task<IActionResult> MyFriends()
+        {
+			var http = _httpClientFactory.CreateClient(); 
+			var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Friends"); 
+			if (respons.StatusCode == System.Net.HttpStatusCode.OK)  
+			{
+				var jsonData = await respons.Content.ReadAsStringAsync(); 
+				var data = JsonConvert.DeserializeObject<ProfileFriendsViewModel>(jsonData); 
+				return View(data);
+			}
 			return View();
 		}
-		public IActionResult MyVideos()
-    {
-			return View();
-		}
-		public IActionResult MyFriends()
-		{
-			return View();
-		}
-	}
+    }
 
 }

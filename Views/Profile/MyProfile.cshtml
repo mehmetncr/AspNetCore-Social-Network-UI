@@ -5,11 +5,10 @@
 }
 
 
-
-
 <!--Profile Top Nav-->
-<partial name="ProfileNavPartialView" data=@Model.User />
+<vc:profile-nav></vc:profile-nav>
 <!--Profile Top Nav-->
+
 
 <section>
     <div class="gap gray-bg">
@@ -22,43 +21,119 @@
                                 <div class="widget">
                                     <h4 class="widget-title">Socials</h4>
                                     <ul class="socials">
-                                        @* @foreach (var social in Model.User.SocialMediaAccountsViewModel)
+                                        @* @foreach (var item in Model.User.SocialMediaAccountsViewModel)
                                         {
-                                        <li class="facebook">
-                                        <a title="" href=@social.Url><i class="fa fa-facebook"></i> <span>@social.Name</span> </a>
-                                        </li>
-                                        } *@
+                                            <li class="facebook">
+                                                <a title="" href="#"><i class="fa fa-facebook"></i> <span>facebook</span> <ins>45 likes</ins></a>
+                                            </li>
 
-                                        <li class="twitter">
-                                            <a title="" href="#"><i class="fa fa-twitter"></i> <span>twitter</span></a>
-                                        </li>
-                                        <li class="google">
-                                            <a title="" href="#"><i class="fa fa-google"></i> <span>google</span></a>
-                                        </li>
+                                        }           *@                             
+                                      
                                     </ul>
                                 </div>
                                 <!--ShortCuts-->
                                 <partial name="ShortCutsPartialView" />
                                 <!--ShortCuts-->
-
-
+                              
+                                <div class="widget stick-widget">
+                                    <h4 class="widget-title">Who's follownig</h4>
+                                    <ul class="followers">
+                                        <li>
+                                            <figure><img src="images/resources/friend-avatar2.jpg" alt=""></figure>
+                                            <div class="friend-meta">
+                                                <h4><a href="time-line.html" title="">Kelly Bill</a></h4>
+                                                <a href="#" title="" class="underline">Add Friend</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <figure><img src="images/resources/friend-avatar4.jpg" alt=""></figure>
+                                            <div class="friend-meta">
+                                                <h4><a href="time-line.html" title="">Issabel</a></h4>
+                                                <a href="#" title="" class="underline">Add Friend</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <figure><img src="images/resources/friend-avatar6.jpg" alt=""></figure>
+                                            <div class="friend-meta">
+                                                <h4><a href="time-line.html" title="">Andrew</a></h4>
+                                                <a href="#" title="" class="underline">Add Friend</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <figure><img src="images/resources/friend-avatar8.jpg" alt=""></figure>
+                                            <div class="friend-meta">
+                                                <h4><a href="time-line.html" title="">Sophia</a></h4>
+                                                <a href="#" title="" class="underline">Add Friend</a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <figure><img src="images/resources/friend-avatar3.jpg" alt=""></figure>
+                                            <div class="friend-meta">
+                                                <h4><a href="time-line.html" title="">Allen</a></h4>
+                                                <a href="#" title="" class="underline">Add Friend</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div><!-- who's following -->
                             </aside>
                         </div><!-- sidebar -->
                         <div class="col-lg-6">
                             <div class="loadMore">
-                                <!--New Post Form-->
-                                <partial name="NewPostPartialView" />
-                                <!--New Post Form-->
+                                <div class="central-meta item">
+                                    <div class="new-postbox">
+                                        <figure>
+                                            <img src="images/resources/admin2.jpg" alt="">
+                                        </figure>
+                                        <div class="newpst-input">
+                                            <form method="post">
+                                                <textarea rows="2" placeholder="write something"></textarea>
+                                                <div class="attachments">
+                                                    <ul>
+                                                        <li>
+                                                            <i class="fa fa-music"></i>
+                                                            <label class="fileContainer">
+                                                                <input type="file">
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-image"></i>
+                                                            <label class="fileContainer">
+                                                                <input type="file">
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-video-camera"></i>
+                                                            <label class="fileContainer">
+                                                                <input type="file">
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <i class="fa fa-camera"></i>
+                                                            <label class="fileContainer">
+                                                                <input type="file">
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <button type="submit">Publish</button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div><!-- add post new box -->
                                 @await Html.PartialAsync("PostsPartialView", new HomeViewModel { PostDtos = Model.Posts })
+
                             </div>
                         </div><!-- centerl meta -->
                         <div class="col-lg-3">
                             <aside class="sidebar static">
 
                                 <div class="widget friend-list stick-widget">
-                                    <h4 class="widget-title">Friends</h4>
+                                    <h4 class="widget-title">Arkadaşlar</h4>
                                     <div id="searchDir"></div>
                                     <ul id="people-list" class="friendz-list">
+
                                         @foreach (var friend in Model.Friends)
                                         {
                                             <li>
@@ -67,10 +142,14 @@
                                                     <span class="status f-@(friend.Friend.UserIsOnline?"online":"off")"></span>
                                                 </figure>
                                                 <div class="friendz-meta">
-                                                    <a href="time-line.html">@friend.Friend.UserFirstName</a>                                                   
+                                                    <a href="time-line.html">@friend.Friend.UserFirstName @friend.Friend.UserLastName</a>
+                                                  
                                                 </div>
                                             </li>
+
                                         }
+
+
                                     </ul>
                                     <div class="chat-box">
                                         <div class="chat-head">
@@ -143,3 +222,4 @@
         </div>
     </div>
 </section>
+
