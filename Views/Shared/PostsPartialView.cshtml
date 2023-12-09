@@ -1,7 +1,8 @@
-﻿@model HomeViewModel
+@model HomeViewModel
 
-@foreach (var post in Model.PostDtos)
+@if (Model.PostDtos.Count()>0)
 {
+
     if (post.PostType == "Image")
     {
         <div class="central-meta item">
@@ -255,11 +256,13 @@
                         {
                             <li>
 
+
                                 <div class="comet-avatar">
                                     <img src="images/resources/comet-1.jpg" alt="">
                                 </div>
                                 <div class="we-comment">
                                     <div class="coment-head">
+
                                         <h5><a href="time-line.html" title="">@comment.CommentUserDto.UserFirstName @comment.CommentUserDto.UserLastName</a></h5>
                                         <span>1 year ago</span>
                                         <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
@@ -592,11 +595,13 @@
                         {
                             <li>
 
+
                                 <div class="comet-avatar">
                                     <img src="images/resources/comet-1.jpg" alt="">
                                 </div>
                                 <div class="we-comment">
                                     <div class="coment-head">
+
                                         <h5><a href="time-line.html" title="">@comment.CommentUserDto.UserFirstName @comment.CommentUserDto.UserLastName</a></h5>
                                         <span>1 year ago</span>
                                         <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
