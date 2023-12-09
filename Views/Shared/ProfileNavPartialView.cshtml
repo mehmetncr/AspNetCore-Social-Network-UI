@@ -1,10 +1,9 @@
-﻿@model UserViewModel
+﻿@model ProfileViewModel
 <section>
 	<div class="feature-photo">
-		<figure><img src=@Model.UserCoverPicture alt=""></figure>
+		<figure><img src=@Model.User.UserCoverPicture alt=""></figure>
 		<div class="add-btn">
-			<span>@Model.UserFollowerCount Arkadaş</span>
-			<a href="#" title="" data-ripple="">Add Friend</a>
+			<span>@Model.User.UserFollowerCount Arkadaş</span>			
 		</div>
 		<form class="edit-phto">
 			<i class="fa fa-camera-retro"></i>
@@ -18,7 +17,7 @@
 				<div class="col-lg-2 col-sm-3">
 					<div class="user-avatar">
 						<figure>
-							<img src=@Model.UserProfilePicture alt="">
+							<img src=@Model.User.UserProfilePicture alt="">
 							<form class="edit-phto">
 								<i class="fa fa-camera-retro"></i>
 								<label class="fileContainer">
@@ -33,7 +32,7 @@
 					<div class="timeline-info">
 						<ul>
 							<li class="admin-name">
-								<h5>@Model.UserFirstName @Model.UserLastName</h5>
+								<h5>@Model.User.UserFirstName @Model.User.UserLastName</h5>
 								@* <span>Group Admin</span> *@
 							</li>
 							<li>
