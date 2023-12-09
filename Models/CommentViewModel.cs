@@ -10,12 +10,12 @@ namespace AspNetCore_Social_Network_UI.Models
 		public string CommentContent { get; set; }
 
 		[ForeignKey("UserViewModelId")]
-		public int CommentUserDtoId { get; set; }
-		public virtual UserViewModel CommentUserDto { get; set; }
+		public int CommentUserId { get; set; }
+		public virtual UserViewModel CommentUser { get; set; }
         [ForeignKey("PostViewModelId")]
-		public int CommentPostDtoId { get; set; }
-		public virtual PostViewModel CommentPostDto { get; set; }
-		public virtual List<ReplyCommentViewModel> ReplyCommentsDto { get; set; }
+		public int CommentPostId { get; set; }
+		public virtual PostViewModel CommentPost { get; set; }
+		public virtual List<ReplyCommentViewModel> ReplyComments { get; set; }
 
 	}
 }

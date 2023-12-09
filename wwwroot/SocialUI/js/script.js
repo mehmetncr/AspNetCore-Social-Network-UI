@@ -313,17 +313,42 @@ $(function() {
 	}
 	
 /** Post a Comment **/
-jQuery(".post-comt-box textarea").on("keydown", function(event) {
+	$(".post-comt-box textarea").on("keydown", function (event) {
+		if (event.keyCode == 13) {
+			event.preventDefault();
+			var form = $(this).closest("form");
+			submitForm(form);
+		}
+	});
 
-	if (event.keyCode == 13) {
-		var comment = jQuery(this).val();
-		var parent = jQuery(".showmore").parent("li");
-		var comment_HTML = '	<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">Jason borne</a></h5><span>1 year ago</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>'+comment+'</p></div></li>';
-		$(comment_HTML).insertBefore(parent);
-		jQuery(this).val('');
+	function submitForm(form) {
+		var postId = form.find("input[name='postId']").val();
+		var comment = form.find("textarea[name='comment']").val();
+
+		// Simüle edilmiþ bir POST isteði
+		$.ajax({
+			type: "POST",
+			url: "/Post/AddComment",
+			data: form.serialize(), // Form verilerini al
+			success: function (response) {
+				// Baþarýlý yanýt alýndýðýnda yeni yorumu sayfaya ekle
+				var parent = form.find(".showmore").parent("li");
+				var comment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">Jason Borne</a></h5><span>Just now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>' + comment + '</p></div></li>';
+				$(comment_HTML).insertBefore(parent);
+				form.find("textarea[name='comment']").val('');
+				reloadPost(postId);
+			},
+			error: function (error) {
+				console.error("Yorum gönderme hatasý:", error);
+				// Hata durumunda kullanýcýya bilgi verilebilir
+			}
+		});
+
+		return false;
 	}
-}); 
-	
+
+
+
 //inbox page 	
 //***** Message Star *****//  
     $('.message-list > li > span.star-this').on("click", function(){
