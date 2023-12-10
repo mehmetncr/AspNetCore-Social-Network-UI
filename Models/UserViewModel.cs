@@ -13,6 +13,7 @@ namespace AspNetCore_Social_Network_UI.Models
 		public string? UserCoverPicture { get; set; }
 		public string? UserBiography { get; set; }
 		public string? UserLocation { get; set; }
+		public string? UserEmail { get; set; }
 
 		public int? UserFollowerCount { get; set; }
 		public int? UserFollowingCount { get; set; }
@@ -25,22 +26,22 @@ namespace AspNetCore_Social_Network_UI.Models
 		public string? UserLanguage1 { get; set; }
 		public string? UserLanguage2 { get; set; }
 		public string? UserLanguage3 { get; set; }
-		public virtual List<SocialMediaAccountViewModel>? SocialMediaAccountsViewModel { get; set; }
+		public virtual List<SocialMediaAccountViewModel>? SocialMediaAccounts { get; set; }
 
 		public bool UserIsOnline { get; set; }
 		public DateTime? UserLastLogin { get; set; }
-		public virtual List<UserActivityViewModel>? ActivityHistoryViewModel { get; set; }
-        public virtual List<NotificationViewModel>? NotificationViewModel { get; set; }
+		public virtual List<UserActivityViewModel>? ActivityHistory { get; set; }
+        public virtual List<NotificationViewModel>? Notificationl { get; set; }
 
 		public int? UserPrivacySettingsId { get; set; }
-		public virtual PrivacySettingsViewModel UserPrivacySettings { get; set; }
+		public virtual PrivacySettingsViewModel UserPrivacy { get; set; }
 
-        public virtual List<FriendsViewModel>? FriendsViewModel { get; set; }
-        public virtual List<IntrestViewModel>? InterestsViewModel { get; set; }
+        public virtual List<FriendsViewModel>? Friends{ get; set; }
+        public virtual List<IntrestViewModel>? Interests { get; set; }
 
-        public virtual List<PostViewModel>? PostsViewModel { get; set; }
-        public virtual List<CommentViewModel>? CommentsViewModel { get; set; }
-        public virtual List<ReplyCommentViewModel>? ReplyCommentsViewModel { get; set; }
+        public virtual List<PostViewModel>? Posts { get; set; }
+        public virtual List<CommentViewModel>? Comments { get; set; }
+        public virtual List<ReplyCommentViewModel>? ReplyComments { get; set; }
 
     }
 }

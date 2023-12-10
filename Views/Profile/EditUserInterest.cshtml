@@ -1,0 +1,91 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "EditUserIntrest";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+<!--Profile Top Nav-->
+<vc:profile-nav></vc:profile-nav>
+<!--Profile Top Nav-->
+
+<section>
+    <div class="gap gray-bg">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row" id="page-contents">
+                        <div class="col-lg-3">
+                            <aside class="sidebar static">
+                                <!--Profile ayarları nav menüsü-->
+                                <partial name="EditProfileNavPartialView" />
+                                <!--Profile ayarları nav menüsü-->
+                            </aside>
+                        </div><!-- sidebar -->
+                        <div class="col-lg-6">
+                            <div class="central-meta">
+                                <div class="editing-interest">
+                                    <h5 class="f-title"><i class="ti-heart"></i>İlgi Alanlarım</h5>
+                                    <p>İlgi alanlarını yazarak kendini daha iyi tanıtabilirsin.</p>
+                                    <form method="post" asp-action="EditUserIntrest" asp-controller="Profile" id="intrestForm">
+                                        <label>İlgi alanı ekle: </label>
+                                        <input type="text" placeholder="Fotoğrafcılık, Bisiklet, Orman Gezileri.." name="intrest" id="intrest">
+                                        <button type="submit" onclick="submitForm()">Ekle</button>
+
+                                        <ol class="interest-added">
+                                            @if (Model.Interests == null || !Model.Interests.Any())
+                                            {
+                                                <h5>Hadi ilgi alanlarını ekleyelim</h5>
+                                            }
+                                            else
+                                            {
+                                                @foreach (var item in Model.Interests)
+                                                {
+                                                    <li><a href="#" title="">@item.InterestName</a><span class="remove" title="remove"><i class="fa fa-close"></i></span></li>
+                                                }
+                                            }
+                                        </ol>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div><!-- centerl meta -->
+                        <div class="col-lg-3">
+                            <aside class="sidebar static">
+
+                            </aside>
+                        </div><!-- sidebar -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+    function submitForm() {
+      
+        event.preventDefault();
+
+      
+        var intrest = $('#intrest').val();
+        
+        $.ajax({
+            url: 'https://localhost:7091/api/Profiles/AddInterest',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(intrest),
+            success: function (response) {
+                alert("updated");
+            },
+            error: function (xhr, status, error) {
+                alert(error);
+               
+                console.log(errorMessage);
+            }
+        });
+
+       
+    }
+</script>
