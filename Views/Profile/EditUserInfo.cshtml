@@ -1,0 +1,157 @@
+﻿@model UserViewModel
+@{
+    ViewData["Title"] = "EditUserInfo";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+
+<!--Profile Top Nav-->
+<vc:profile-nav></vc:profile-nav>
+<!--Profile Top Nav-->
+
+<section>
+    <div class="gap gray-bg">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row" id="page-contents">
+                        <div class="col-lg-3">
+                            <aside class="sidebar static">
+
+                                <!--Profile ayarları nav menüsü-->
+                                <partial name="EditProfileNavPartialView" />
+                                <!--Profile ayarları nav menüsü-->
+                            </aside>
+                        </div><!-- sidebar -->
+                        <div class="col-lg-6">
+                            <div class="central-meta">
+                                <div class="editing-info">
+                                    <h5 class="f-title"><i class="ti-info-alt"></i> Profil Bilgilerini Güncelle</h5>
+
+                                    <form method="post" asp-action="EditUserInfo" asp-controller="Profile">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                        <div class="form-group half">
+                                            <input type="text" id="input" required="required" asp-for="UserFirstName" />
+                                            <label class="control-label" for="input">Adı</label><i class="mtrl-select"></i>
+                                            <span asp-validation-for="UserFirstName" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group half">
+                                            <input type="text" required="required" asp-for="UserLastName" />
+                                            <label class="control-label" for="input">Soyadı</label><i class="mtrl-select"></i>
+                                            <span asp-validation-for="UserLastName" class="text-danger"></span>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" required="required" asp-for="UserEmail" readonly />
+                                            <label class="control-label" for="input">Email</label><i class="mtrl-select"></i>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text"  asp-for="UserPhoneNumber" />
+                                            <label class="control-label" for="input">Telefon Numarası</label><i class="mtrl-select"></i>
+                                            <span asp-validation-for="UserPhoneNumber" class="text-danger"></span>
+                                        </div>
+                                        <div class="dob">
+                                            <div class="form-group">
+                                                    <select name="Day">
+                                                      
+                                                        @for (int i = 1; i <= 31; i++)
+                                                        {
+                                                            if (Model.UserBirthDate.HasValue)
+                                                            {
+                                                                if (i == Model.UserBirthDate.Value.Day)
+                                                                {
+                                                                    <option selected>@i</option>
+                                                                    continue;
+                                                                }
+                                                            
+                                                            }
+                                                            <option>@i</option>
+                                                        }
+
+
+
+                                                    </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <select name="month">
+                                                  
+                                                    @{
+                                                        string[] month = { " ","Ocak", "Şubat", "Mart" ,"Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"};
+                                                    }
+                                                    @for (int i = 1; i <= 12; i++)
+                                                    {
+                                                        if (Model.UserBirthDate.HasValue)
+                                                        {
+                                                            if (i == Model.UserBirthDate.Value.Month)
+                                                            {
+                                                                <option value="@i" selected>@month[i]</option>
+                                                                continue;
+                                                            }
+
+                                                        }
+                                                        <option value="@i">@month[i]</option>
+                                                    }                                                 
+                                                  
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <select name="year">
+                                                 
+                                                    @for (int i = 1930; i <= 2024; i++)
+                                                    {
+                                                        if (Model.UserBirthDate.HasValue)
+                                                        {
+                                                            if (i == Model.UserBirthDate.Value.Year)
+                                                            {
+                                                                <option value="@i" selected>@i</option>
+                                                                continue;
+                                                            }
+
+                                                        }
+                                                        <option>@i</option>
+                                                    }
+
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-radio">
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" checked="checked" name="gender" value="Erkek"><i class="check-box"></i>Erkek
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="gender" value="Kadın"><i class="check-box"></i>Kadın
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" asp-for="UserLocation" />
+                                            <label class="control-label" for="input">Adres</label><i class="mtrl-select"></i>
+                                        </div>
+                          
+                                        <div class="form-group">
+                                            <textarea rows="4" id="textarea" asp-for="UserBiography"></textarea>
+                                            <label class="control-label" for="textarea">Hakkımda</label><i class="mtrl-select"></i>
+                                        </div>
+                                        <div class="submit-btns">
+                                            <button type="button" class="mtr-btn"><span>Vazgeç</span></button>
+                                            <button type="submit" class="mtr-btn"><span>Güncelle</span></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div><!-- centerl meta -->
+                        <div class="col-lg-3">
+                            <aside class="sidebar static">
+
+                            </aside>
+                        </div><!-- sidebar -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

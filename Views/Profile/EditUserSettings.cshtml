@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "EditUserSettings";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+<!--Profile Top Nav-->
+<vc:profile-nav></vc:profile-nav>
+<!--Profile Top Nav-->
+
+<section>
+	<div class="gap gray-bg">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="row" id="page-contents">
+						<div class="col-lg-3">
+							<aside class="sidebar static">
+								<!--Profile ayarları nav menüsü-->
+								<partial name="EditProfileNavPartialView" />
+								<!--Profile ayarları nav menüsü-->
+							</aside>
+						</div><!-- sidebar -->
+						<div class="col-lg-6">
+							<div class="central-meta">
+								<div class="onoff-options">
+									<h5 class="f-title"><i class="ti-settings"></i>Hesap Ayarları</h5>
+									<p>Hesabınızı Yönetin</p>
+									<form method="post">
+										<div class="setting-row">
+											<span>Arkadaşlık İstekleri</span>
+											<p>Kişiler size arkadaşlık isteği gönderebilsin mi?</p>
+											<input type="checkbox" id="switch00" />
+											<label for="switch00" data-on-label="ON" data-off-label="OFF"></label>
+										</div>
+										<div class="setting-row">
+											<span>Mesaj İstekleri</span>
+											<p>Arkadaşınız olmayan kişiler size mesaj gönderebilsin mi?</p>
+											<input type="checkbox" id="switch01" />
+											<label for="switch01" data-on-label="ON" data-off-label="OFF"></label>
+										</div>
+										<div class="setting-row">
+											<span>Profil Gizliliği</span>
+											<p>Profilinizi arkadaşınız olmayanlar görebilsin mi?</p>
+											<input type="checkbox" id="switch02" />
+											<label for="switch02" data-on-label="ON" data-off-label="OFF"></label>
+										</div>
+										
+										<div class="submit-btns">
+											<button type="button" class="mtr-btn"><span>Vazgeç</span></button>
+											<button type="submit" class="mtr-btn"><span>Güncelle</span></button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div><!-- centerl meta -->
+						<div class="col-lg-3">
+							<aside class="sidebar static">
+							
+							</aside>
+						</div><!-- sidebar -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+

@@ -1,696 +1,705 @@
 @model HomeViewModel
 
-@foreach (var post in Model.PostDtos)
+@if (Model.PostDtos == null || !Model.PostDtos.Any())
 {
-    if (post.PostType == "Image")
+    <h3>Henüz Paylaşım Yok</h3>
+}
+else
+{
+
+
+    @foreach (var post in Model.PostDtos)
     {
-        <div class="central-meta item">
-            <div class="user-post">
-                <div class="friend-info">
-                    <figure>
-                        <img src="@post.PostUserDto.UserProfilePicture" alt="">
-                    </figure>
-                    <div class="friend-name">
-                        <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
-                        <span>
-                            @post.PostCreateDate
-                        </span>
-                    </div>
-                    <div class="post-meta">
-                        <img src="@post.PostImageUrl" alt="">
-
-                        <div class="description">
-
-                            <p>
-                                @post.PostTextContent
-                            </p>
+        if (post.PostType == "Image")
+        {
+            <div class="central-meta item">
+                <div class="user-post">
+                    <div class="friend-info">
+                        <figure>
+                            <img src="@post.PostUserDto.UserProfilePicture" alt="">
+                        </figure>
+                        <div class="friend-name">
+                            <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <span>
+                                @post.PostCreateDate
+                            </span>
                         </div>
-                        <div class="we-video-info">
-                            <ul>
-                                <li>
-                                    <span class="comment" data-toggle="tooltip" title="Comments">
-                                        <i class="fa fa-comments-o"></i>
-                                        <ins>@post.PostCommentNumber</ins>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="like" data-toggle="tooltip" title="like">
-                                        <i class="ti-heart"></i>
-                                        <ins>@post.PostLikeNumber</ins>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="dislike" data-toggle="tooltip" title="dislike">
-                                        <i class="ti-heart-broken"></i>
-                                        <ins>@post.PostDislikeNumber</ins>
-                                    </span>
-                                </li>
-                                <li class="social-media">
-                                    <div class="menu">
-                                        <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-instagram"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-dribbble"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-pinterest"></i></a>
-                                            </div>
-                                        </div>
+                        <div class="post-meta">
+                            <img src="@post.PostImageUrl" alt="">
 
-                                    </div>
-                                </li>
-                            </ul>
+                            <div class="description">
+
+                                <p>
+                                    @post.PostTextContent
+                                </p>
+                            </div>
+                            <div class="we-video-info">
+                                <ul>
+                                    <li>
+                                        <span class="comment" data-toggle="tooltip" title="Comments">
+                                            <i class="fa fa-comments-o"></i>
+                                            <ins>@post.PostCommentNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="like" data-toggle="tooltip" title="like">
+                                            <i class="ti-heart"></i>
+                                            <ins>@post.PostLikeNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="dislike" data-toggle="tooltip" title="dislike">
+                                            <i class="ti-heart-broken"></i>
+                                            <ins>@post.PostDislikeNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li class="social-media">
+                                        <div class="menu">
+                                            <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-instagram"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-dribbble"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-pinterest"></i></a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="coment-area">
-                    <ul class="we-comet">
-                        @foreach (var comment in post.CommentsDto)
-                        {
-                            if (comment.CommentId != 0)
+                    <div class="coment-area">
+                        <ul class="we-comet">
+                            @foreach (var comment in post.CommentsDto)
                             {
-                                <li>
-                                    <div class="comet-avatar">
-                                        <img src="images/resources/comet-1.jpg" alt="">
-                                    </div>
-                                    <div class="we-comment">
-                                        <div class="coment-head">
-                                            <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                            <span>1 year ago</span>
-                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                if (comment.CommentId != 0)
+                                {
+                                    <li>
+                                        <div class="comet-avatar">
+                                            <img src="images/resources/comet-1.jpg" alt="">
                                         </div>
-                                        <p>@comment.CommentContent</p>
-                                    </div>
-                                    <ul>
+                                        <div class="we-comment">
+                                            <div class="coment-head">
+                                                <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
+                                                <span>1 year ago</span>
+                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                            </div>
+                                            <p>@comment.CommentContent</p>
+                                        </div>
+                                        <ul>
 
-                                        @foreach (var reply in comment.ReplyComments)
-                                        {
-                                            if (reply.ReplyCommentId != 0)
+                                            @foreach (var reply in comment.ReplyComments)
                                             {
+                                                if (reply.ReplyCommentId != 0)
+                                                {
 
-                                                <li>
-                                                    <div class="comet-avatar">
-                                                        <img src="images/resources/comet-2.jpg" alt="">
-                                                    </div>
-                                                    <div class="we-comment">
-                                                        <div class="coment-head">
-                                                            <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
-                                                            <span>1 month ago</span>
-                                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                    <li>
+                                                        <div class="comet-avatar">
+                                                            <img src="images/resources/comet-2.jpg" alt="">
                                                         </div>
-                                                        <p>@reply.ReplyCommentContent</p>
-                                                    </div>
-                                                </li>
+                                                        <div class="we-comment">
+                                                            <div class="coment-head">
+                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
+                                                                <span>1 month ago</span>
+                                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                            </div>
+                                                            <p>@reply.ReplyCommentContent</p>
+                                                        </div>
+                                                    </li>
+                                                }
+
                                             }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <div class="text-center">
+                                        <h4><strong> Henüz yorum yok!</strong></h4>
+                                    </div>
 
-                                        }
-                                    </ul>
-                                </li>
+                                }
+
                             }
-                            else
-                            {
-                                <div class="text-center">
-                                    <h4><strong> Henüz yorum yok!</strong></h4>
+                            <li>
+                                <a href="#" title="" class="showmore underline">more comments</a>
+                            </li>
+                            <li class="post-comment">
+                                <div class="comet-avatar">
+                                    <img src="images/resources/comet-1.jpg" alt="">
                                 </div>
+                                <div class="post-comt-box">
+                                    <form method="post" id="addcomment1" onsubmit="submitForm('addcomment1')">
+                                        <input type="hidden" name="postId" value="@post.PostId">
+                                        <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
-                            }
-
-                        }
-                        <li>
-                            <a href="#" title="" class="showmore underline">more comments</a>
-                        </li>
-                        <li class="post-comment">
-                            <div class="comet-avatar">
-                                <img src="images/resources/comet-1.jpg" alt="">
-                            </div>
-                            <div class="post-comt-box">
-                                <form method="post" id="addcomment1" onsubmit="submitForm('addcomment1')">
-                                    <input type="hidden" name="postId" value="@post.PostId">
-                                    <textarea name="comment" placeholder="Yorumunuz..."></textarea>
-
-                                    <div class="add-smiles">
-                                        <span class="em em-expressionless" title="add icon"></span>
-                                    </div>
-                                    <div class="smiles-bunch">
-                                        <i class="em em---1"></i>
-                                        <i class="em em-smiley"></i>
-                                        <i class="em em-anguished"></i>
-                                        <i class="em em-laughing"></i>
-                                        <i class="em em-angry"></i>
-                                        <i class="em em-astonished"></i>
-                                        <i class="em em-blush"></i>
-                                        <i class="em em-disappointed"></i>
-                                        <i class="em em-worried"></i>
-                                        <i class="em em-kissing_heart"></i>
-                                        <i class="em em-rage"></i>
-                                        <i class="em em-stuck_out_tongue"></i>
-                                    </div>
-                                    <button type="submit"></button>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
+                                        <div class="add-smiles">
+                                            <span class="em em-expressionless" title="add icon"></span>
+                                        </div>
+                                        <div class="smiles-bunch">
+                                            <i class="em em---1"></i>
+                                            <i class="em em-smiley"></i>
+                                            <i class="em em-anguished"></i>
+                                            <i class="em em-laughing"></i>
+                                            <i class="em em-angry"></i>
+                                            <i class="em em-astonished"></i>
+                                            <i class="em em-blush"></i>
+                                            <i class="em em-disappointed"></i>
+                                            <i class="em em-worried"></i>
+                                            <i class="em em-kissing_heart"></i>
+                                            <i class="em em-rage"></i>
+                                            <i class="em em-stuck_out_tongue"></i>
+                                        </div>
+                                        <button type="submit"></button>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-    if (post.PostType == "Youtube")
-    {
-        <div class="central-meta item">
-            <div class="user-post">
-                <div class="friend-info">
-                    <figure>
-                        <img src="images/resources/nearly1.jpg" alt="">
-                    </figure>
-                    <div class="friend-name">
-                        <ins><a href="time-line.html" title="">Sara Grey</a></ins>
-                        <span>published: june,2 2018 19:PM</span>
-                    </div>
-                    <div class="post-meta">
-                        <iframe height="415" src="@post.PostYoutubeUrl" allow="autoplay;" allowfullscreen></iframe>
-                        <div class="we-video-info">
-                            <ul>
-                                <li>
-                                    <span class="comment" data-toggle="tooltip" title="Comments">
-                                        <i class="fa fa-comments-o"></i>
-                                        <ins>@post.PostCommentNumber</ins>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="like" data-toggle="tooltip" title="like">
-                                        <i class="ti-heart"></i>
-                                        <ins>@post.PostLikeNumber</ins>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="dislike" data-toggle="tooltip" title="dislike">
-                                        <i class="ti-heart-broken"></i>
-                                        <ins>@post.PostDislikeNumber</ins>
-                                    </span>
-                                </li>
-                                <li class="social-media">
-                                    <div class="menu">
-                                        <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-instagram"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-dribbble"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-pinterest"></i></a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </li>
-                            </ul>
+        }
+        if (post.PostType == "Youtube")
+        {
+            <div class="central-meta item">
+                <div class="user-post">
+                    <div class="friend-info">
+                        <figure>
+                            <img src="images/resources/nearly1.jpg" alt="">
+                        </figure>
+                        <div class="friend-name">
+                            <ins><a href="time-line.html" title="">Sara Grey</a></ins>
+                            <span>published: june,2 2018 19:PM</span>
                         </div>
-                        <div class="description">
+                        <div class="post-meta">
+                            <iframe height="415" src="@post.PostYoutubeUrl" allow="autoplay;" allowfullscreen></iframe>
+                            <div class="we-video-info">
+                                <ul>
+                                    <li>
+                                        <span class="comment" data-toggle="tooltip" title="Comments">
+                                            <i class="fa fa-comments-o"></i>
+                                            <ins>@post.PostCommentNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="like" data-toggle="tooltip" title="like">
+                                            <i class="ti-heart"></i>
+                                            <ins>@post.PostLikeNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="dislike" data-toggle="tooltip" title="dislike">
+                                            <i class="ti-heart-broken"></i>
+                                            <ins>@post.PostDislikeNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li class="social-media">
+                                        <div class="menu">
+                                            <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-instagram"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-dribbble"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-pinterest"></i></a>
+                                                </div>
+                                            </div>
 
-                            <p>
-                                @post.PostTextContent
-                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="description">
+
+                                <p>
+                                    @post.PostTextContent
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="coment-area">
-                    <ul class="we-comet">
-                        @foreach (var comment in post.CommentsDto)
-                        {
-                            if (comment.CommentId != 0)
+                    <div class="coment-area">
+                        <ul class="we-comet">
+                            @foreach (var comment in post.CommentsDto)
                             {
-                                <li>
-                                    <div class="comet-avatar">
-                                        <img src="images/resources/comet-1.jpg" alt="">
-                                    </div>
-                                    <div class="we-comment">
-                                        <div class="coment-head">
-                                            <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                            <span>1 year ago</span>
-                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                if (comment.CommentId != 0)
+                                {
+                                    <li>
+                                        <div class="comet-avatar">
+                                            <img src="images/resources/comet-1.jpg" alt="">
                                         </div>
-                                        <p>@comment.CommentContent</p>
-                                    </div>
-                                    <ul>
+                                        <div class="we-comment">
+                                            <div class="coment-head">
+                                                <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
+                                                <span>1 year ago</span>
+                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                            </div>
+                                            <p>@comment.CommentContent</p>
+                                        </div>
+                                        <ul>
 
-                                        @foreach (var reply in comment.ReplyComments)
-                                        {
-                                            if (reply.ReplyCommentId != 0)
+                                            @foreach (var reply in comment.ReplyComments)
                                             {
+                                                if (reply.ReplyCommentId != 0)
+                                                {
 
-                                                <li>
-                                                    <div class="comet-avatar">
-                                                        <img src="images/resources/comet-2.jpg" alt="">
-                                                    </div>
-                                                    <div class="we-comment">
-                                                        <div class="coment-head">
-                                                            <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
-                                                            <span>1 month ago</span>
-                                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                    <li>
+                                                        <div class="comet-avatar">
+                                                            <img src="images/resources/comet-2.jpg" alt="">
                                                         </div>
-                                                        <p>@reply.ReplyCommentContent</p>
-                                                    </div>
-                                                </li>
+                                                        <div class="we-comment">
+                                                            <div class="coment-head">
+                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
+                                                                <span>1 month ago</span>
+                                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                            </div>
+                                                            <p>@reply.ReplyCommentContent</p>
+                                                        </div>
+                                                    </li>
+                                                }
+
                                             }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <div class="text-center">
+                                        <h4><strong> Henüz yorum yok!</strong></h4>
+                                    </div>
 
-                                        }
-                                    </ul>
-                                </li>
+                                }
+
                             }
-                            else
-                            {
-                                <div class="text-center">
-                                    <h4><strong> Henüz yorum yok!</strong></h4>
+                            <li>
+                                <a href="#" title="" class="showmore underline">more comments</a>
+                            </li>
+                            <li class="post-comment">
+                                <div class="comet-avatar">
+                                    <img src="images/resources/comet-2.jpg" alt="">
                                 </div>
+                                <div class="post-comt-box">
+                                    <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                        <input type="hidden" name="postId" value="@post.PostId">
+                                        <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
-                            }
-
-                        }
-                        <li>
-                            <a href="#" title="" class="showmore underline">more comments</a>
-                        </li>
-                        <li class="post-comment">
-                            <div class="comet-avatar">
-                                <img src="images/resources/comet-2.jpg" alt="">
-                            </div>
-                            <div class="post-comt-box">
-                                <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
-                                    <input type="hidden" name="postId" value="@post.PostId">
-                                    <textarea name="comment" placeholder="Yorumunuz..."></textarea>
-
-                                    <div class="add-smiles">
-                                        <span class="em em-expressionless" title="add icon"></span>
-                                    </div>
-                                    <div class="smiles-bunch">
-                                        <i class="em em---1"></i>
-                                        <i class="em em-smiley"></i>
-                                        <i class="em em-anguished"></i>
-                                        <i class="em em-laughing"></i>
-                                        <i class="em em-angry"></i>
-                                        <i class="em em-astonished"></i>
-                                        <i class="em em-blush"></i>
-                                        <i class="em em-disappointed"></i>
-                                        <i class="em em-worried"></i>
-                                        <i class="em em-kissing_heart"></i>
-                                        <i class="em em-rage"></i>
-                                        <i class="em em-stuck_out_tongue"></i>
-                                    </div>
-                                    <button type="submit"></button>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
+                                        <div class="add-smiles">
+                                            <span class="em em-expressionless" title="add icon"></span>
+                                        </div>
+                                        <div class="smiles-bunch">
+                                            <i class="em em---1"></i>
+                                            <i class="em em-smiley"></i>
+                                            <i class="em em-anguished"></i>
+                                            <i class="em em-laughing"></i>
+                                            <i class="em em-angry"></i>
+                                            <i class="em em-astonished"></i>
+                                            <i class="em em-blush"></i>
+                                            <i class="em em-disappointed"></i>
+                                            <i class="em em-worried"></i>
+                                            <i class="em em-kissing_heart"></i>
+                                            <i class="em em-rage"></i>
+                                            <i class="em em-stuck_out_tongue"></i>
+                                        </div>
+                                        <button type="submit"></button>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-    if (post.PostType == "Text")
-    {
-        <div class="central-meta item">
-            <div class="user-post">
-                <div class="friend-info">
-                    <figure>
-                        <img src="@post.PostUserDto.UserProfilePicture" alt="">
-                    </figure>
-                    <div class="friend-name">
-                        <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
-                        <span>
-                            @post.PostCreateDate
-                        </span>
-                    </div>
-                    <div class="post-meta">
-                        <img src="images/resources/user-post.jpg" alt="">
-                        <div class="description">
-
-                            <p>
-                                @post.PostTextContent
-                            </p>
+        }
+        if (post.PostType == "Text")
+        {
+            <div class="central-meta item">
+                <div class="user-post">
+                    <div class="friend-info">
+                        <figure>
+                            <img src="@post.PostUserDto.UserProfilePicture" alt="">
+                        </figure>
+                        <div class="friend-name">
+                            <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <span>
+                                @post.PostCreateDate
+                            </span>
                         </div>
-                        <div class="we-video-info">
-                            <ul>
-                                <li>
-                                    <span class="comment" data-toggle="tooltip" title="Comments">
-                                        <i class="fa fa-comments-o"></i>
-                                        <ins>@post.PostCommentNumber</ins>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="like" data-toggle="tooltip" title="like">
-                                        <i class="ti-heart"></i>
-                                        <ins>@post.PostLikeNumber</ins>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="dislike" data-toggle="tooltip" title="dislike">
-                                        <i class="ti-heart-broken"></i>
-                                        <ins>@post.PostDislikeNumber</ins>
-                                    </span>
-                                </li>
-                                <li class="social-media">
-                                    <div class="menu">
-                                        <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-instagram"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-dribbble"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-pinterest"></i></a>
-                                            </div>
-                                        </div>
+                        <div class="post-meta">
+                            <img src="images/resources/user-post.jpg" alt="">
+                            <div class="description">
 
-                                    </div>
-                                </li>
-                            </ul>
+                                <p>
+                                    @post.PostTextContent
+                                </p>
+                            </div>
+                            <div class="we-video-info">
+                                <ul>
+                                    <li>
+                                        <span class="comment" data-toggle="tooltip" title="Comments">
+                                            <i class="fa fa-comments-o"></i>
+                                            <ins>@post.PostCommentNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="like" data-toggle="tooltip" title="like">
+                                            <i class="ti-heart"></i>
+                                            <ins>@post.PostLikeNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="dislike" data-toggle="tooltip" title="dislike">
+                                            <i class="ti-heart-broken"></i>
+                                            <ins>@post.PostDislikeNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li class="social-media">
+                                        <div class="menu">
+                                            <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-instagram"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-dribbble"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-pinterest"></i></a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="coment-area">
-                    <ul class="we-comet">
+                    <div class="coment-area">
+                        <ul class="we-comet">
 
-                        @foreach (var comment in post.CommentsDto)
-                        {
-                            if (comment.CommentId != 0)
+                            @foreach (var comment in post.CommentsDto)
                             {
-                                <li>
-                                    <div class="comet-avatar">
-                                        <img src="images/resources/comet-1.jpg" alt="">
-                                    </div>
-                                    <div class="we-comment">
-                                        <div class="coment-head">
-                                            <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                            <span>1 year ago</span>
-                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                if (comment.CommentId != 0)
+                                {
+                                    <li>
+                                        <div class="comet-avatar">
+                                            <img src="images/resources/comet-1.jpg" alt="">
                                         </div>
-                                        <p>@comment.CommentContent</p>
-                                    </div>
-                                    <ul>
+                                        <div class="we-comment">
+                                            <div class="coment-head">
+                                                <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
+                                                <span>1 year ago</span>
+                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                            </div>
+                                            <p>@comment.CommentContent</p>
+                                        </div>
+                                        <ul>
 
-                                        @foreach (var reply in comment.ReplyComments)
-                                        {
-                                            if (reply.ReplyCommentId != 0)
+                                            @foreach (var reply in comment.ReplyComments)
                                             {
+                                                if (reply.ReplyCommentId != 0)
+                                                {
 
-                                                <li>
-                                                    <div class="comet-avatar">
-                                                        <img src="images/resources/comet-2.jpg" alt="">
-                                                    </div>
-                                                    <div class="we-comment">
-                                                        <div class="coment-head">
-                                                            <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
-                                                            <span>1 month ago</span>
-                                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                    <li>
+                                                        <div class="comet-avatar">
+                                                            <img src="images/resources/comet-2.jpg" alt="">
                                                         </div>
-                                                        <p>@reply.ReplyCommentContent</p>
-                                                    </div>
-                                                </li>
+                                                        <div class="we-comment">
+                                                            <div class="coment-head">
+                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
+                                                                <span>1 month ago</span>
+                                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                            </div>
+                                                            <p>@reply.ReplyCommentContent</p>
+                                                        </div>
+                                                    </li>
+                                                }
+
                                             }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <div class="text-center">
+                                        <h4><strong> Henüz yorum yok!</strong></h4>
+                                    </div>
 
-                                        }
-                                    </ul>
-                                </li>
+                                }
+
                             }
-                            else
-                            {
-                                <div class="text-center">
-                                    <h4><strong> Henüz yorum yok!</strong></h4>
+
+                            <li>
+                                <a href="#" title="" class="showmore underline">more comments</a>
+                            </li>
+                            <li class="post-comment">
+                                <div class="comet-avatar">
+                                    <img src="~/SocialUI/soimages/resources/comet-1.jpg" alt="">
                                 </div>
+                                <div class="post-comt-box">
+                                    <form method="post" id="addcomment3" onsubmit="submitForm('addcomment3')">
+                                        <input type="hidden" name="postId" value="@post.PostId">
+                                        <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
-                            }
-
-                        }
-
-                        <li>
-                            <a href="#" title="" class="showmore underline">more comments</a>
-                        </li>
-                        <li class="post-comment">
-                            <div class="comet-avatar">
-                                <img src="~/SocialUI/soimages/resources/comet-1.jpg" alt="">
-                            </div>
-                            <div class="post-comt-box">
-                                <form method="post" id="addcomment3" onsubmit="submitForm('addcomment3')">
-                                    <input type="hidden" name="postId" value="@post.PostId">
-                                    <textarea name="comment" placeholder="Yorumunuz..."></textarea>
-
-                                    <div class="add-smiles">
-                                        <span class="em em-expressionless" title="add icon"></span>
-                                    </div>
-                                    <div class="smiles-bunch">
-                                        <i class="em em---1"></i>
-                                        <i class="em em-smiley"></i>
-                                        <i class="em em-anguished"></i>
-                                        <i class="em em-laughing"></i>
-                                        <i class="em em-angry"></i>
-                                        <i class="em em-astonished"></i>
-                                        <i class="em em-blush"></i>
-                                        <i class="em em-disappointed"></i>
-                                        <i class="em em-worried"></i>
-                                        <i class="em em-kissing_heart"></i>
-                                        <i class="em em-rage"></i>
-                                        <i class="em em-stuck_out_tongue"></i>
-                                    </div>
-                                    <button type="submit"></button>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
+                                        <div class="add-smiles">
+                                            <span class="em em-expressionless" title="add icon"></span>
+                                        </div>
+                                        <div class="smiles-bunch">
+                                            <i class="em em---1"></i>
+                                            <i class="em em-smiley"></i>
+                                            <i class="em em-anguished"></i>
+                                            <i class="em em-laughing"></i>
+                                            <i class="em em-angry"></i>
+                                            <i class="em em-astonished"></i>
+                                            <i class="em em-blush"></i>
+                                            <i class="em em-disappointed"></i>
+                                            <i class="em em-worried"></i>
+                                            <i class="em em-kissing_heart"></i>
+                                            <i class="em em-rage"></i>
+                                            <i class="em em-stuck_out_tongue"></i>
+                                        </div>
+                                        <button type="submit"></button>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-    if (post.PostType == "Video")
-    {
-        <div class="central-meta item">
-            <div class="user-post">
-                <div class="friend-info">
-                    <figure>
-                        <img src="images/resources/nearly1.jpg" alt="">
-                    </figure>
-                    <div class="friend-name">
-                        <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
-                        <span>published: june,2 2018 19:PM</span>
-                    </div>
-                    <div class="post-meta">
-                        <iframe width="" height="315" src="https://www.youtube.com/embed/5JJ_jqqpTMY" allow="autoplay;" allowfullscreen></iframe>
-                        <div class="we-video-info">
-                            <ul>
-                                <li>
-                                    <span class="comment" data-toggle="tooltip" title="Comments">
-                                        <i class="fa fa-comments-o"></i>
-                                        <ins>@post.PostCommentNumber</ins>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="like" data-toggle="tooltip" title="like">
-                                        <i class="ti-heart"></i>
-                                        <ins>@post.PostLikeNumber</ins>
-                                    </span>
-                                </li>
-                                <li>
-                                    <span class="dislike" data-toggle="tooltip" title="dislike">
-                                        <i class="ti-heart-broken"></i>
-                                        <ins>@post.PostDislikeNumber</ins>
-                                    </span>
-                                </li>
-                                <li class="social-media">
-                                    <div class="menu">
-                                        <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-instagram"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-dribbble"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="rotater">
-                                            <div class="btn btn-icon">
-                                                <a href="#" title=""><i class="fa fa-pinterest"></i></a>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </li>
-                            </ul>
+        }
+        if (post.PostType == "Video")
+        {
+            <div class="central-meta item">
+                <div class="user-post">
+                    <div class="friend-info">
+                        <figure>
+                            <img src="images/resources/nearly1.jpg" alt="">
+                        </figure>
+                        <div class="friend-name">
+                            <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <span>published: june,2 2018 19:PM</span>
                         </div>
-                        <div class="description">
+                        <div class="post-meta">
+                            <iframe width="" height="315" src="https://www.youtube.com/embed/5JJ_jqqpTMY" allow="autoplay;" allowfullscreen></iframe>
+                            <div class="we-video-info">
+                                <ul>
+                                    <li>
+                                        <span class="comment" data-toggle="tooltip" title="Comments">
+                                            <i class="fa fa-comments-o"></i>
+                                            <ins>@post.PostCommentNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="like" data-toggle="tooltip" title="like">
+                                            <i class="ti-heart"></i>
+                                            <ins>@post.PostLikeNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="dislike" data-toggle="tooltip" title="dislike">
+                                            <i class="ti-heart-broken"></i>
+                                            <ins>@post.PostDislikeNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li class="social-media">
+                                        <div class="menu">
+                                            <div class="btn trigger"><i class="fa fa-share-alt"></i></div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-html5"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-facebook"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-google-plus"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-twitter"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon"><a href="#" title=""><i class="fa fa-css3"></i></a></div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-instagram"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-dribbble"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="rotater">
+                                                <div class="btn btn-icon">
+                                                    <a href="#" title=""><i class="fa fa-pinterest"></i></a>
+                                                </div>
+                                            </div>
 
-                            <p>
-                                @post.PostTextContent
-                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="description">
+
+                                <p>
+                                    @post.PostTextContent
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="coment-area">
-                    <ul class="we-comet">
-                        @foreach (var comment in post.CommentsDto)
-                        {
-                            if (comment.CommentId != 0)
+                    <div class="coment-area">
+                        <ul class="we-comet">
+                            @foreach (var comment in post.CommentsDto)
                             {
-                                <li>
-                                    <div class="comet-avatar">
-                                        <img src="images/resources/comet-1.jpg" alt="">
-                                    </div>
-                                    <div class="we-comment">
-                                        <div class="coment-head">
-                                            <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                            <span>1 year ago</span>
-                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                if (comment.CommentId != 0)
+                                {
+                                    <li>
+                                        <div class="comet-avatar">
+                                            <img src="images/resources/comet-1.jpg" alt="">
                                         </div>
-                                        <p>@comment.CommentContent</p>
-                                    </div>
-                                    <ul>
+                                        <div class="we-comment">
+                                            <div class="coment-head">
+                                                <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
+                                                <span>1 year ago</span>
+                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                            </div>
+                                            <p>@comment.CommentContent</p>
+                                        </div>
+                                        <ul>
 
-                                        @foreach (var reply in comment.ReplyComments)
-                                        {
-                                            if (reply.ReplyCommentId != 0)
+                                            @foreach (var reply in comment.ReplyComments)
                                             {
+                                                if (reply.ReplyCommentId != 0)
+                                                {
 
-                                                <li>
-                                                    <div class="comet-avatar">
-                                                        <img src="images/resources/comet-2.jpg" alt="">
-                                                    </div>
-                                                    <div class="we-comment">
-                                                        <div class="coment-head">
-                                                            <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
-                                                            <span>1 month ago</span>
-                                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                    <li>
+                                                        <div class="comet-avatar">
+                                                            <img src="images/resources/comet-2.jpg" alt="">
                                                         </div>
-                                                        <p>@reply.ReplyCommentContent</p>
-                                                    </div>
-                                                </li>
+                                                        <div class="we-comment">
+                                                            <div class="coment-head">
+                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
+                                                                <span>1 month ago</span>
+                                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                            </div>
+                                                            <p>@reply.ReplyCommentContent</p>
+                                                        </div>
+                                                    </li>
+                                                }
+
                                             }
+                                        </ul>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <div class="text-center">
+                                        <h4><strong> Henüz yorum yok!</strong></h4>
+                                    </div>
 
-                                        }
-                                    </ul>
-                                </li>
+                                }
+
                             }
-                            else
-                            {
-                                <div class="text-center">
-                                    <h4><strong> Henüz yorum yok!</strong></h4>
+                            <li>
+                                <a href="#" title="" class="showmore underline">more comments</a>
+                            </li>
+                            <li class="post-comment">
+                                <div class="comet-avatar">
+                                    <img src="images/resources/comet-2.jpg" alt="">
                                 </div>
+                                <div class="post-comt-box">
+                                    <form method="post" id="addcomment4" onsubmit="submitForm('addcomment4')">
+                                        <input type="hidden" name="postId" value="@post.PostId">
+                                        <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
-                            }
-
-                        }
-                        <li>
-                            <a href="#" title="" class="showmore underline">more comments</a>
-                        </li>
-                        <li class="post-comment">
-                            <div class="comet-avatar">
-                                <img src="images/resources/comet-2.jpg" alt="">
-                            </div>
-                            <div class="post-comt-box">
-                                <form method="post" id="addcomment4" onsubmit="submitForm('addcomment4')">
-                                    <input type="hidden" name="postId" value="@post.PostId">
-                                    <textarea name="comment" placeholder="Yorumunuz..."></textarea>
-
-                                    <div class="add-smiles">
-                                        <span class="em em-expressionless" title="add icon"></span>
-                                    </div>
-                                    <div class="smiles-bunch">
-                                        <i class="em em---1"></i>
-                                        <i class="em em-smiley"></i>
-                                        <i class="em em-anguished"></i>
-                                        <i class="em em-laughing"></i>
-                                        <i class="em em-angry"></i>
-                                        <i class="em em-astonished"></i>
-                                        <i class="em em-blush"></i>
-                                        <i class="em em-disappointed"></i>
-                                        <i class="em em-worried"></i>
-                                        <i class="em em-kissing_heart"></i>
-                                        <i class="em em-rage"></i>
-                                        <i class="em em-stuck_out_tongue"></i>
-                                    </div>
-                                    <button type="submit"></button>
-                                </form>
-                            </div>
-                        </li>
-                    </ul>
+                                        <div class="add-smiles">
+                                            <span class="em em-expressionless" title="add icon"></span>
+                                        </div>
+                                        <div class="smiles-bunch">
+                                            <i class="em em---1"></i>
+                                            <i class="em em-smiley"></i>
+                                            <i class="em em-anguished"></i>
+                                            <i class="em em-laughing"></i>
+                                            <i class="em em-angry"></i>
+                                            <i class="em em-astonished"></i>
+                                            <i class="em em-blush"></i>
+                                            <i class="em em-disappointed"></i>
+                                            <i class="em em-worried"></i>
+                                            <i class="em em-kissing_heart"></i>
+                                            <i class="em em-rage"></i>
+                                            <i class="em em-stuck_out_tongue"></i>
+                                        </div>
+                                        <button type="submit"></button>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
+        }
     }
 }

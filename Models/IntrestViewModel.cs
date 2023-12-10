@@ -2,11 +2,10 @@
 {
     public class IntrestViewModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+		public int InterestId { get; set; }
+		public string InterestName { get; set; }
+		public int UserId { get; set; }
 
-        public int UserViewModelId { get; set; }
-        public virtual UserViewModel UserViewModel { get; set; }
 
     }
 }
