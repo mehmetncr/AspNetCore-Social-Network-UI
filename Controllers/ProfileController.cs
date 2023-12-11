@@ -1,8 +1,11 @@
 ﻿using AspNetCore_Social_Network_UI.Models;
+using AspNetCore_Social_Network_UI.SessionExtensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace AspNetCore_Social_Network_UI.Controllers
@@ -18,7 +21,9 @@ namespace AspNetCore_Social_Network_UI.Controllers
 
         public async Task<IActionResult> MyProfile()
         {
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/MyProfile");  //API adresi ve get isteği 
             if (respons.StatusCode == System.Net.HttpStatusCode.OK)  //gelen sonuç Ok ise  kodu ise
             {
@@ -30,7 +35,9 @@ namespace AspNetCore_Social_Network_UI.Controllers
         }
         public async Task<IActionResult> MyPhotos()
         {
-            var http = _httpClientFactory.CreateClient(); 
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Images");  
             if (respons.StatusCode == System.Net.HttpStatusCode.OK) 
             {
@@ -48,7 +55,9 @@ namespace AspNetCore_Social_Network_UI.Controllers
         }
         public async Task<IActionResult> MyVideos()
         {
-            var http = _httpClientFactory.CreateClient(); 
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Videos"); 
             if (respons.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -60,8 +69,10 @@ namespace AspNetCore_Social_Network_UI.Controllers
         }
         public async Task<IActionResult> MyFriends()
         {
-			var http = _httpClientFactory.CreateClient(); 
-			var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Friends"); 
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Friends"); 
 			if (respons.StatusCode == System.Net.HttpStatusCode.OK)  
 			{
 				var jsonData = await respons.Content.ReadAsStringAsync(); 

@@ -14,8 +14,9 @@ namespace AspNetCore_Social_Network_UI.Models
 		public string? UserBiography { get; set; }
 		public string? UserLocation { get; set; }
 		public string? UserEmail { get; set; }
+        public string AccessToken { get; set; }
 
-		public int? UserFollowerCount { get; set; }
+        public int? UserFollowerCount { get; set; }
 		public int? UserFollowingCount { get; set; }
 		public DateTime? UserCreatedAt { get; set; }
 		public string? UserPhoneNumber { get; set; }
