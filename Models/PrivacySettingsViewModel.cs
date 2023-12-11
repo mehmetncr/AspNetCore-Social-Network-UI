@@ -3,7 +3,7 @@
     public class PrivacySettingsViewModel
     {
         public int Id { get; set; }
-        public int UserViewModelId { get; set; }
+        public int UserlId { get; set; }
         public bool FriendRequest { get; set; }
         public bool MessageRequest { get; set; }
         public bool HiddenProfile { get; set; }

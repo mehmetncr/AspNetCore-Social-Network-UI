@@ -28,7 +28,7 @@
                                     <p>İlgi alanlarını yazarak kendini daha iyi tanıtabilirsin.</p>
                                     <form method="post" asp-action="EditUserIntrest" asp-controller="Profile" id="intrestForm">
                                         <label>İlgi alanı ekle: </label>
-                                        <input type="text" placeholder="Fotoğrafcılık, Bisiklet, Orman Gezileri.." name="intrest" id="intrest">
+                                        <input type="text" placeholder="Fotoğrafcılık, Bisiklet, Orman Gezileri.." name="intrest" id="interest">
                                         <button type="submit" onclick="submitForm()">Ekle</button>
 
                                         <ol class="interest-added">
@@ -40,7 +40,7 @@
                                             {
                                                 @foreach (var item in Model.Interests)
                                                 {
-                                                    <li><a href="#" title="">@item.InterestName</a><span class="remove" title="remove"><i class="fa fa-close"></i></span></li>
+                                                    <li><a href="#" title="" onclick="deleteinterest('@item.InterestName'); event.preventDefault();">@item.InterestName<span class="remove" title="remove"><i class="fa fa-close"></i></span></a></li>
                                                 }
                                             }
                                         </ol>
@@ -63,29 +63,52 @@
 
 
 
-<script>
-    function submitForm() {
-      
-        event.preventDefault();
+@section Scripts {
 
-      
-        var intrest = $('#intrest').val();
-        
-        $.ajax({
-            url: 'https://localhost:7091/api/Profiles/AddInterest',
-            method: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(intrest),
-            success: function (response) {
-                alert("updated");
-            },
-            error: function (xhr, status, error) {
-                alert(error);
-               
-                console.log(errorMessage);
-            }
-        });
 
-       
-    }
-</script>
+    <script>
+        function submitForm() {
+
+            event.preventDefault();
+
+
+            var interest = $('#interest').val();
+
+            $.ajax({
+                url: 'https://localhost:7091/api/Profiles/AddInterest',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(intrest),
+                success: function (response) {
+                    alert("updated");
+                },
+                error: function (xhr, status, error) {
+                    alert(errorMessage);
+
+                    console.log(errorMessage);
+                }
+            });
+
+
+        }
+        function deleteinterest(interest) {   
+
+            $.ajax({
+                url: 'https://localhost:7091/api/Profiles/DeleteInterest',
+                method: 'DELETE',
+                contentType: 'application/json',
+                data: JSON.stringify(interest),
+                success: function (response) {
+                    alert("updated");
+                },
+                error: function (xhr, status, error) {
+                    alert(errorMessage);
+
+                    console.log(errorMessage);
+                }
+            });
+
+
+        }
+    </script>
+}
