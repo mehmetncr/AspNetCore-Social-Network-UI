@@ -40,6 +40,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
 
 		}
 		[HttpPost]
+		
 		public async Task<IActionResult> Login(AccountViewModel model)
 		{
 			var jsonData = JsonConvert.SerializeObject(model);
