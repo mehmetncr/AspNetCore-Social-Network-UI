@@ -367,7 +367,7 @@
                             <a href="messages.html" title="" class="more-mesg">view more</a>
                         </div>
                     </li>
-                    <li> @User.Identity.Name</li>
+                    <li>  </li>
 
                 </ul>
 
@@ -378,7 +378,7 @@
                         <a href="#" title=""><span class="status f-online"></span>online</a>
                         <a href="#" title=""><span class="status f-away"></span>away</a>
                         <a href="#" title=""><span class="status f-off"></span>offline</a>
-                        <a asp-action="myprofile" asp-controller="profile" title=""><i class="ti-user"></i> view profile</a>
+                        <a href="/Profile/myprofile" target="_self"><i class="ti-user"></i> view profile</a>
                         <a href="#" title=""><i class="ti-pencil-alt"></i>edit profile</a>
                         <a href="#" title=""><i class="ti-target"></i>activity log</a>
                         <a href="#" title=""><i class="ti-settings"></i>account setting</a>
@@ -395,11 +395,12 @@
 
     </div>
 
-    
+    <script src="~/js/site.js"></script>
     <script src="~/SocialUI/js/main.min.js"></script>
     <script src="~/SocialUI/js/script.js"></script>
     <script src="~/SocialUI/js/map-init.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8c55_YHLvDHGACkQscgbGLtLRdxBDCfI"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

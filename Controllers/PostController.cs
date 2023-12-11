@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text;
 
 namespace AspNetCore_Social_Network_UI.Controllers
@@ -28,11 +29,11 @@ namespace AspNetCore_Social_Network_UI.Controllers
             {
                 model.PostType = "Youtube";
             }
-            if (model.PostImageUrl != null) //IFromFile kontrolüne çevirilecek
+            else if (model.PostImageUrl != null) //IFromFile kontrolüne çevirilecek
             {
                 model.PostType = "Image";
             }
-            if(model.PostVideoUrl != null)  //Video kontrolüne çevilecek
+            else if(model.PostVideoUrl != null)  //Video kontrolüne çevilecek
             {
                 model.PostType = "Video";
             }
@@ -73,5 +74,15 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var result = await http.PostAsync("https://localhost:7091/api/Post/AddComment", content);
             var errorMessage = await result.Content.ReadAsStringAsync();
         }
-    }
+        public async Task<int> PostLike(int postId)
+        {
+			string token = HttpContext.Session.GetJsonUser().AccessToken;
+			var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
+			http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+			var result = await http.GetAsync("https://localhost:7091/api/Post/PostLike/"+postId);
+            var value = await result.Content.ReadAsStringAsync();
+			return Convert.ToInt32(value);
+		}
+
+	}
 }

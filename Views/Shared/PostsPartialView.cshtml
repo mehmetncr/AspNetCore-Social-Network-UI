@@ -29,7 +29,7 @@ else
 
                             <div class="description">
 
-                                <p>
+                                <p style="color:black;">
                                     @post.PostTextContent
                                 </p>
                             </div>
@@ -190,14 +190,34 @@ else
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="images/resources/nearly1.jpg" alt="">
+                            <img src="@post.PostUserDto.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
-                            <ins><a href="time-line.html" title="">Sara Grey</a></ins>
+                            <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
                             <span>published: june,2 2018 19:PM</span>
                         </div>
-                        <div class="post-meta">
-                            <iframe height="415" src="@post.PostYoutubeUrl" allow="autoplay;" allowfullscreen></iframe>
+
+                        <div class="post-meta" style="margin-left:60px;">
+                            <div class="description">
+
+                                <p style="color:black;">
+                                   @post.PostTextContent
+                                </p>
+                            </div>
+                            <a href="@post.PostYoutubeUrl" title="" data-strip-group="mygroup" class="strip" data-strip-options="width: 700,height: 450,youtube: { autoplay: 1 }">
+                                @{
+                                    var thumbnail = post.PostYoutubeUrl.Split("=")[1].Split("&")[0];
+                                }
+                                <img width="770" src="https://img.youtube.com/vi/@thumbnail/maxresdefault.jpg" alt="">
+                                <i>
+                                    <svg version="1.1" class="play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="40px" width="40px"
+                                         viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+                                    <path class="stroke-solid" fill="none" stroke="" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
+													C97.3,23.7,75.7,2.3,49.9,2.5" />
+                                    <path class="icon" fill="" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z" />
+                                                                                        </svg>
+                                </i>
+                            </a>
                             <div class="we-video-info">
                                 <ul>
                                     <li>
@@ -208,8 +228,8 @@ else
                                     </li>
                                     <li>
                                         <span class="like" data-toggle="tooltip" title="like">
-                                            <i class="ti-heart"></i>
-                                            <ins>@post.PostLikeNumber</ins>
+                                            <i class="ti-heart" id="likeIcon+@post.PostId" onclick="postLike('@post.PostId', '@post.PostLikeNumber')"></i>
+                                            <ins id="like+@post.PostId">@post.PostLikeNumber</ins>
                                         </span>
                                     </li>
                                     <li>
@@ -256,15 +276,14 @@ else
                                     </li>
                                 </ul>
                             </div>
-                            <div class="description">
-
-                                <p>
-                                    @post.PostTextContent
-                                </p>
-                            </div>
+                            
                         </div>
                     </div>
+                    <hr>
                     <div class="coment-area">
+                        <div class="text-center mb-4 text-black">
+                        <h4>Yorumlar</h4>
+                        </div>
                         <ul class="we-comet">
                             @foreach (var comment in post.CommentsDto)
                             {
@@ -272,9 +291,9 @@ else
                                 {
                                     <li>
                                         <div class="comet-avatar">
-                                            <img src="images/resources/comet-1.jpg" alt="">
+                                            <img width="50" src="@comment.CommentUser.UserProfilePicture" alt="">
                                         </div>
-                                        <div class="we-comment">
+                                        <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                             <div class="coment-head">
                                                 <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
                                                 <span>1 year ago</span>
@@ -373,7 +392,7 @@ else
                             <img src="images/resources/user-post.jpg" alt="">
                             <div class="description">
 
-                                <p>
+                                <p style="color:black;">
                                     @post.PostTextContent
                                 </p>
                             </div>
@@ -604,7 +623,7 @@ else
                             </div>
                             <div class="description">
 
-                                <p>
+                                <p style="color:black;">
                                     @post.PostTextContent
                                 </p>
                             </div>
