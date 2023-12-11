@@ -11,10 +11,10 @@
 				<div class="attachments">
 					<ul>
 						<li>
-							<i class="fa fa-youtube fa-lg" style="color:#FF0000;"></i>
 							<label class="fileContainer">
-								<input type="file">
+								<input type="text" style="display:none; width:270px;" id="youtube-input" placeholder="YouTube Linki Girin" asp-for="PostYoutubeUrl">
 							</label>
+							<i class="fa fa-youtube fa-lg" style="color:#088dcd; margin-right:10px;" onclick="youtube()"></i>
 						</li>
 						<li>
 							<i class="fa fa-image fa-lg" style="color:#088dcd;"></i>
@@ -37,3 +37,16 @@
 		</div>
 	</div>
 </div><!-- add post new box -->
+
+
+<script>
+	function youtube(){
+		var input = document.getElementById("youtube-input");
+		if (input.style.display === "none"){
+			input.style.display = "block";
+		}
+		else{
+			input.style.display = "none";
+		}
+	}
+</script>

@@ -250,3 +250,56 @@
 	</div>
 </div>
 </section>
+
+@section Scripts {
+
+
+	<script>
+
+		function postLike(postId, likeCount) {
+			var likeIcon = $(`#likeIcon${postId}`);
+			var likeCountElement = $(`#like${postId}`);
+
+			$.ajax({
+				type: "POST",
+				url: "/Post/PostLike/",
+				data: { postId: postId },
+				success: function (result) {
+					console.log(likeIcon);
+					if (parseInt(result) > parseInt(likeCount)) {
+						// Kullanıcı daha önce beğendiği durumu kontrol et
+						likeIcon.removeClass("ti-heart"); // Beğenilmemiş durumu için sınıfı kaldır
+						likeIcon.addClass("fa fa-heart"); // Beğenilmiş durumu için sınıfı ekle
+					}
+					else{
+						// Kullanıcı daha önce beğendiği bir gönderiyi beğeniyi geri alır
+						likeIcon.removeClass("fa fa-heart"); // Beğenilmiş durumu için sınıfı kaldır
+						likeIcon.addClass("ti-heart"); // Beğenilmemiş durumu için sınıfı ekle
+					}
+				},
+				error: function () {
+					// Hata durumunda yapılacak işlemler
+				}
+			});
+		}
+
+		function postDislike(postId) {
+			$.ajax({
+				type: "POST",
+				url: "/Post/PostLike/",
+				data: { postId: postId },
+				success: function (result) {
+					// Beğeni sayısını güncelle
+					$("#likeCount").html(result);
+				},
+				error: function () {
+
+				}
+			});
+		}
+	</script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+}
+
+
