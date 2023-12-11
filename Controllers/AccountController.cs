@@ -1,8 +1,11 @@
 ﻿using AspNetCore_Social_Network_UI.Models;
 using AspNetCore_Social_Network_UI.SessionExtensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 
 namespace AspNetCore_Social_Network_UI.Controllers
@@ -54,8 +57,8 @@ namespace AspNetCore_Social_Network_UI.Controllers
 				//var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));  Her User çekildiğinde bu şekilde alınacak
 				return RedirectToAction("Index", "Home");
 			}
-
-			return View(model);
+            
+            return View(model);
 
 		}
 	}

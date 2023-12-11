@@ -1,8 +1,10 @@
 ﻿using AspNetCore_Social_Network_UI.Models;
 using AspNetCore_Social_Network_UI.SessionExtensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace AspNetCore_Social_Network_UI.Controllers
@@ -40,7 +42,9 @@ namespace AspNetCore_Social_Network_UI.Controllers
             }
             var user = HttpContext.Session.GetJsonUser();
             model.PostUserId = user.UserId;
-            var http = _httpClientFactory.CreateClient();
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var jsondata = JsonConvert.SerializeObject(model);
 			var content = new StringContent(jsondata, encoding: Encoding.UTF8, "application/json");
             var result = await http.PostAsync("https://localhost:7091/api/Post/AddPost", content);
@@ -61,7 +65,9 @@ namespace AspNetCore_Social_Network_UI.Controllers
                 CommentPostId = postId,
                 CommentUserId = user.UserId
             };
-            var http = _httpClientFactory.CreateClient();
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var jsondata = JsonConvert.SerializeObject(model);
             var content = new StringContent(jsondata, encoding: Encoding.UTF8, "application/json");
             var result = await http.PostAsync("https://localhost:7091/api/Post/AddComment", content);

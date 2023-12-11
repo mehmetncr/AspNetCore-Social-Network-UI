@@ -78,14 +78,14 @@
                 url: 'https://localhost:7091/api/Profiles/AddInterest',
                 method: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify(intrest),
+                data: JSON.stringify(interest),
                 success: function (response) {
                     alert("updated");
                 },
                 error: function (xhr, status, error) {
-                    alert(errorMessage);
+                    alert(error);
 
-                    console.log(errorMessage);
+                    console.log(error);
                 }
             });
 
@@ -102,9 +102,9 @@
                     alert("updated");
                 },
                 error: function (xhr, status, error) {
-                    alert(errorMessage);
+                    alert(error);
 
-                    console.log(errorMessage);
+                    console.log(error);
                 }
             });
 
