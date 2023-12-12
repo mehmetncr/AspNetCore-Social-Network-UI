@@ -45,7 +45,7 @@
                             <form asp-controller="Account" asp-action="Login" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-group">
-                                    <input asp-for=Email type="text" id="input" required="required" />
+                                    <input asp-for=Email type="text" id="loginEmail" required="required" />
                                     <label class="control-label" for="input">Email</label><i class="mtrl-select"></i>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
@@ -129,20 +129,21 @@
                         </div>
                         <div class="log-reg-area forgot-pwd" style="display: none;">
                             <h2 class="log-title">Şifremi Unuttum</h2>
-                            <form asp-controller="Account" asp-action="Login" method="post">
+                            <form asp-controller="Account" asp-action="ResetPassword" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <span class="text-danger" id="resetValid"></span>
                                 <div class="form-group">
-                                    <input asp-for=Email type="text" id="input" required="required" />
+                                    <input asp-for=Email type="text" required="required" id="resEmail" />
                                     <label class="control-label" for="input">Email</label><i class="mtrl-select"></i>
                                     <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
-                                    <input asp-for=Password type="password" required="required" />
+                                    <input asp-for=Password type="password" id="respaswd" />
                                     <label class="control-label" for="input">Şifre</label><i class="mtrl-select"></i>
                                     <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
-                                    <input asp-for=ReqToken type="password" required="required" />
+                                    <input asp-for=ReqToken type="text" id="token" />
                                     <label class="control-label" for="input">Kod</label><i class="mtrl-select"></i>
                                     <span asp-validation-for="ReqToken" class="text-danger"></span>
                                 </div>
@@ -154,8 +155,11 @@
                                 <a href="#" class="forgot-pwd-link" onclick="backToLogin()" style="color:#088dcd;  margin-left:120px;">Giriş Yap</a>
                                 <div class="submit-btns">
                                     
-                                    <button class="mtr-btn signup" type="button" onclick="showRegisterForm()"><span>Gönder</span></button>
+                                    <button class="mtr-btn" type="button" onclick="takeCode()"><span>Kod Al</span></button>
+                                    <button class="mtr-btn" type="submit"><span>Gönder</span></button>
                                 </div>
+
+                                <p>Kod almak için sadece eMail adresinizi girerek şifre yenileme kodunuzu alınız ardından yeni şifrenizi girerek gödere tıklayınız</p>
                             </form>
                             
                         </div>
@@ -239,7 +243,35 @@
         });
     });
 
+    function takeCode() {
+       
 
+       var email= $('#resEmail').val();
+
+        $.ajax({
+            url: 'https://localhost:7091/api/Accounts/ResetPasswordCode',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(email),
+            success: function (response) {
+                if (response == 'Not Found') {
+                    $('#resetValid').text('Kullanıcı Bulunamadı');
+                }
+                else{
+                    $('#resetValid').text('')
+                    $('#token').val(response);
+                }
+
+             
+               
+            },
+            error: function (xhr, status, error) {
+               
+               
+                console.log(error);
+            }
+        });
+    }
 
 </script>
 

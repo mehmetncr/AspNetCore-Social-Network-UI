@@ -61,5 +61,23 @@ namespace AspNetCore_Social_Network_UI.Controllers
             return View(model);
 
 		}
+		[HttpPost]
+		public async Task<IActionResult> ResetPassword(AccountViewModel model)
+		{
+            var jsonData = JsonConvert.SerializeObject(model);
+            var http = _httpClientFactory.CreateClient();
+            var content = new StringContent(jsonData, encoding: Encoding.UTF8, "application/json");
+            var result = await http.PutAsync("https://localhost:7091/api/Accounts/ResetPassword", content);
+            var errorMessage = await result.Content.ReadAsStringAsync();
+            if (result.IsSuccessStatusCode)
+            {
+
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("Error", errorMessage);
+
+			return View(model);
+
+        }
 	}
 }
