@@ -332,11 +332,13 @@ $(function() {
 			data: form.serialize(), // Form verilerini al
 			success: function (response) {
 				// Baþarýlý yanýt alýndýðýnda yeni yorumu sayfaya ekle
-				var parent = form.find(".showmore").parent("li");
-				var comment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">Jason Borne</a></h5><span>Just now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>' + comment + '</p></div></li>';
-				$(comment_HTML).insertBefore(parent);
-				form.find("textarea[name='comment']").val('');
-				reloadPost(postId);
+				debugger
+				$(postId).empty();
+				//var parent = form.find(".showmore").parent("li");
+				//var comment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">Jason Borne</a></h5><span>Just now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>' + comment + '</p></div></li>';
+				//$(comment_HTML).insertBefore(parent);
+				//form.find("textarea[name='comment']").val('');
+				//reloadPost(postId);
 			},
 			error: function (error) {
 				console.error("Yorum gönderme hatasý:", error);
