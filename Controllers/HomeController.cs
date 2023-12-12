@@ -22,6 +22,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
         public async Task<IActionResult> Index()
         {
             string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var userProfilPicture = HttpContext.Session.GetJsonUser().UserProfilePicture;
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);    
             var respons = await http.GetAsync("https://localhost:7091/api/Homes");  //API adresi ve get isteği 
@@ -29,6 +30,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();  //gelen datanın içindeki veriler çıkarılır
                 var data = JsonConvert.DeserializeObject<HomeViewModel>(jsonData);  //gelen Json Tipindeki data view modele deserilize edilir
+                ViewBag.profilPicture = userProfilPicture;
                 return View(data);
             }
             return View();
