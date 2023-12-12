@@ -39,7 +39,7 @@
 										</div>
 										
 										<div class="submit-btns">
-											<button type="button" class="mtr-btn"><span>Vazgeç</span></button>
+											<button type="button" class="mtr-btn" onclick="redirectToMyProfile()"><span>Vazgeç</span></button>
 											<button type="submit" class="mtr-btn"><span>Güncelle</span></button>
 										</div>
 									</form>
@@ -59,3 +59,10 @@
 	</div>
 </section>
 
+@section Scripts {
+	<script>
+		function redirectToMyProfile() {
+			window.location.href = '/Profile/MyProfile';
+		}
+	</script>
+}

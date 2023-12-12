@@ -1,4 +1,4 @@
-﻿@model UserViewModel
+﻿@model List<InterestViewModel>
 @{
     ViewData["Title"] = "EditUserIntrest";
     Layout = "~/Views/Shared/LayoutPage.cshtml";
@@ -32,19 +32,22 @@
                                         <button type="submit" onclick="submitForm()">Ekle</button>
 
                                         <ol class="interest-added">
-                                            @if (Model.Interests == null || !Model.Interests.Any())
+                                            @if (Model == null || !Model.Any())
                                             {
                                                 <h5>Hadi ilgi alanlarını ekleyelim</h5>
                                             }
                                             else
                                             {
-                                                @foreach (var item in Model.Interests)
+                                                @foreach (var item in Model)
                                                 {
                                                     <li><a href="#" title="" onclick="deleteinterest('@item.InterestName'); event.preventDefault();">@item.InterestName<span class="remove" title="remove"><i class="fa fa-close"></i></span></a></li>
                                                 }
                                             }
                                         </ol>
-
+                                        <div class="submit-btns">
+                                            <button type="button" class="mtr-btn" onclick="redirectToMyProfile()"><span>Vazgeç</span></button>
+                                           
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -67,6 +70,9 @@
 
 
     <script>
+        function redirectToMyProfile() {
+            window.location.href = '/Profile/MyProfile';
+        }
         function submitForm() {
 
             event.preventDefault();
@@ -75,42 +81,62 @@
             var interest = $('#interest').val();
 
             $.ajax({
-                url: 'https://localhost:7091/api/Profiles/AddInterest',
-                method: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify(interest),
-                success: function (response) {
-                    alert("updated");
+                type: "POST",
+                url: '/Profile/AddUserIntrest',
+                data: { interest: interest },
+                success: function (result) {
+                    $('.interest-added').empty();  //liste temizlenir
+                    $('#interest').val('');
+                    if (result && result.length > 0) {
+                        // gelen yeni liste ile liste güncellenir
+                        result.forEach(function (item) {
+                            $('.interest-added').append('<li><a href="#" title="" onclick="deleteinterest(\'' + item.interestName + '\'); event.preventDefault();">' + item.interestName + '<span class="remove" title="remove"><i class="fa fa-close"></i></span></a></li>');
+                        });
+                    } else {
+                        // İlgiler yoksa
+                        $('.interest-added').append('<h5>Hadi ilgi alanlarını ekleyelim</h5>');
+                    }
+
+                    
                 },
-                error: function (xhr, status, error) {
-
-                    alert(error);
-
+                error: function () {
                     console.log(error);
-
                 }
             });
+          
 
 
         }
         function deleteinterest(interest) {   
+          
 
             $.ajax({
-                url: 'https://localhost:7091/api/Profiles/DeleteInterest',
-                method: 'DELETE',
-                contentType: 'application/json',
-                data: JSON.stringify(interest),
-                success: function (response) {
-                    alert("updated");
+                type: "POST",
+                url: '/Profile/UpdateUserInterest',                
+                data: { interest: interest },
+                success: function (result) {
+                    $('.interest-added').empty();  //liste temizlenir               
+                    if (result && result.length > 0) {
+                        // gelen yeni liste ile liste güncellenir
+                        result.forEach(function (item) {
+                            $('.interest-added').append('<li><a href="#" title="" onclick="deleteinterest(\'' + item.interestName + '\'); event.preventDefault();">' + item.interestName + '<span class="remove" title="remove"><i class="fa fa-close"></i></span></a></li>');
+                        });
+                    } else {
+                        // İlgiler yoksa
+                        $('.interest-added').append('<h5>Hadi ilgi alanlarını ekleyelim</h5>');
+                    }
+
+
                 },
                 error: function (xhr, status, error) {
-                    alert(error);
-
+                 
                     console.log(error);
                 }
             });
 
 
         }
+
+      
     </script>
 }
