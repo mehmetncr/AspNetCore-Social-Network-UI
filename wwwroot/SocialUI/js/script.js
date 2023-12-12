@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
 
+
     "use strict";
 
     //------- Notifications Dropdowns
@@ -472,6 +473,7 @@ jQuery(document).ready(function ($) {
         $(this).parent().toggleClass('active');
         return false;
     });
+
 
 
 

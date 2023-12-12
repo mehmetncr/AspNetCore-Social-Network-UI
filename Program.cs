@@ -5,7 +5,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddSession();
+builder.Services.AddSession(opt=>opt.IdleTimeout= TimeSpan.FromMinutes(300));
 
 var app = builder.Build();
 

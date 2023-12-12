@@ -22,7 +22,7 @@ namespace AspNetCore_Social_Network_UI.Models
 		[DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 		public bool RememberMe { get; set; }
-		public string ReqToken { get; set; }
+		public string? ReqToken { get; set; }
 
     }
 }
