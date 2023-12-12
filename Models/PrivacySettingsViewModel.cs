@@ -2,11 +2,10 @@
 {
     public class PrivacySettingsViewModel
     {
-        public int Id { get; set; }
-        public int UserlId { get; set; }
-        public bool FriendRequest { get; set; }
-        public bool MessageRequest { get; set; }
-        public bool HiddenProfile { get; set; }
-        public virtual UserViewModel UserViewModel { get; set; }
+        public int PrivacySettingsId { get; set; }
+        public int PrivacySettingsUserId { get; set; }
+        public bool PrivacySettingsFriendRequest { get; set; }
+        public bool PrivacySettingsMessageRequest { get; set; }
+        public bool PrivacySettingsHiddenProfile { get; set; }
     }
 }

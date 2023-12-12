@@ -1,4 +1,5 @@
-﻿
+﻿@model PrivacySettingsViewModel
+
 @{
     ViewData["Title"] = "EditUserSettings";
     Layout = "~/Views/Shared/LayoutPage.cshtml";
@@ -9,60 +10,188 @@
 <!--Profile Top Nav-->
 
 <section>
-	<div class="gap gray-bg">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="row" id="page-contents">
-						<div class="col-lg-3">
-							<aside class="sidebar static">
-								<!--Profile ayarları nav menüsü-->
-								<partial name="EditProfileNavPartialView" />
-								<!--Profile ayarları nav menüsü-->
-							</aside>
-						</div><!-- sidebar -->
-						<div class="col-lg-6">
-							<div class="central-meta">
-								<div class="onoff-options">
-									<h5 class="f-title"><i class="ti-settings"></i>Hesap Ayarları</h5>
-									<p>Hesabınızı Yönetin</p>
-									<form method="post">
-										<div class="setting-row">
-											<span>Arkadaşlık İstekleri</span>
-											<p>Kişiler size arkadaşlık isteği gönderebilsin mi?</p>
-											<input type="checkbox" id="switch00" />
-											<label for="switch00" data-on-label="ON" data-off-label="OFF"></label>
-										</div>
-										<div class="setting-row">
-											<span>Mesaj İstekleri</span>
-											<p>Arkadaşınız olmayan kişiler size mesaj gönderebilsin mi?</p>
-											<input type="checkbox" id="switch01" />
-											<label for="switch01" data-on-label="ON" data-off-label="OFF"></label>
-										</div>
-										<div class="setting-row">
-											<span>Profil Gizliliği</span>
-											<p>Profilinizi arkadaşınız olmayanlar görebilsin mi?</p>
-											<input type="checkbox" id="switch02" />
-											<label for="switch02" data-on-label="ON" data-off-label="OFF"></label>
-										</div>
-										
-										<div class="submit-btns">
-											<button type="button" class="mtr-btn"><span>Vazgeç</span></button>
-											<button type="submit" class="mtr-btn"><span>Güncelle</span></button>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div><!-- centerl meta -->
-						<div class="col-lg-3">
-							<aside class="sidebar static">
-							
-							</aside>
-						</div><!-- sidebar -->
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="gap gray-bg">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row" id="page-contents">
+                        <div class="col-lg-3">
+                            <aside class="sidebar static">
+                                <!--Profile ayarları nav menüsü-->
+                                <partial name="EditProfileNavPartialView" />
+                                <!--Profile ayarları nav menüsü-->
+                            </aside>
+                        </div><!-- sidebar -->
+                        <div class="col-lg-6">
+                            <div class="central-meta">
+                                <div class="onoff-options">
+                                    <h5 class="f-title"><i class="ti-settings"></i>Hesap Ayarları</h5>
+                                    <p>Hesabınızı Yönetin</p>
+                                    <div class="setting-row">
+                                        <span>Arkadaşlık İstekleri</span>
+                                        <p>Kişiler size arkadaşlık isteği gönderebilsin mi?</p>
+                                        <input type="checkbox" @(Model.PrivacySettingsFriendRequest ? "checked" : "") id="switch00" />
+                                        <label for="switch00" data-on-label="ON" data-off-label="OFF"></label>
+                                    </div>
+                                    <div class="setting-row">
+                                        <span>Mesaj İstekleri</span>
+                                        <p>Arkadaşınız olmayan kişiler size mesaj gönderebilsin mi?</p>
+                                        <input type="checkbox" @(Model.PrivacySettingsMessageRequest ? "checked" : "") id="switch01" />
+                                        <label for="switch01" data-on-label="ON" data-off-label="OFF"></label>
+                                    </div>
+                                    <div class="setting-row">
+                                        <span>Profil Gizliliği</span>
+                                        <p>Profilinizi arkadaşınız olmayanlar görebilsin mi?</p>
+                                        <input type="checkbox" @(Model.PrivacySettingsHiddenProfile ? "checked" : "") id="switch02" />
+                                        <label for="switch02" data-on-label="ON" data-off-label="OFF"></label>
+                                    </div>
+
+                                    <div class="submit-btns">
+                                        <button type="button" class="mtr-btn" onclick="redirectToMyProfile()"><span>Vazgeç</span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- centerl meta -->
+                        <div class="col-lg-3">
+                            <aside class="sidebar static">
+
+                            </aside>
+                        </div><!-- sidebar -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
+
+@section Scripts {
+
+
+    <script>
+        function redirectToMyProfile() {
+            window.location.href = '/Profile/MyProfile';
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var switchElement1 = document.getElementById("switch00");
+
+            // Arkadaşlık isteği switch durumu değiştiğinde
+            switchElement1.addEventListener("change", function () {
+                var switchValue1 = switchElement1.checked; 
+                console.log("Switch durumu değişti: " + switchValue1);
+
+                // Kullanıcıya SweetAlert ile onay mesajı gösterir
+                Swal.fire({
+                    title: 'Emin misiniz?',
+                    text: "Arkadaşlık isteği almayı " + (switchValue1 ? "etkinleştirmek" : "devre dışı bırakmak") + " istiyor musunuz?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet',
+                    cancelButtonText: 'Hayır'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Kullanıcı "Evet" derse, AJAX isteğini gönder
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Profile/UpdateSettings',
+                            data: { settingName: 'ReqFriends', settingValue: switchValue1 },
+                            success: function (result) {
+                                console.log(result);
+                            }
+                        });
+                    } else {
+                        // Kullanıcı "Hayır" derse, switch durumunu geri çevir
+                        switchElement1.checked = !switchValue1;
+                    }
+                });
+            });
+
+
+
+            var switchElement2 = document.getElementById("switch01");
+
+            //Mesaj isteği switch durumu değiştiğinde
+            switchElement2.addEventListener("change", function () {
+                var switchValue2 = switchElement2.checked;
+                console.log("Switch durumu değişti: " + switchValue2);
+
+                // Kullanıcıya SweetAlert ile onay mesajı gösterir
+                Swal.fire({
+                    title: 'Emin misiniz?',
+                    text: "Tüm kullanıcılardan mesaj almayı " + (switchValue2 ? "etkinleştirmek" : "devre dışı bırakmak") + " istiyor musunuz?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet',
+                    cancelButtonText: 'Hayır'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Kullanıcı "Evet" derse, AJAX isteğini gönder
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Profile/UpdateSettings',
+                            data: { settingName: 'ReqMessage' },
+                            success: function (result) {
+                                console.log(result)
+                            }
+                        })
+                    } else {
+                        // Kullanıcı "Hayır" derse, switch durumunu geri çevir
+                        switchElement2.checked = !switchValue2;
+                    }
+                }); 
+               
+
+            });
+
+
+
+            var switchElement3 = document.getElementById("switch02");
+
+            //Profil gizliliği switch durumu değiştiğinde
+            switchElement3.addEventListener("change", function () {
+                var switchValue3 = switchElement3.checked;
+                console.log("Switch durumu değişti: " + switchValue3);
+
+                // Kullanıcıya SweetAlert ile onay mesajı gösterir
+                Swal.fire({
+                    title: 'Emin misiniz?',
+                    text: "Profilinizi tüm kullanıcılara " + (switchValue3 ? "görünür" : "görünmez") + " yapmak musunuz?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet',
+                    cancelButtonText: 'Hayır'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Kullanıcı "Evet" derse, AJAX isteğini gönder
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Profile/UpdateSettings',
+                            data: { settingName: 'HiddenProfile' },
+                            success: function (result) {
+                                console.log(result)
+                            }
+
+                        })
+
+                    } else {
+                        // Kullanıcı "Hayır" derse, switch durumunu geri çevir
+                        switchElement3.checked = !switchValue3;
+                    }
+                });
+
+                
+
+            });
+        });
+
+
+
+    </script>
+}
