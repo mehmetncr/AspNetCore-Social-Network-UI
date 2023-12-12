@@ -23,19 +23,29 @@ namespace AspNetCore_Social_Network_UI.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> AddPost(PostViewModel model)
+        [DisableRequestSizeLimit]
+        public async Task<IActionResult> AddPost(PostViewModel model, IFormFile formFile, IFormFile formFile2)
         {
+            var videoFile = HttpContext.Request.Form.Files[0];
             if(model.PostYoutubeUrl != null)
             {
                 model.PostType = "Youtube";
             }
-            else if (model.PostImageUrl != null) //IFromFile kontrolüne çevirilecek
+            else if (formFile != null) //IFromFile kontrolüne çevirilecek
             {
                 model.PostType = "Image";
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\postimages", formFile.FileName);
+                var stream = new FileStream(path, FileMode.Create);
+                formFile.CopyTo(stream);
+                model.PostImageUrl = "/images/postimages/" + formFile.FileName;
             }
-            else if(model.PostVideoUrl != null)  //Video kontrolüne çevilecek
+            else if(videoFile != null && videoFile.ContentType == "video/mp4")  //Video kontrolüne çevilecek
             {
                 model.PostType = "Video";
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\postvideos", videoFile.FileName);
+                var stream = new FileStream(path, FileMode.Create);
+                videoFile.CopyTo(stream);
+                model.PostVideoUrl = "/images/postvideos/" + videoFile.FileName;
             }
             else
             {
@@ -56,7 +66,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			var errorMessage = await result.Content.ReadAsStringAsync();
 			return RedirectToAction("Index", "Home");
         }
-        public async Task<CommentViewModel> AddComment(string comment, int postId)
+        public async Task<List<CommentViewModel>> AddComment(string comment, int postId)
         {
             var user = HttpContext.Session.GetJsonUser();
             CommentViewModel model = new CommentViewModel()
@@ -71,10 +81,13 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var jsondata = JsonConvert.SerializeObject(model);
             var content = new StringContent(jsondata, encoding: Encoding.UTF8, "application/json");
             var result = await http.PostAsync("https://localhost:7091/api/Post/AddComment", content);
-            var errorMessage = await result.Content.ReadAsStringAsync();
+            var error = await result.Content.ReadAsStringAsync();   
+            
             if (result.IsSuccessStatusCode)
             {
-                return model;
+				var list = await result.Content.ReadAsStringAsync();
+                var jsonlist = JsonConvert.DeserializeObject<List<CommentViewModel>>(list);
+                return jsonlist;
             }
             return null;
         }

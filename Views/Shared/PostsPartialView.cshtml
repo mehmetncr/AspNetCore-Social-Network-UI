@@ -21,18 +21,17 @@ else
                         <div class="friend-name">
                             <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
                             <span>
-                                @post.PostCreateDate
+                                Paylaşıldı: @post.PostCreateDate.ToString("g")
                             </span>
                         </div>
-                        <div class="post-meta">
-                            <img src="@post.PostImageUrl" alt="">
-
+                        <div class="post-meta" style="margin-left:60px;">
                             <div class="description">
 
                                 <p style="color:black;">
                                     @post.PostTextContent
                                 </p>
                             </div>
+                            <img style="width:770px;" src="@post.PostImageUrl" alt="">
                             <div class="we-video-info">
                                 <ul>
                                     <li>
@@ -93,20 +92,61 @@ else
                             </div>
                         </div>
                     </div>
+                    <hr>
                     <div class="coment-area">
-                        <ul class="we-comet">
-                            @foreach (var comment in post.CommentsDto)
+                        <div class="text-center mb-4 text-black">
+                            <h4>Yorumlar</h4>
+                        </div>
+                        <div>
+                            <ul style="list-style-type:none; margin-bottom:40px;">
+                                <li class="post-comment">
+                                    <div class="comet-avatar">
+                                        <img src="@ViewBag.profilPicture" alt="">
+                                    </div>
+                                    <div class="post-comt-box">
+                                        <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                            <input type="hidden" name="postId" value="@post.PostId">
+                                            <textarea name="comment" placeholder="Yorumunuz..."></textarea>
+
+                                            <div class="add-smiles">
+                                                <span class="em em-expressionless" title="add icon"></span>
+                                            </div>
+                                            <div class="smiles-bunch">
+                                                <i class="em em---1"></i>
+                                                <i class="em em-smiley"></i>
+                                                <i class="em em-anguished"></i>
+                                                <i class="em em-laughing"></i>
+                                                <i class="em em-angry"></i>
+                                                <i class="em em-astonished"></i>
+                                                <i class="em em-blush"></i>
+                                                <i class="em em-disappointed"></i>
+                                                <i class="em em-worried"></i>
+                                                <i class="em em-kissing_heart"></i>
+                                                <i class="em em-rage"></i>
+                                                <i class="em em-stuck_out_tongue"></i>
+                                            </div>
+                                            <button type="submit"></button>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul class="we-comet" id="@post.PostId">
+                            @{
+                                var commentList = post.CommentsDto.OrderByDescending(x => x.CommentDate).Take(5);
+                            }
+                            @foreach (var comment in commentList)
                             {
                                 if (comment.CommentId != 0)
                                 {
                                     <li>
                                         <div class="comet-avatar">
-                                            <img src="images/resources/comet-1.jpg" alt="">
+                                            <img width="50" src="@comment.CommentUser.UserProfilePicture" alt="">
                                         </div>
-                                        <div class="we-comment">
+                                        <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                             <div class="coment-head">
                                                 <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                                <span>1 year ago</span>
+                                                <span>@comment.CommentDate.ToString("g")</span>
                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
@@ -120,12 +160,12 @@ else
 
                                                     <li>
                                                         <div class="comet-avatar">
-                                                            <img src="images/resources/comet-2.jpg" alt="">
+                                                            <img width="50" src="@reply.ReplyCommentUserDto.UserProfilePicture" alt="">
                                                         </div>
-                                                        <div class="we-comment">
+                                                        <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
                                                                 <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
-                                                                <span>1 month ago</span>
+                                                                <span>@reply.ReplyCommentDate.ToString("g")</span>
                                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
@@ -149,37 +189,9 @@ else
                             <li>
                                 <a href="#" title="" class="showmore underline">more comments</a>
                             </li>
-                            <li class="post-comment">
-                                <div class="comet-avatar">
-                                    <img src="images/resources/comet-1.jpg" alt="">
-                                </div>
-                                <div class="post-comt-box">
-                                    <form method="post" id="addcomment1" onsubmit="submitForm('addcomment1')">
-                                        <input type="hidden" name="postId" value="@post.PostId">
-                                        <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
-                                        <div class="add-smiles">
-                                            <span class="em em-expressionless" title="add icon"></span>
-                                        </div>
-                                        <div class="smiles-bunch">
-                                            <i class="em em---1"></i>
-                                            <i class="em em-smiley"></i>
-                                            <i class="em em-anguished"></i>
-                                            <i class="em em-laughing"></i>
-                                            <i class="em em-angry"></i>
-                                            <i class="em em-astonished"></i>
-                                            <i class="em em-blush"></i>
-                                            <i class="em em-disappointed"></i>
-                                            <i class="em em-worried"></i>
-                                            <i class="em em-kissing_heart"></i>
-                                            <i class="em em-rage"></i>
-                                            <i class="em em-stuck_out_tongue"></i>
-                                        </div>
-                                        <button type="submit"></button>
-                                    </form>
-                                </div>
-                            </li>
                         </ul>
+
                     </div>
                 </div>
             </div>
@@ -194,14 +206,14 @@ else
                         </figure>
                         <div class="friend-name">
                             <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
-                            <span>published: june,2 2018 19:PM</span>
+                            <span>Paylaşıldı: @post.PostCreateDate.ToString("g")</span>
                         </div>
 
                         <div class="post-meta" style="margin-left:60px;">
                             <div class="description">
 
                                 <p style="color:black;">
-                                   @post.PostTextContent
+                                    @post.PostTextContent
                                 </p>
                             </div>
                             <a href="@post.PostYoutubeUrl" title="" data-strip-group="mygroup" class="strip" data-strip-options="width: 700,height: 450,youtube: { autoplay: 1 }">
@@ -215,7 +227,7 @@ else
                                     <path class="stroke-solid" fill="none" stroke="" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
 													C97.3,23.7,75.7,2.3,49.9,2.5" />
                                     <path class="icon" fill="" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z" />
-                                                                                        </svg>
+                                                                                                    </svg>
                                 </i>
                             </a>
                             <div class="we-video-info">
@@ -276,16 +288,53 @@ else
                                     </li>
                                 </ul>
                             </div>
-                            
+
                         </div>
                     </div>
                     <hr>
                     <div class="coment-area">
                         <div class="text-center mb-4 text-black">
-                        <h4>Yorumlar</h4>
+                            <h4>Yorumlar</h4>
+                        </div>
+                        <div>
+                            <ul style="list-style-type:none; margin-bottom:40px;">
+                                <li class="post-comment">
+                                    <div class="comet-avatar">
+                                        <img src="@ViewBag.profilPicture" alt="">
+                                    </div>
+                                    <div class="post-comt-box">
+                                        <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                            <input type="hidden" name="postId" value="@post.PostId">
+                                            <textarea name="comment" placeholder="Yorumunuz..."></textarea>
+
+                                            <div class="add-smiles">
+                                                <span class="em em-expressionless" title="add icon"></span>
+                                            </div>
+                                            <div class="smiles-bunch">
+                                                <i class="em em---1"></i>
+                                                <i class="em em-smiley"></i>
+                                                <i class="em em-anguished"></i>
+                                                <i class="em em-laughing"></i>
+                                                <i class="em em-angry"></i>
+                                                <i class="em em-astonished"></i>
+                                                <i class="em em-blush"></i>
+                                                <i class="em em-disappointed"></i>
+                                                <i class="em em-worried"></i>
+                                                <i class="em em-kissing_heart"></i>
+                                                <i class="em em-rage"></i>
+                                                <i class="em em-stuck_out_tongue"></i>
+                                            </div>
+                                            <button type="submit"></button>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                         <ul class="we-comet" id="@post.PostId">
-                            @foreach (var comment in post.CommentsDto)
+                            @{
+                                var commentList = post.CommentsDto.OrderByDescending(x => x.CommentDate).Take(5);
+                            }
+                            @foreach (var comment in commentList)
                             {
                                 if (comment.CommentId != 0)
                                 {
@@ -296,7 +345,7 @@ else
                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                             <div class="coment-head">
                                                 <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                                <span>1 year ago</span>
+                                                <span>@comment.CommentDate.ToString("g")</span>
                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
@@ -310,12 +359,12 @@ else
 
                                                     <li>
                                                         <div class="comet-avatar">
-                                                            <img src="images/resources/comet-2.jpg" alt="">
+                                                            <img width="50" src="@reply.ReplyCommentUserDto.UserProfilePicture" alt="">
                                                         </div>
-                                                        <div class="we-comment">
+                                                        <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
                                                                 <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
-                                                                <span>1 month ago</span>
+                                                                <span>@reply.ReplyCommentDate.ToString("g")</span>
                                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
@@ -339,37 +388,9 @@ else
                             <li>
                                 <a href="#" title="" class="showmore underline">more comments</a>
                             </li>
-                            <li class="post-comment">
-                                <div class="comet-avatar">
-                                    <img src="images/resources/comet-2.jpg" alt="">
-                                </div>
-                                <div class="post-comt-box">
-                                    <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
-                                        <input type="hidden" name="postId" value="@post.PostId">
-                                        <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
-                                        <div class="add-smiles">
-                                            <span class="em em-expressionless" title="add icon"></span>
-                                        </div>
-                                        <div class="smiles-bunch">
-                                            <i class="em em---1"></i>
-                                            <i class="em em-smiley"></i>
-                                            <i class="em em-anguished"></i>
-                                            <i class="em em-laughing"></i>
-                                            <i class="em em-angry"></i>
-                                            <i class="em em-astonished"></i>
-                                            <i class="em em-blush"></i>
-                                            <i class="em em-disappointed"></i>
-                                            <i class="em em-worried"></i>
-                                            <i class="em em-kissing_heart"></i>
-                                            <i class="em em-rage"></i>
-                                            <i class="em em-stuck_out_tongue"></i>
-                                        </div>
-                                        <button type="submit"></button>
-                                    </form>
-                                </div>
-                            </li>
                         </ul>
+                        
                     </div>
                 </div>
             </div>
@@ -385,10 +406,10 @@ else
                         <div class="friend-name">
                             <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
                             <span>
-                                @post.PostCreateDate
+                                Paylaşıldı: @post.PostCreateDate.ToString("g")
                             </span>
                         </div>
-                        <div class="post-meta">
+                        <div class="post-meta" style="margin-left:60px;">
                             <img src="images/resources/user-post.jpg" alt="">
                             <div class="description">
 
@@ -456,21 +477,61 @@ else
                             </div>
                         </div>
                     </div>
+                    <hr>
                     <div class="coment-area">
-                        <ul class="we-comet">
+                        <div class="text-center mb-4 text-black">
+                            <h4>Yorumlar</h4>
+                        </div>
+                        <div>
+                            <ul style="list-style-type:none; margin-bottom:40px;">
+                                <li class="post-comment">
+                                    <div class="comet-avatar">
+                                        <img src="@ViewBag.profilPicture" alt="">
+                                    </div>
+                                    <div class="post-comt-box">
+                                        <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                            <input type="hidden" name="postId" value="@post.PostId">
+                                            <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
-                            @foreach (var comment in post.CommentsDto)
+                                            <div class="add-smiles">
+                                                <span class="em em-expressionless" title="add icon"></span>
+                                            </div>
+                                            <div class="smiles-bunch">
+                                                <i class="em em---1"></i>
+                                                <i class="em em-smiley"></i>
+                                                <i class="em em-anguished"></i>
+                                                <i class="em em-laughing"></i>
+                                                <i class="em em-angry"></i>
+                                                <i class="em em-astonished"></i>
+                                                <i class="em em-blush"></i>
+                                                <i class="em em-disappointed"></i>
+                                                <i class="em em-worried"></i>
+                                                <i class="em em-kissing_heart"></i>
+                                                <i class="em em-rage"></i>
+                                                <i class="em em-stuck_out_tongue"></i>
+                                            </div>
+                                            <button type="submit"></button>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul class="we-comet" id="@post.PostId">
+                            @{
+                                var commentList = post.CommentsDto.OrderByDescending(x => x.CommentDate).Take(5);
+                            }
+                            @foreach (var comment in commentList)
                             {
                                 if (comment.CommentId != 0)
                                 {
                                     <li>
                                         <div class="comet-avatar">
-                                            <img src="images/resources/comet-1.jpg" alt="">
+                                            <img width="50" src="@comment.CommentUser.UserProfilePicture" alt="">
                                         </div>
-                                        <div class="we-comment">
+                                        <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                             <div class="coment-head">
                                                 <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                                <span>1 year ago</span>
+                                                <span>@comment.CommentDate.ToString("g")</span>
                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
@@ -484,12 +545,12 @@ else
 
                                                     <li>
                                                         <div class="comet-avatar">
-                                                            <img src="images/resources/comet-2.jpg" alt="">
+                                                            <img width="50" src="@reply.ReplyCommentUserDto.UserProfilePicture" alt="">
                                                         </div>
-                                                        <div class="we-comment">
+                                                        <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
                                                                 <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
-                                                                <span>1 month ago</span>
+                                                                <span>@reply.ReplyCommentDate.ToString("g")</span>
                                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
@@ -510,41 +571,12 @@ else
                                 }
 
                             }
-
                             <li>
                                 <a href="#" title="" class="showmore underline">more comments</a>
                             </li>
-                            <li class="post-comment">
-                                <div class="comet-avatar">
-                                    <img src="~/SocialUI/soimages/resources/comet-1.jpg" alt="">
-                                </div>
-                                <div class="post-comt-box">
-                                    <form method="post" id="addcomment3" onsubmit="submitForm('addcomment3')">
-                                        <input type="hidden" name="postId" value="@post.PostId">
-                                        <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
-                                        <div class="add-smiles">
-                                            <span class="em em-expressionless" title="add icon"></span>
-                                        </div>
-                                        <div class="smiles-bunch">
-                                            <i class="em em---1"></i>
-                                            <i class="em em-smiley"></i>
-                                            <i class="em em-anguished"></i>
-                                            <i class="em em-laughing"></i>
-                                            <i class="em em-angry"></i>
-                                            <i class="em em-astonished"></i>
-                                            <i class="em em-blush"></i>
-                                            <i class="em em-disappointed"></i>
-                                            <i class="em em-worried"></i>
-                                            <i class="em em-kissing_heart"></i>
-                                            <i class="em em-rage"></i>
-                                            <i class="em em-stuck_out_tongue"></i>
-                                        </div>
-                                        <button type="submit"></button>
-                                    </form>
-                                </div>
-                            </li>
                         </ul>
+
                     </div>
                 </div>
             </div>
@@ -555,14 +587,22 @@ else
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="images/resources/nearly1.jpg" alt="">
+                            <img src="@post.PostUserDto.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
                             <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
-                            <span>published: june,2 2018 19:PM</span>
+                            <span>Paylaşıldı: @post.PostCreateDate.ToString("g")</span>
                         </div>
-                        <div class="post-meta">
-                            <iframe width="" height="315" src="https://www.youtube.com/embed/5JJ_jqqpTMY" allow="autoplay;" allowfullscreen></iframe>
+                        <div class="post-meta" style="margin-left:60px;">
+                            <div class="description">
+
+                                <p style="color:black;">
+                                    @post.PostTextContent
+                                </p>
+                            </div>
+                            <video width="770" controls>
+                                <source src="@post.PostVideoUrl" type="video/mp4">
+                            </video>
                             <div class="we-video-info">
                                 <ul>
                                     <li>
@@ -621,28 +661,64 @@ else
                                     </li>
                                 </ul>
                             </div>
-                            <div class="description">
-
-                                <p style="color:black;">
-                                    @post.PostTextContent
-                                </p>
-                            </div>
+                            
                         </div>
                     </div>
+                    <hr>
                     <div class="coment-area">
-                        <ul class="we-comet">
-                            @foreach (var comment in post.CommentsDto)
+                        <div class="text-center mb-4 text-black">
+                            <h4>Yorumlar</h4>
+                        </div>
+                        <div>
+                            <ul style="list-style-type:none; margin-bottom:40px;">
+                                <li class="post-comment">
+                                    <div class="comet-avatar">
+                                        <img src="@ViewBag.profilPicture" alt="">
+                                    </div>
+                                    <div class="post-comt-box">
+                                        <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                            <input type="hidden" name="postId" value="@post.PostId">
+                                            <textarea name="comment" placeholder="Yorumunuz..."></textarea>
+
+                                            <div class="add-smiles">
+                                                <span class="em em-expressionless" title="add icon"></span>
+                                            </div>
+                                            <div class="smiles-bunch">
+                                                <i class="em em---1"></i>
+                                                <i class="em em-smiley"></i>
+                                                <i class="em em-anguished"></i>
+                                                <i class="em em-laughing"></i>
+                                                <i class="em em-angry"></i>
+                                                <i class="em em-astonished"></i>
+                                                <i class="em em-blush"></i>
+                                                <i class="em em-disappointed"></i>
+                                                <i class="em em-worried"></i>
+                                                <i class="em em-kissing_heart"></i>
+                                                <i class="em em-rage"></i>
+                                                <i class="em em-stuck_out_tongue"></i>
+                                            </div>
+                                            <button type="submit"></button>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul class="we-comet" id="@post.PostId">
+                            @{
+                                var commentList = post.CommentsDto.OrderByDescending(x => x.CommentDate).Take(5);
+                            }
+                            @foreach (var comment in commentList)
                             {
                                 if (comment.CommentId != 0)
                                 {
                                     <li>
                                         <div class="comet-avatar">
-                                            <img src="images/resources/comet-1.jpg" alt="">
+                                            <img width="50" src="@comment.CommentUser.UserProfilePicture" alt="">
                                         </div>
-                                        <div class="we-comment">
+                                        <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                             <div class="coment-head">
                                                 <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                                <span>1 year ago</span>
+                                                <span>@comment.CommentDate.ToString("g")</span>
                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
@@ -656,12 +732,12 @@ else
 
                                                     <li>
                                                         <div class="comet-avatar">
-                                                            <img src="images/resources/comet-2.jpg" alt="">
+                                                            <img width="50" src="@reply.ReplyCommentUserDto.UserProfilePicture" alt="">
                                                         </div>
-                                                        <div class="we-comment">
+                                                        <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
                                                                 <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
-                                                                <span>1 month ago</span>
+                                                                <span>@reply.ReplyCommentDate.ToString("g")</span>
                                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
@@ -685,37 +761,9 @@ else
                             <li>
                                 <a href="#" title="" class="showmore underline">more comments</a>
                             </li>
-                            <li class="post-comment">
-                                <div class="comet-avatar">
-                                    <img src="images/resources/comet-2.jpg" alt="">
-                                </div>
-                                <div class="post-comt-box">
-                                    <form method="post" id="addcomment4" onsubmit="submitForm('addcomment4')">
-                                        <input type="hidden" name="postId" value="@post.PostId">
-                                        <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
-                                        <div class="add-smiles">
-                                            <span class="em em-expressionless" title="add icon"></span>
-                                        </div>
-                                        <div class="smiles-bunch">
-                                            <i class="em em---1"></i>
-                                            <i class="em em-smiley"></i>
-                                            <i class="em em-anguished"></i>
-                                            <i class="em em-laughing"></i>
-                                            <i class="em em-angry"></i>
-                                            <i class="em em-astonished"></i>
-                                            <i class="em em-blush"></i>
-                                            <i class="em em-disappointed"></i>
-                                            <i class="em em-worried"></i>
-                                            <i class="em em-kissing_heart"></i>
-                                            <i class="em em-rage"></i>
-                                            <i class="em em-stuck_out_tongue"></i>
-                                        </div>
-                                        <button type="submit"></button>
-                                    </form>
-                                </div>
-                            </li>
                         </ul>
+
                     </div>
                 </div>
             </div>
