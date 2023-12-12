@@ -140,6 +140,7 @@ jQuery(document).ready(function ($) {
         $("select").chosen();
     }
 
+
     //----- add item plus minus button
     if ($.isFunction($.fn.userincr)) {
         $(".manual-adjust").userincr({
@@ -283,6 +284,7 @@ jQuery(document).ready(function ($) {
         $(".side-panel").addClass('active');
         $(".theme-layout").addClass('active');
         return false;
+
     });
 
     $('.theme-layout').on("click", function () {
@@ -329,13 +331,13 @@ jQuery(document).ready(function ($) {
         var postId = form.find("input[name='postId']").val();
         var comment = form.find("textarea[name='comment']").val();
 
-        // Simüle edilmiþ bir POST isteði
+        // SimÃ¼le edilmiÃ¾ bir POST isteÃ°i
         $.ajax({
             type: "POST",
             url: "/Post/AddComment",
             data: form.serialize(), // Form verilerini al
             success: function (response) {
-                // Baþarýlý yanýt alýndýðýnda yeni yorumu sayfaya ekle
+                // BaÃ¾arÃ½lÃ½ yanÃ½t alÃ½ndÃ½Ã°Ã½nda yeni yorumu sayfaya ekle
                 var parent = form.find(".showmore").parent("li");
                 var comment_HTML = '<li><div class="comet-avatar"><img src="images/resources/comet-1.jpg" alt=""></div><div class="we-comment"><div class="coment-head"><h5><a href="time-line.html" title="">Jason Borne</a></h5><span>Just now</span><a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a></div><p>' + comment + '</p></div></li>';
                 $(comment_HTML).insertBefore(parent);
@@ -343,8 +345,8 @@ jQuery(document).ready(function ($) {
                 reloadPost(postId);
             },
             error: function (error) {
-                console.error("Yorum gönderme hatasý:", error);
-                // Hata durumunda kullanýcýya bilgi verilebilir
+                console.error("Yorum gÃ¶nderme hatasÃ½:", error);
+                // Hata durumunda kullanÃ½cÃ½ya bilgi verilebilir
             }
         });
 
