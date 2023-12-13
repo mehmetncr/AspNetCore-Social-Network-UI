@@ -24,14 +24,16 @@ else
                                 Paylaşıldı: @post.PostCreateDate.ToString("g")
                             </span>
                         </div>
-                        <div class="post-meta" style="margin-left:60px;">
+                        <div class="post-meta">
                             <div class="description">
 
                                 <p style="color:black;">
                                     @post.PostTextContent
                                 </p>
                             </div>
-                            <img style="width:770px;" src="@post.PostImageUrl" alt="">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <img style="width:770px;" src="@post.PostImageUrl" alt="">
+                            </div>
                             <div class="we-video-info">
                                 <ul>
                                     <li>
@@ -209,7 +211,7 @@ else
                             <span>Paylaşıldı: @post.PostCreateDate.ToString("g")</span>
                         </div>
 
-                        <div class="post-meta" style="margin-left:60px;">
+                        <div class="post-meta">
                             <div class="description">
 
                                 <p style="color:black;">
@@ -220,14 +222,14 @@ else
                                 @{
                                     var thumbnail = post.PostYoutubeUrl.Split("=")[1].Split("&")[0];
                                 }
-                                <img width="770" src="https://img.youtube.com/vi/@thumbnail/maxresdefault.jpg" alt="">
+                                <img width="100%" src="https://img.youtube.com/vi/@thumbnail/maxresdefault.jpg" alt="">
                                 <i>
                                     <svg version="1.1" class="play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="40px" width="40px"
                                          viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
                                     <path class="stroke-solid" fill="none" stroke="" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
 													C97.3,23.7,75.7,2.3,49.9,2.5" />
                                     <path class="icon" fill="" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z" />
-                                                                                                    </svg>
+                                                                                                                                        </svg>
                                 </i>
                             </a>
                             <div class="we-video-info">
@@ -304,6 +306,15 @@ else
                                     </div>
                                     <div class="post-comt-box">
                                         <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                            <div style="background-color:lightgrey; height:60px; border-top-right-radius:20px; border-top-left-radius:20px; display:none;" id="@post.PostId">
+                                                <div style="float: right; margin-top:8px; margin-right:10px; cursor:pointer;" onclick="closeReplyToArea(@post.PostId)">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </div>
+                                                <div style="font-size:12px; font-weight:bold; display:flex; padding-top:8px; padding-left:8px;" id="replyToCommentUser+@post.PostId">Cevap Veriliyor:</div>
+                                                <div id="replyToCommentContent+@post.PostId" style="font-size:16px; padding-left:10px;">
+                                                    deneme
+                                                </div>
+                                            </div>
                                             <input type="hidden" name="postId" value="@post.PostId">
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
@@ -346,7 +357,11 @@ else
                                             <div class="coment-head">
                                                 <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
                                                 <span>@comment.CommentDate.ToString("g")</span>
-                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                @{
+                                                    var firstName = comment.CommentUser.UserFirstName;
+                                                    var lastName = comment.CommentUser.UserLastName;
+                                                }
+                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent', '@firstName','@lastName','@comment.CommentPostId');" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
                                         </div>
@@ -365,7 +380,7 @@ else
                                                             <div class="coment-head">
                                                                 <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
                                                                 <span>@reply.ReplyCommentDate.ToString("g")</span>
-                                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent'); return false;" title="Reply"><i class="fa fa-reply"></i></a>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
                                                         </div>
@@ -390,7 +405,7 @@ else
                             </li>
 
                         </ul>
-                        
+
                     </div>
                 </div>
             </div>
@@ -489,6 +504,7 @@ else
                                         <img src="@ViewBag.profilPicture" alt="">
                                     </div>
                                     <div class="post-comt-box">
+
                                         <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
                                             <input type="hidden" name="postId" value="@post.PostId">
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
@@ -593,16 +609,18 @@ else
                             <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
                             <span>Paylaşıldı: @post.PostCreateDate.ToString("g")</span>
                         </div>
-                        <div class="post-meta" style="margin-left:60px;">
+                        <div class="post-meta">
                             <div class="description">
 
                                 <p style="color:black;">
                                     @post.PostTextContent
                                 </p>
                             </div>
-                            <video width="770" controls>
-                                <source src="@post.PostVideoUrl" type="video/mp4">
-                            </video>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <video width="770" controls>
+                                    <source src="@post.PostVideoUrl" type="video/mp4">
+                                </video>
+                            </div>
                             <div class="we-video-info">
                                 <ul>
                                     <li>
@@ -661,7 +679,7 @@ else
                                     </li>
                                 </ul>
                             </div>
-                            
+
                         </div>
                     </div>
                     <hr>
