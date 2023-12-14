@@ -6,12 +6,12 @@
 		public DateTime ReplyCommentDate { get; set; }
 		public string ReplyCommentContent { get; set; }
 
+        public int PostId { get; set; }
+        public int ReplyCommentUserId { get; set; }
+		public virtual UserViewModel ReplyCommentUser { get; set; }
 
-		public int ReplyCommentUserDtoId { get; set; }
-		public virtual UserViewModel ReplyCommentUserDto { get; set; }
-
-		public int ReplyCommentCommentDtoId { get; set; }
-		public virtual CommentViewModel ReplyCommentCommentDto { get; set; }
+		public int ReplyCommentCommentId { get; set; }
+		public virtual CommentViewModel ReplyCommentComment { get; set; }
 
     }
 }

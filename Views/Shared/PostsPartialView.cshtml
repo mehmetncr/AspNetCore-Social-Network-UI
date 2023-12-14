@@ -162,11 +162,11 @@ else
 
                                                     <li>
                                                         <div class="comet-avatar">
-                                                            <img width="50" src="@reply.ReplyCommentUserDto.UserProfilePicture" alt="">
+                                                            <img width="50" src="@reply.ReplyCommentUser.UserProfilePicture" alt="">
                                                         </div>
                                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
-                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
+                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
                                                                 <span>@reply.ReplyCommentDate.ToString("g")</span>
                                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                                             </div>
@@ -200,6 +200,11 @@ else
         }
         if (post.PostType == "Youtube")
         {
+
+            var commentContentUniqKey = Guid.NewGuid();
+            var commentUserUniqKey = Guid.NewGuid();
+            var parentCommentUniqKey = Guid.NewGuid();
+            var replyArea = Guid.NewGuid();
             <div class="central-meta item">
                 <div class="user-post">
                     <div class="friend-info">
@@ -229,7 +234,7 @@ else
                                     <path class="stroke-solid" fill="none" stroke="" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
 													C97.3,23.7,75.7,2.3,49.9,2.5" />
                                     <path class="icon" fill="" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z" />
-                                                                                                                                        </svg>
+                                                                                                                                                    </svg>
                                 </i>
                             </a>
                             <div class="we-video-info">
@@ -306,16 +311,18 @@ else
                                     </div>
                                     <div class="post-comt-box">
                                         <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
-                                            <div style="background-color:lightgrey; height:60px; border-top-right-radius:20px; border-top-left-radius:20px; display:none;" id="@post.PostId">
-                                                <div style="float: right; margin-top:8px; margin-right:10px; cursor:pointer;" onclick="closeReplyToArea(@post.PostId)">
+                                            <div style="background-color:lightgrey; height:60px; border-top-right-radius:20px; border-top-left-radius:20px; display:none;" id="@replyArea">
+                                                
+                                                <div style="float: right; margin-top:8px; margin-right:10px; cursor:pointer;" onclick="closeReplyToArea('@replyArea','@parentCommentUniqKey')">
                                                     <i class="fa-solid fa-xmark"></i>
                                                 </div>
-                                                <div style="font-size:12px; font-weight:bold; display:flex; padding-top:8px; padding-left:8px;" id="replyToCommentUser+@post.PostId">Cevap Veriliyor:</div>
-                                                <div id="replyToCommentContent+@post.PostId" style="font-size:16px; padding-left:10px;">
+                                                <div style="font-size:12px; font-weight:bold; display:flex; padding-top:8px; padding-left:8px;" id="@commentUserUniqKey">Cevap Veriliyor:</div>
+                                                <div id="@commentContentUniqKey" style="font-size:16px; padding-left:10px;">
                                                     deneme
                                                 </div>
                                             </div>
                                             <input type="hidden" name="postId" value="@post.PostId">
+                                            <input type="hidden" name="commentId" id="@parentCommentUniqKey">
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
                                             <div class="add-smiles">
@@ -361,7 +368,7 @@ else
                                                     var firstName = comment.CommentUser.UserFirstName;
                                                     var lastName = comment.CommentUser.UserLastName;
                                                 }
-                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent', '@firstName','@lastName','@comment.CommentPostId');" title="Reply"><i class="fa fa-reply"></i></a>
+                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent', '@firstName','@lastName','@comment.CommentPostId','@commentContentUniqKey','@commentUserUniqKey','@parentCommentUniqKey','@replyArea');" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
                                         </div>
@@ -371,16 +378,17 @@ else
                                             {
                                                 if (reply.ReplyCommentId != 0)
                                                 {
-
+                                                    var replyFirstName = reply.ReplyCommentUser.UserFirstName;
+                                                    var replyLastName = reply.ReplyCommentUser.UserLastName;
                                                     <li>
                                                         <div class="comet-avatar">
-                                                            <img width="50" src="@reply.ReplyCommentUserDto.UserProfilePicture" alt="">
+                                                            <img width="50" src="@reply.ReplyCommentUser.UserProfilePicture" alt="">
                                                         </div>
                                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
-                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
+                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
                                                                 <span>@reply.ReplyCommentDate.ToString("g")</span>
-                                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent'); return false;" title="Reply"><i class="fa fa-reply"></i></a>
+                                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@reply.ReplyCommentContent', '@replyFirstName','@replyLastName','@comment.CommentPostId','@commentContentUniqKey','@commentUserUniqKey','@parentCommentUniqKey','@replyArea');" return false;" title="Reply"><i class="fa fa-reply"></i></a>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
                                                         </div>
@@ -561,11 +569,11 @@ else
 
                                                     <li>
                                                         <div class="comet-avatar">
-                                                            <img width="50" src="@reply.ReplyCommentUserDto.UserProfilePicture" alt="">
+                                                            <img width="50" src="@reply.ReplyCommentUser.UserProfilePicture" alt="">
                                                         </div>
                                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
-                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
+                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
                                                                 <span>@reply.ReplyCommentDate.ToString("g")</span>
                                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                                             </div>
@@ -750,11 +758,11 @@ else
 
                                                     <li>
                                                         <div class="comet-avatar">
-                                                            <img width="50" src="@reply.ReplyCommentUserDto.UserProfilePicture" alt="">
+                                                            <img width="50" src="@reply.ReplyCommentUser.UserProfilePicture" alt="">
                                                         </div>
                                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
-                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUserDto.UserFirstName @reply.ReplyCommentUserDto.UserLastName</a></h5>
+                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
                                                                 <span>@reply.ReplyCommentDate.ToString("g")</span>
                                                                 <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
                                                             </div>

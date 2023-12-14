@@ -52,7 +52,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             return View();
         }
 
-        public async Task<IActionResult> MyAbout()
+        public IActionResult MyAbout()
         {
 			var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));
 			return View(user);
