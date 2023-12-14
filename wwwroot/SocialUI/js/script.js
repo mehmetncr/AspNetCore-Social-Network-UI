@@ -333,64 +333,60 @@ jQuery(document).ready(function ($) {
             data: form.serialize(), // Form verilerini al
             success: function (result) {
                 // Başarılı yanıt alındığında yeni yorumu sayfaya ekle
-                $(`#${postId}`).empty();
+                var commentContainer = $(`#${postId}`);
+                commentContainer.empty();
+
                 result.forEach(function (item) {
+                    form.find("textarea[name='comment']").val('');
+
                     var date = new Date(item.commentDate);
                     var gun = date.getDate();
                     var ayIndex = date.getMonth();
                     var yil = date.getFullYear();
                     var tamTarih = gun + "-" + ayIndex + "-" + yil;
-                        $(`#${postId}`).append(`
-                        <li>
-                            <div class="comet-avatar">
-                                <img width="50" src="${item.commentUser.userProfilePicture}" alt="">
-                            </div>
-                            <div class="we-comment" style="box-shadow:1px 1px 5px gray">
-                                <div class="coment-head">
-                                    <h5><a href="time-line.html" title="">${item.commentUser.userFirstName} ${item.commentUser.userLastName}</a></h5>
-                                    <span>${tamTarih}</span>
-                                    <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                                </div>
-                                <p>${item.commentContent}</p>
-                                <ul>
-                                    ${item.replyComments && item.replyComments.length > 0 ? item.replyComments.map(function (reply) {
-                            if (reply.replyCommentId !== 0) {
-                                return `
-                                                <li>
-                                                    <div class="comet-avatar">
-                                                        <img src="images/resources/comet-2.jpg" alt="">
-                                                    </div>
-                                                    <div class="we-comment">
-                                                        <div class="coment-head">
-                                                            <h5><a href="time-line.html" title="">${reply.ReplyCommentUserDto.UserFirstName} ${reply.ReplyCommentUserDto.UserLastName}</a></h5>
-                                                            <span>1 month ago</span>
-                                                            <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
-                                                        </div>
-                                                        <p>${reply.ReplyCommentContent}</p>
-                                                    </div>
-                                                </li>`;
-                            }
 
-                            else {
-                                return ` <div class="text-center">
-                                        <h4><strong> Henüz yorum yok!</strong></h4>
-                                    </div>`;
-                                        }
-                            
-
-                        }).join('') : ''}
-                                </ul>
-                            </div>
-                        </li>`);
-
-
-                    });
+                    var newComment = `
                 
+                    <li>
+                        <div class="comet-avatar">
+                            <img width="50" src="${item.commentUser.userProfilePicture}" alt="">
+                        </div>
+                        <div class="we-comment" style="box-shadow:1px 1px 5px gray">
+                            <div class="coment-head">
+                                <h5><a href="time-line.html" title="">${item.commentUser.userFirstName} ${item.commentUser.userLastName}</a></h5>
+                                <span>${tamTarih}</span>
+                                <a class="we-reply" href="#" title="Reply" onclick="replyToComment('${item.commentId}', '${item.commentContent}', '${item.commentUser.userFirstName}', '${item.commentUser.userLastName}', '${item.commentPostId}', '${item.commentContentUniqKey}', '${item.commentUserUniqKey}', '${item.parentCommentUniqKey}', '${item.replyArea}');"><i class="fa fa-reply"></i></a>
+                            </div>
+                            <p>${item.commentContent}</p>
+                            </div>
+                            <ul>
+                                ${item.replyComments && item.replyComments.length > 0 ? item.replyComments.map(function (reply) {
+                        return `
+                                        <li>
+                                            <div class="comet-avatar">
+                                                <img width="50" src="${reply.replyCommentUser.userProfilePicture}" alt="">
+                                            </div>
+                                            <div class="we-comment" style="box-shadow:1px 1px 5px gray">
+                                                <div class="coment-head">
+                                                    <h5><a href="time-line.html" title="">${reply.replyCommentUser.userFirstName} ${reply.replyCommentUser.userLastName}</a></h5>
+                                                    <span>1 month ago</span>
+                                                    <a class="we-reply" href="javascript:void(0)" title="Reply" onclick="replyToComment('${item.commentId}', '${reply.replyCommentContent}', '${reply.replyCommentUser.userFirstName}', '${reply.replyCommentUser.userLastName}','${item.postId}'); return false;"><i class="fa fa-reply"></i></a>
+                                                </div>
+                                                <p>${reply.replyCommentContent}</p>
+                                            </div>
+                                        </li>`;
+                    }).join('') : ''}
+                            </ul>
+                        </div>
+                    </li>`;
+
+                    commentContainer.append(newComment);
+                });
 
                 // Diğer işlemleri buraya ekleyebilirsiniz, örneğin formu sıfırlamak
-                form.find("textarea[name='comment']").val('');
             },
             error: function (error) {
+                console.log(form.serialize());
                 console.error("Yorum gönderme hatası:", error);
                 // Hata durumunda kullanıcıya bilgi verilebilir
             }

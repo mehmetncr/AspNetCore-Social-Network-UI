@@ -180,27 +180,25 @@
             });
         }
 
-        function replyToComment(commentId, commentContent, firstName, lastName,postId) {
+        function replyToComment(commentId, commentContent, firstName, lastName, postId, commentContentUniqKey, commentUserUniqKey, parentCommentUniqKey, replyArea) {
             // Yanıtlanan yorumun içeriğini ve ID'sini form içine ekleyin
-            debugger;
-            var elementId = "replyToCommentContent" + postId;
-            console.log(elementId);
-            var relpyToArea = document.getElementById(postId);
+            var relpyToArea = document.getElementById(replyArea);
             if (relpyToArea.style.display === "none") {
                 relpyToArea.style.display = "block";
             }
-            $(`#${elementId}`).text(commentContent);
+            $(`#${commentContentUniqKey}`).text(commentContent);
             var commentUserElementId = "replyToCommentUser" + postId;
-            $('#commentUserElementId').text('Cevap Veriliyor: ' + firstName + ' ' + lastName);
-            $('#parentCommentId').val(commentId);
+            $(`#${commentUserUniqKey}`).text('Cevap Veriliyor: ' + firstName + ' ' + lastName);
+            $(`#${parentCommentUniqKey}`).val(commentId);
 
             // Formun görünürlüğünü sağlayın (gerekirse)
             // Örneğin: $('#addcomment2').show();
         }
-        function closeReplyToArea(postId) {
-            var replyToArea = document.getElementById(postId);
+        function closeReplyToArea(replyArea, parentCommentUniqKey) {
+            var replyToArea = document.getElementById(replyArea);
             if(replyToArea.style.display === "block"){
                 replyToArea.style.display = "none";
+                $(`#${parentCommentUniqKey}`).val("");
             }
         }
 
