@@ -36,11 +36,11 @@
                                                         <img src=@message.User.UserProfilePicture alt="">
                                                         <span class="status f-@(message.User.UserIsOnline?"online":"off")"></span>
                                                     </figure>
-                                                    <div class="people-name">
-                                                        <span>@message.User.UserFirstName @message.User.UserLastName</span>
+                                                    <div class="people-name" onclick="messageFriend('@message.Id')">
+                                                        <span >@message.User.UserFirstName @message.User.UserLastName</span>
                                                     </div>
                                                 </li>
-                                            }                            
+                                            }
 
                                         </ul>
                                         <div class="peoples-mesg-box">
@@ -53,12 +53,12 @@
                                                 {
                                                     @foreach (var message in chat.MessageDetails)
                                                     {
-                                                        if (ViewBag.userId==message.OwnerUserId)
+                                                        if (ViewBag.userId == message.OwnerUserId)
                                                         {
                                                             <li class="me">
                                                                 <figure><img src="~/SocialUI/images/resources/userlist-1.jpg" alt=""></figure>
                                                                 <p>@message.MessageContent<span style="float:right; font-size:12px;">@message.SendDate</span></p>
-                                                                
+
                                                             </li>
                                                         }
                                                         else
@@ -68,11 +68,11 @@
                                                                 <p>@message.MessageContent<span style="float:right; font-size:12px;">@message.SendDate</span></p>
                                                             </li>
                                                         }
-                                                        
+
                                                     }
                                                 }
-                                                
-                                               
+
+
 
                                             </ul>
                                             <div class="message-text-container">
@@ -97,3 +97,49 @@
         </div>
     </div>
 </section>
+
+
+
+@section Scripts {
+    <script>
+        var model = @Html.Raw(Json.Serialize(Model));
+
+
+
+
+        function messageFriend(id) {
+
+            model.forEach(function (message) {
+                if (message.id == id) {
+                    var messages = message
+                        
+                    $(".chatting-area").empty();
+
+
+
+                    messages.messageDetails.forEach(function (chat) {
+                        var messageClass = chat.OwnerUserId === messages.userId ? "me" : "you";
+                        var messageContent = chat.messageContent;
+                        var sendDate = chat.sendDate;
+                        var formattedMessageContent = messageContent.replace(/(.{50})/g, "$1<br>");
+                        var image = 
+                        var messageHtml = '<li class="' + messageClass + '">';
+                        messageHtml += '<figure><img src="~/SocialUI/images/resources/' + (messageClass === "me" ? 'userlist-1.jpg' : 'userlist-2.jpg') + '" alt=""></figure>';
+                        messageHtml += '<p>' + formattedMessageContent + '<span style="float:right; font-size:12px;">' + sendDate + '</span></p>';
+                        messageHtml += '</li>';
+
+                        $(".chatting-area").append(messageHtml);
+                    });
+
+
+                }
+            });
+
+        };
+
+
+
+
+
+    </script>
+}
