@@ -32,5 +32,12 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			}
 			return View();
 		}
+
+		public async Task<IActionResult> Messages()
+		{
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+			ViewBag.token=token;
+            return View();
+		}
     }
 }

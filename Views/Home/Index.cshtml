@@ -115,7 +115,7 @@
                                             <li>
                                                 <figure><img src="@offeruser.UserProfilePicture" alt=""></figure>
                                                 <div class="friend-meta">
-                                                    <h4><a href="time-line.html" title="">@offeruser.UserFirstName @offeruser.UserLastName</a></h4>
+                                                    <h4><a asp-controller="Profile" asp-action="OtherProfile" asp-route-id="@offeruser.UserId" title="">@offeruser.UserFirstName @offeruser.UserLastName</a></h4>
                                                     <a href="#" title="" class="underline">Arkadaş Ekle</a>
                                                 </div>
                                             </li>
@@ -134,8 +134,6 @@
 </section>
 
 @section Scripts {
-
-
     <script>
 
         function postLike(postId, likeCount) {
@@ -201,7 +199,26 @@
                 $(`#${parentCommentUniqKey}`).val("");
             }
         }
+        function youtube() {
+            var input = document.getElementById("youtube-input");
+            if (input.style.display === "none") {
+                input.style.display = "block";
+            }
+            else {
+                input.style.display = "none";
+            }
+        }
+        document.getElementById('fileInput').addEventListener('change', function () {
+            var uploadAnimation = document.getElementById('uploadAnimation');
+            var postButton = document.getElementById('postButton');
 
+            // Dosya yükleme simülasyonu (Gerçek bir yükleme işlemi için sunucu tarafı kodu eklenmelidir)
+            uploadAnimation.style.display = 'block';
+            setTimeout(function () {
+                uploadAnimation.style.display = 'none';
+                postButton.removeAttribute('disabled');
+            }, 2000); // 2 saniye sonra simülasyonu tamamla
+        });
 
     </script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
