@@ -1,0 +1,93 @@
+﻿@model List<PostViewModel>
+@{
+    ViewData["Title"] = "OtherPhotos";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+<section>
+    <div class="feature-photo">
+        <figure><img src=@Model.FirstOrDefault().PostUserDto.UserCoverPicture alt=""></figure>
+        <div class="add-btn">
+            <span>@Model.FirstOrDefault().PostUserDto.UserFollowerCount Arkadaş</span>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row merged">
+                <div class="col-lg-2 col-sm-3">
+                    <div class="user-avatar">
+                        <figure>
+                            <img src=@Model.FirstOrDefault().PostUserDto.UserProfilePicture alt="">
+
+                        </figure>
+                    </div>
+                </div>
+                <div class="col-lg-10 col-sm-9">
+                    <div class="timeline-info">
+                        <ul>
+                            <li class="admin-name">
+                                <h5>@Model.FirstOrDefault().PostUserDto.UserFirstName @Model.FirstOrDefault().PostUserDto.UserLastName</h5>
+                                @* <span>Group Admin</span> *@
+                            </li>
+                            <li>
+                                <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.FirstOrDefault().PostUserDto.UserId" data-ripple="">time line</a>
+                                <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.FirstOrDefault().PostUserDto.UserId" data-ripple="">Photos</a>
+                                <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.FirstOrDefault().PostUserDto.UserId" data-ripple="">Videos</a>
+                                <a class="" asp-action="MyFriends" asp-controller="Profile" v title="" data-ripple="">Friends</a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap gray-bg">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row" id="page-contents">
+                        <div class="col-lg-3">
+                            <aside class="sidebar static">
+                                <!--ShortCuts-->
+                                <partial name="ShortCutsPartialView" />
+                                <!--ShortCuts-->
+
+
+
+                            </aside>
+                        </div><!-- sidebar -->
+                        <div class="col-lg-6">
+                            <div class="central-meta">
+                                <ul class="photos">
+                                    @if (Model == null || !Model.Any())
+                                    {
+                                        <h3>Hiç Fotoğraf Paylaşılmamış..</h3>
+                                    }
+                                    else
+                                    {
+
+
+                                        @foreach (var photo in Model)
+                                        {
+
+                                            <li>
+                                                <a class="strip" href="@photo.PostImageUrl" title="" data-strip-group="mygroup" data-strip-group-options="loop: false">
+                                                    <img src="@photo.PostImageUrl" alt="">
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                                <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                            </div><!-- photos -->
+                        </div><!-- centerl meta -->
+                        @* <vc:friends-list></vc:friends-list> *@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

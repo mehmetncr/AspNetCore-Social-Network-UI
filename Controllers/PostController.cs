@@ -26,7 +26,19 @@ namespace AspNetCore_Social_Network_UI.Controllers
         [DisableRequestSizeLimit]
         public async Task<IActionResult> AddPost(PostViewModel model, IFormFile formFile, IFormFile formFile2)
         {
-            var videoFile = HttpContext.Request.Form.Files[0];
+            if (HttpContext.Request.Form.Files.Count()>0)
+            {
+                var videoFile = HttpContext.Request.Form.Files[0];
+                if (videoFile != null && videoFile.ContentType == "video/mp4")  //Video kontrolüne çevilecek
+                {
+                    model.PostType = "Video";
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\postvideos", videoFile.FileName);
+                    var stream = new FileStream(path, FileMode.Create);
+                    videoFile.CopyTo(stream);
+                    model.PostVideoUrl = "/images/postvideos/" + videoFile.FileName;
+                }
+            }
+
             if (model.PostYoutubeUrl != null)
             {
                 model.PostType = "Youtube";
@@ -39,18 +51,12 @@ namespace AspNetCore_Social_Network_UI.Controllers
                 formFile.CopyTo(stream);
                 model.PostImageUrl = "/images/postimages/" + formFile.FileName;
             }
-            else if (videoFile != null && videoFile.ContentType == "video/mp4")  //Video kontrolüne çevilecek
-            {
-                model.PostType = "Video";
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\postvideos", videoFile.FileName);
-                var stream = new FileStream(path, FileMode.Create);
-                videoFile.CopyTo(stream);
-                model.PostVideoUrl = "/images/postvideos/" + videoFile.FileName;
-            }
+
             else
             {
                 model.PostType = "Text";
             }
+
             var user = HttpContext.Session.GetJsonUser();
             model.PostUserId = user.UserId;
             string token = HttpContext.Session.GetJsonUser().AccessToken;

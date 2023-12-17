@@ -1,0 +1,108 @@
+﻿@model List<PostViewModel>
+@{
+    ViewData["Title"] = "OtherVideos";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+<section>
+    <div class="feature-photo">
+        <figure><img src=@Model.FirstOrDefault().PostUserDto.UserCoverPicture alt=""></figure>
+        <div class="add-btn">
+            <span>@Model.FirstOrDefault().PostUserDto.UserFollowerCount Arkadaş</span>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row merged">
+                <div class="col-lg-2 col-sm-3">
+                    <div class="user-avatar">
+                        <figure>
+                            <img src=@Model.FirstOrDefault().PostUserDto.UserProfilePicture alt="">
+
+                        </figure>
+                    </div>
+                </div>
+                <div class="col-lg-10 col-sm-9">
+                    <div class="timeline-info">
+                        <ul>
+                            <li class="admin-name">
+                                <h5>@Model.FirstOrDefault().PostUserDto.UserFirstName @Model.FirstOrDefault().PostUserDto.UserLastName</h5>
+                                @* <span>Group Admin</span> *@
+                            </li>
+                            <li>
+                                <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.FirstOrDefault().PostUserDto.UserId" data-ripple="">time line</a>
+                                <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.FirstOrDefault().PostUserDto.UserId" data-ripple="">Photos</a>
+                                <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.FirstOrDefault().PostUserDto.UserId" data-ripple="">Videos</a>
+                                <a class="" asp-action="MyFriends" asp-controller="Profile" v title="" data-ripple="">Friends</a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="gap gray-bg">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row" id="page-contents">
+                        <div class="col-lg-3">
+                            <aside class="sidebar static">
+                                <!--ShortCuts-->
+                                <partial name="ShortCutsPartialView" />
+                                <!--ShortCuts-->
+
+                            </aside>
+                        </div><!-- sidebar -->
+                        <div class="col-lg-6">
+                            <div class="central-meta">
+                                <ul class="photos">
+                                    @if (Model == null)
+                                    {
+
+                                        <h3>Hiç Vieo Paylaşılmamış..</h3>
+
+                                    }
+                                    else
+                                    {
+
+
+                                        @foreach (var post in Model)
+                                        {
+                                            <li>
+                                                <a href="@post.PostYoutubeUrl" title="" data-strip-group="mygroup" class="strip" data-strip-options="width: 700,height: 450,youtube: { autoplay: 1 }">
+                                                    @{
+                                                        var thumbnail = post.PostYoutubeUrl.Split("=")[1].Split("&")[0];
+                                                    }
+                                                    <img width="770" src="https://img.youtube.com/vi/@thumbnail/maxresdefault.jpg" alt="">
+                                                    <i>
+                                                        <svg version="1.1" class="play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" height="40px" width="40px"
+                                                             viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+                                                        <path class="stroke-solid" fill="none" stroke="" d="M49.9,2.5C23.6,2.8,2.1,24.4,2.5,50.4C2.9,76.5,24.7,98,50.3,97.5c26.4-0.6,47.4-21.8,47.2-47.7
+													C97.3,23.7,75.7,2.3,49.9,2.5" />
+                                                        <path class="icon" fill="" d="M38,69c-1,0.5-1.8,0-1.8-1.1V32.1c0-1.1,0.8-1.6,1.8-1.1l34,18c1,0.5,1,1.4,0,1.9L38,69z" />
+                                                                                                        </svg>
+                                                    </i>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                                <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                            </div><!-- photos -->
+                        </div><!-- centerl meta -->
+                        <div class="col-lg-3">
+                            <aside class="sidebar static">
+
+
+                            </aside>
+                        </div><!-- sidebar -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
