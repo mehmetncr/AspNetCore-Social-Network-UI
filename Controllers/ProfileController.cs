@@ -232,7 +232,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<PrivacySettingsViewModel> UpdateSettings(string settingName)  //kullanıcı gizlilik ayarı değişiminde kullanıcıya bilgi verilecek!!!!!!!!!!!!!!!!!!!!!!!!!!
+        public async Task<PrivacySettingsViewModel> UpdateSettings(string settingName) 
         {
            
             string token = HttpContext.Session.GetJsonUser().AccessToken;
@@ -288,6 +288,74 @@ namespace AspNetCore_Social_Network_UI.Controllers
 
 			return View(model);
 		}
-	}
+        [HttpGet]
+        public async Task<IActionResult> OtherProfile(int id)
+        {
+
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherProfile/"+id);
+            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var jsonData = await respons.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
+                return View(data);
+            }
+            return View();
+            
+        }
+        [HttpGet]
+        public async Task<IActionResult> OtherPhotos(int id)
+        {
+
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherPhotos/" + id);
+            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var jsonData = await respons.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData);
+                return View(data);
+            }
+            return View();
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> OtherVideos(int id)
+        {
+
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherVideos/" + id);
+            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var jsonData = await respons.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData);
+                return View(data);
+            }
+            return View();
+
+        }
+        [HttpGet]
+        public async Task<IActionResult> OtherFriends(int id)
+        {
+
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherFriends/" + id);
+            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var jsonData = await respons.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<FriendsViewModel>>(jsonData);
+                return View(data);
+            }
+            return View();
+
+        }
+    }
 
 }

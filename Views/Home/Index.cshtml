@@ -115,7 +115,7 @@
                                             <li>
                                                 <figure><img src="@offeruser.UserProfilePicture" alt=""></figure>
                                                 <div class="friend-meta">
-                                                    <h4><a href="time-line.html" title="">@offeruser.UserFirstName @offeruser.UserLastName</a></h4>
+                                                    <h4><a asp-controller="Profile" asp-action="OtherProfile" asp-route-id="@offeruser.UserId" title="">@offeruser.UserFirstName @offeruser.UserLastName</a></h4>
                                                     <a href="#" title="" class="underline">Arkadaş Ekle</a>
                                                 </div>
                                             </li>
@@ -134,8 +134,6 @@
 </section>
 
 @section Scripts {
-
-
     <script>
 
         function postLike(postId, likeCount) {
@@ -222,6 +220,7 @@
                 postButton.removeAttribute('disabled');
             }, 2000); // 2 saniye sonra simülasyonu tamamla
         });
+
     </script>
    
 
