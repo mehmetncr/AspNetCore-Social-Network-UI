@@ -19,7 +19,7 @@ else
                             <img src="@post.PostUserDto.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
-                            <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUserDto.UserId">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
                             <span>
                                 Paylaşıldı: @post.PostCreateDate.ToString("g")
                             </span>
@@ -31,7 +31,7 @@ else
                                     @post.PostTextContent
                                 </p>
                             </div>
-                            <div class="embed-responsive embed-responsive-16by9">
+                            <div class="text-center">
                                 <img style="width:770px;" src="@post.PostImageUrl" alt="">
                             </div>
                             <div class="we-video-info">
@@ -106,10 +106,20 @@ else
                                         <img src="@ViewBag.profilPicture" alt="">
                                     </div>
                                     <div class="post-comt-box">
-                                        <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                        <div style="background-color:lightgrey; height:60px; border-top-right-radius:20px; border-top-left-radius:20px; display:none;" id='replyArea@(post.PostId)'>
+
+                                            <div style="float: right; margin-top:8px; margin-right:10px; cursor:pointer;" onclick="closeReplyToArea('@post.PostId')">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </div>
+                                            <div style="font-size:12px; font-weight:bold; display:flex; padding-top:8px; padding-left:8px;" id='commentUser@(post.PostId)'>Cevap Veriliyor:</div>
+                                            <div id='commentContent@(post.PostId)' style="font-size:16px; padding-left:10px;">
+                                                deneme
+                                            </div>
+                                        </div>
+                                        <form method="post" id="addcomment1" onsubmit="submitForm('addcomment1')">
                                             <input type="hidden" name="postId" value="@post.PostId">
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
-
+                                            <input type="hidden" name="commentId" id='parentComment@(post.PostId)'>
                                             <div class="add-smiles">
                                                 <span class="em em-expressionless" title="add icon"></span>
                                             </div>
@@ -147,9 +157,13 @@ else
                                         </div>
                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                             <div class="coment-head">
-                                                <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                                <span>@comment.CommentDate.ToString("g")</span>
-                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@comment.CommentUser.UserId">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
+                                                <span>@comment.CommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
+                                                @{
+                                                    var firstName = comment.CommentUser.UserFirstName;
+                                                    var lastName = comment.CommentUser.UserLastName;
+                                                }
+                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent', '@firstName','@lastName','@comment.CommentPostId');" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
                                         </div>
@@ -166,9 +180,8 @@ else
                                                         </div>
                                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
-                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
-                                                                <span>@reply.ReplyCommentDate.ToString("g")</span>
-                                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                                <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@reply.ReplyCommentUser.UserId">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
+                                                                <span>@reply.ReplyCommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
                                                         </div>
@@ -201,10 +214,7 @@ else
         if (post.PostType == "Youtube")
         {
 
-            var commentContentUniqKey = Guid.NewGuid();
-            var commentUserUniqKey = Guid.NewGuid();
-            var parentCommentUniqKey = Guid.NewGuid();
-            var replyArea = Guid.NewGuid();
+
             <div class="central-meta item">
                 <div class="user-post">
                     <div class="friend-info">
@@ -212,7 +222,7 @@ else
                             <img src="@post.PostUserDto.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
-                            <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUserDto.UserId">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
                             <span>Paylaşıldı: @post.PostCreateDate.ToString("g")</span>
                         </div>
 
@@ -247,8 +257,8 @@ else
                                     </li>
                                     <li>
                                         <span class="like" data-toggle="tooltip" title="like">
-                                            <i class="ti-heart" id="likeIcon+@post.PostId" onclick="postLike('@post.PostId', '@post.PostLikeNumber')"></i>
-                                            <ins id="like+@post.PostId">@post.PostLikeNumber</ins>
+                                            <i class="ti-heart" id='likeIcon@(post.PostId)' onclick="postLike('@post.PostId', '@post.PostLikeNumber')"></i>
+                                            <ins id='like@(post.PostId)'>@post.PostLikeNumber</ins>
                                         </span>
                                     </li>
                                     <li>
@@ -311,18 +321,18 @@ else
                                     </div>
                                     <div class="post-comt-box">
                                         <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
-                                            <div style="background-color:lightgrey; height:60px; border-top-right-radius:20px; border-top-left-radius:20px; display:none;" id="@replyArea">
+                                            <div style="background-color:lightgrey; height:60px; border-top-right-radius:20px; border-top-left-radius:20px; display:none;" id='replyArea@(post.PostId)'>
                                                 
-                                                <div style="float: right; margin-top:8px; margin-right:10px; cursor:pointer;" onclick="closeReplyToArea('@replyArea','@parentCommentUniqKey')">
+                                                <div style="float: right; margin-top:8px; margin-right:10px; cursor:pointer;" onclick="closeReplyToArea('@post.PostId')">
                                                     <i class="fa-solid fa-xmark"></i>
                                                 </div>
-                                                <div style="font-size:12px; font-weight:bold; display:flex; padding-top:8px; padding-left:8px;" id="@commentUserUniqKey">Cevap Veriliyor:</div>
-                                                <div id="@commentContentUniqKey" style="font-size:16px; padding-left:10px;">
-                                                    deneme
+                                                <div style="font-size:12px; font-weight:bold; display:flex; padding-top:8px; padding-left:8px;" id='commentUser@(post.PostId)'>Cevap Veriliyor:</div>
+                                                <div id='commentContent@(post.PostId)' style="font-size:16px; padding-left:10px;">
+                                                   deneme
                                                 </div>
                                             </div>
                                             <input type="hidden" name="postId" value="@post.PostId">
-                                            <input type="hidden" name="commentId" id="@parentCommentUniqKey">
+                                            <input type="hidden" name="commentId" id='parentComment@(post.PostId)'>
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
                                             <div class="add-smiles">
@@ -362,33 +372,32 @@ else
                                         </div>
                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                             <div class="coment-head">
-                                                <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                                <span>@comment.CommentDate.ToString("g")</span>
+                                                <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@comment.CommentUser.UserId">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
+                                                <span>@comment.CommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
                                                 @{
                                                     var firstName = comment.CommentUser.UserFirstName;
                                                     var lastName = comment.CommentUser.UserLastName;
                                                 }
-                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent', '@firstName','@lastName','@comment.CommentPostId','@commentContentUniqKey','@commentUserUniqKey','@parentCommentUniqKey','@replyArea');" title="Reply"><i class="fa fa-reply"></i></a>
+                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent', '@firstName','@lastName','@comment.CommentPostId');" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
                                         </div>
                                         <ul>
-
+                                            @{
+                                               comment.ReplyComments.Reverse();
+                                            }
                                             @foreach (var reply in comment.ReplyComments)
                                             {
                                                 if (reply.ReplyCommentId != 0)
                                                 {
-                                                    var replyFirstName = reply.ReplyCommentUser.UserFirstName;
-                                                    var replyLastName = reply.ReplyCommentUser.UserLastName;
                                                     <li>
                                                         <div class="comet-avatar">
                                                             <img width="50" src="@reply.ReplyCommentUser.UserProfilePicture" alt="">
                                                         </div>
                                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
-                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
-                                                                <span>@reply.ReplyCommentDate.ToString("g")</span>
-                                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@reply.ReplyCommentContent', '@replyFirstName','@replyLastName','@comment.CommentPostId','@commentContentUniqKey','@commentUserUniqKey','@parentCommentUniqKey','@replyArea');" return false;" title="Reply"><i class="fa fa-reply"></i></a>
+                                                                <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@reply.ReplyCommentUser.UserId">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
+                                                                <span>@reply.ReplyCommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
                                                         </div>
@@ -427,13 +436,12 @@ else
                             <img src="@post.PostUserDto.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
-                            <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUserDto.UserId">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
                             <span>
                                 Paylaşıldı: @post.PostCreateDate.ToString("g")
                             </span>
                         </div>
-                        <div class="post-meta" style="margin-left:60px;">
-                            <img src="images/resources/user-post.jpg" alt="">
+                        <div class="post-meta">
                             <div class="description">
 
                                 <p style="color:black;">
@@ -513,10 +521,20 @@ else
                                     </div>
                                     <div class="post-comt-box">
 
-                                        <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                        <form method="post" id="addcomment3" onsubmit="submitForm('addcomment3')">
+                                            <div style="background-color:lightgrey; height:60px; border-top-right-radius:20px; border-top-left-radius:20px; display:none;" id='replyArea@(post.PostId)'>
+
+                                                <div style="float: right; margin-top:8px; margin-right:10px; cursor:pointer;" onclick="closeReplyToArea('@post.PostId')">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </div>
+                                                <div style="font-size:12px; font-weight:bold; display:flex; padding-top:8px; padding-left:8px;" id='commentUser@(post.PostId)'>Cevap Veriliyor:</div>
+                                                <div id='commentContent@(post.PostId)' style="font-size:16px; padding-left:10px;">
+                                                    deneme
+                                                </div>
+                                            </div>
                                             <input type="hidden" name="postId" value="@post.PostId">
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
-
+                                            <input type="hidden" name="commentId" id='parentComment@(post.PostId)'>
                                             <div class="add-smiles">
                                                 <span class="em em-expressionless" title="add icon"></span>
                                             </div>
@@ -554,14 +572,20 @@ else
                                         </div>
                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                             <div class="coment-head">
-                                                <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                                <span>@comment.CommentDate.ToString("g")</span>
-                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@comment.CommentUser.UserId">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
+                                                <span>@comment.CommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
+                                                @{
+                                                    var firstName = comment.CommentUser.UserFirstName;
+                                                    var lastName = comment.CommentUser.UserLastName;
+                                                }
+                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent', '@firstName','@lastName','@comment.CommentPostId');" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
                                         </div>
                                         <ul>
-
+                                            @{
+                                                comment.ReplyComments.Reverse();
+                                            }
                                             @foreach (var reply in comment.ReplyComments)
                                             {
                                                 if (reply.ReplyCommentId != 0)
@@ -573,9 +597,8 @@ else
                                                         </div>
                                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
-                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
-                                                                <span>@reply.ReplyCommentDate.ToString("g")</span>
-                                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                                <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@reply.ReplyCommentUser.UserId">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
+                                                                <span>@reply.ReplyCommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
                                                         </div>
@@ -702,10 +725,20 @@ else
                                         <img src="@ViewBag.profilPicture" alt="">
                                     </div>
                                     <div class="post-comt-box">
-                                        <form method="post" id="addcomment2" onsubmit="submitForm('addcomment2')">
+                                        <form method="post" id="addcomment4" onsubmit="submitForm('addcomment4')">
+                                            <div style="background-color:lightgrey; height:60px; border-top-right-radius:20px; border-top-left-radius:20px; display:none;" id='replyArea@(post.PostId)'>
+
+                                                <div style="float: right; margin-top:8px; margin-right:10px; cursor:pointer;" onclick="closeReplyToArea('@post.PostId')">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </div>
+                                                <div style="font-size:12px; font-weight:bold; display:flex; padding-top:8px; padding-left:8px;" id='commentUser@(post.PostId)'>Cevap Veriliyor:</div>
+                                                <div id='commentContent@(post.PostId)' style="font-size:16px; padding-left:10px;">
+                                                    deneme
+                                                </div>
+                                            </div>
                                             <input type="hidden" name="postId" value="@post.PostId">
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
-
+                                            <input type="hidden" name="commentId" id='parentComment@(post.PostId)'>
                                             <div class="add-smiles">
                                                 <span class="em em-expressionless" title="add icon"></span>
                                             </div>
@@ -743,9 +776,13 @@ else
                                         </div>
                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                             <div class="coment-head">
-                                                <h5><a href="time-line.html" title="">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
-                                                <span>@comment.CommentDate.ToString("g")</span>
-                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@comment.CommentUser.UserId">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
+                                                <span>@comment.CommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
+                                                @{
+                                                    var firstName = comment.CommentUser.UserFirstName;
+                                                    var lastName = comment.CommentUser.UserLastName;
+                                                }
+                                                <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent', '@firstName','@lastName','@comment.CommentPostId');" title="Reply"><i class="fa fa-reply"></i></a>
                                             </div>
                                             <p>@comment.CommentContent</p>
                                         </div>
@@ -762,9 +799,8 @@ else
                                                         </div>
                                                         <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                             <div class="coment-head">
-                                                                <h5><a href="time-line.html" title="">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
-                                                                <span>@reply.ReplyCommentDate.ToString("g")</span>
-                                                                <a class="we-reply" href="#" title="Reply"><i class="fa fa-reply"></i></a>
+                                                                <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@reply.ReplyCommentUser.UserId">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
+                                                                <span>@reply.ReplyCommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
                                                             </div>
                                                             <p>@reply.ReplyCommentContent</p>
                                                         </div>

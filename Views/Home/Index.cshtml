@@ -137,31 +137,47 @@
     <script>
 
         function postLike(postId, likeCount) {
-            var likeIcon = $(`#likeIcon${postId}`);
-            var likeCountElement = $(`#like${postId}`);
+            var likeIcon = document.getElementById(`likeIcon${postId}`)
+            var likeCountElement = document.getElementById(`like${postId}`)
 
-            $.ajax({
-                type: "POST",
-                url: "/Post/PostLike/",
-                data: { postId: postId },
-                success: function (result) {
-                    console.log(likeIcon);
-                    if (parseInt(result) > parseInt(likeCount)) {
-                        // Kullanıcı daha önce beğendiği durumu kontrol et
-                        likeIcon.removeClass("ti-heart"); // Beğenilmemiş durumu için sınıfı kaldır
-                        likeIcon.addClass("fa fa-heart"); // Beğenilmiş durumu için sınıfı ekle
+            if (likeIcon.classList.contains('ti-heart')) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Post/PostLike/",
+                    data: { postId: postId },
+                    success: function (result) {
+                        console.log('result' + result);
+                        console.log(likeCount);
+                        likeIcon.classList.remove("ti-heart");
+                        likeIcon.classList.add("fa", "fa-heart");
+                        likeCountElement.innerHTML = result;
+                    },
+                    error: function () {
+                        // Hata durumunda yapılacak işlemler
                     }
-                    else {
-                        // Kullanıcı daha önce beğendiği bir gönderiyi beğeniyi geri alır
-                        likeIcon.removeClass("fa fa-heart"); // Beğenilmiş durumu için sınıfı kaldır
-                        likeIcon.addClass("ti-heart"); // Beğenilmemiş durumu için sınıfı ekle
+                });
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "/Post/PostTakeBackLike/",
+                    data: { postId: postId },
+                    success: function (result) {
+                        console.log('result' + result);
+                        console.log(likeCount);
+                        likeIcon.classList.remove("fa", "fa-heart");
+                        likeIcon.classList.add("ti-heart");
+                        likeCountElement.innerHTML = result;
+                    },
+                    error: function () {
+                        // Hata durumunda yapılacak işlemler
                     }
-                },
-                error: function () {
-                    // Hata durumunda yapılacak işlemler
-                }
-            });
+                });
+
+            }
         }
+
+
 
         function postDislike(postId) {
             $.ajax({
@@ -178,25 +194,26 @@
             });
         }
 
-        function replyToComment(commentId, commentContent, firstName, lastName, postId, commentContentUniqKey, commentUserUniqKey, parentCommentUniqKey, replyArea) {
+        function replyToComment(commentId, commentContent, firstName, lastName, postId) {
             // Yanıtlanan yorumun içeriğini ve ID'sini form içine ekleyin
-            var relpyToArea = document.getElementById(replyArea);
-            if (relpyToArea.style.display === "none") {
-                relpyToArea.style.display = "block";
+            console.log(postId);
+            var replyToArea = document.getElementById(`replyArea${postId}`);
+            if (replyToArea.style.display === "none") {
+                replyToArea.style.display = "block";
             }
-            $(`#${commentContentUniqKey}`).text(commentContent);
-            var commentUserElementId = "replyToCommentUser" + postId;
-            $(`#${commentUserUniqKey}`).text('Cevap Veriliyor: ' + firstName + ' ' + lastName);
-            $(`#${parentCommentUniqKey}`).val(commentId);
+            console.log(replyToArea);
+            $(`#commentContent${postId}`).text(commentContent);
+            $(`#commentUser${postId}`).text('Cevap Veriliyor: ' + firstName + ' ' + lastName);
+            $(`#parentComment${postId}`).val(commentId);
 
             // Formun görünürlüğünü sağlayın (gerekirse)
             // Örneğin: $('#addcomment2').show();
         }
-        function closeReplyToArea(replyArea, parentCommentUniqKey) {
-            var replyToArea = document.getElementById(replyArea);
-            if(replyToArea.style.display === "block"){
+        function closeReplyToArea(postId) {
+            var replyToArea = document.getElementById(`replyArea${postId}`);
+            if (replyToArea.style.display === "block") {
                 replyToArea.style.display = "none";
-                $(`#${parentCommentUniqKey}`).val("");
+                $(`#parentComment${postId}`).val("");
             }
         }
 
@@ -222,7 +239,7 @@
         });
 
     </script>
-   
+
 
 }
 
