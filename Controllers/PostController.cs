@@ -127,6 +127,15 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var value = await result.Content.ReadAsStringAsync();
             return Convert.ToInt32(value);
         }
+        public async Task<int> PostTakeBackLike(int postId)
+        {
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var result = await http.GetAsync("https://localhost:7091/api/Post/PostLike/" + postId);
+            var value = await result.Content.ReadAsStringAsync();
+            return Convert.ToInt32(value);
+        }
 
     }
 }

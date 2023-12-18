@@ -324,7 +324,6 @@ jQuery(document).ready(function ($) {
 
     function submitForm(form) {
         var postId = form.find("input[name='postId']").val();
-        var comment = form.find("textarea[name='comment']").val();
 
         // Simüle edilmiş bir POST isteği
         $.ajax({
@@ -338,12 +337,12 @@ jQuery(document).ready(function ($) {
 
                 result.forEach(function (item) {
                     form.find("textarea[name='comment']").val('');
-
                     var date = new Date(item.commentDate);
                     var gun = date.getDate();
                     var ayIndex = date.getMonth();
                     var yil = date.getFullYear();
-                    var tamTarih = gun + "-" + ayIndex + "-" + yil;
+                    var saat = date.toLocaleTimeString();
+                    var tamTarih = gun + "." + ayIndex + "." + yil +" "+ saat;
 
                     var newComment = `
                 
@@ -355,12 +354,18 @@ jQuery(document).ready(function ($) {
                             <div class="coment-head">
                                 <h5><a href="time-line.html" title="">${item.commentUser.userFirstName} ${item.commentUser.userLastName}</a></h5>
                                 <span>${tamTarih}</span>
-                                <a class="we-reply" href="#" title="Reply" onclick="replyToComment('${item.commentId}', '${item.commentContent}', '${item.commentUser.userFirstName}', '${item.commentUser.userLastName}', '${item.commentPostId}', '${item.commentContentUniqKey}', '${item.commentUserUniqKey}', '${item.parentCommentUniqKey}', '${item.replyArea}');"><i class="fa fa-reply"></i></a>
+                                <a class="we-reply" href="javascript:void(0)" title="Reply" onclick="replyToComment('${item.commentId}', '${item.commentContent}', '${item.commentUser.userFirstName}', '${item.commentUser.userLastName}', '${item.commentPostId}', 'commentContent${postId}', 'commentUser${postId}', 'parentComment${postId}', 'replyArea${postId}');"><i class="fa fa-reply"></i></a>
                             </div>
                             <p>${item.commentContent}</p>
                             </div>
                             <ul>
                                 ${item.replyComments && item.replyComments.length > 0 ? item.replyComments.map(function (reply) {
+                                    var replyDate = new Date(reply.replyCommentDate);
+                                    var replyDay = replyDate.getDate();
+                                    var replyMonth = date.getMonth();
+                                    var replyYear = date.getFullYear();
+                                    var replyHour = date.toLocaleTimeString();
+                                    var replyFullDate = replyDay + "." + replyMonth + "." + replyYear + " " + replyHour;
                         return `
                                         <li>
                                             <div class="comet-avatar">
@@ -369,8 +374,7 @@ jQuery(document).ready(function ($) {
                                             <div class="we-comment" style="box-shadow:1px 1px 5px gray">
                                                 <div class="coment-head">
                                                     <h5><a href="time-line.html" title="">${reply.replyCommentUser.userFirstName} ${reply.replyCommentUser.userLastName}</a></h5>
-                                                    <span>1 month ago</span>
-                                                    <a class="we-reply" href="javascript:void(0)" title="Reply" onclick="replyToComment('${item.commentId}', '${reply.replyCommentContent}', '${reply.replyCommentUser.userFirstName}', '${reply.replyCommentUser.userLastName}','${item.postId}'); return false;"><i class="fa fa-reply"></i></a>
+                                                    <span>${replyFullDate}</span>
                                                 </div>
                                                 <p>${reply.replyCommentContent}</p>
                                             </div>
@@ -379,10 +383,14 @@ jQuery(document).ready(function ($) {
                             </ul>
                         </div>
                     </li>`;
-
+                    var replyToArea = document.getElementById(`replyArea${postId}`);
+                    if (replyToArea.style.display === "block") {
+                        replyToArea.style.display = "none";
+                        $(`#parentComment${postId}`).val("");
+                    }
                     commentContainer.append(newComment);
                 });
-
+                
                 // Diğer işlemleri buraya ekleyebilirsiniz, örneğin formu sıfırlamak
             },
             error: function (error) {
