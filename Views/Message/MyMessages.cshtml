@@ -44,41 +44,17 @@
 
                                         </ul>
                                         <div class="peoples-mesg-box">
-                                            <div class="conversation-head">
-                                                <figure><img src="images/resources/friend-avatar.jpg" alt=""></figure>
-                                                <span>jason bourne <i>online</i></span>
+                                            <div class="conversation-head" style="display:none;" id="nameBox">
+                                                <figure><img src="images/resources/friend-avatar.jpg" id="targetUserPic" alt=""></figure>
+                                                <span id="nemeArea"></span>
+                                                <input id="targetUserId" type="hidden" />
                                             </div>
-                                            <ul class="chatting-area">
-                                                @foreach (var chat in Model)
-                                                {
-                                                    @foreach (var message in chat.MessageDetails)
-                                                    {
-                                                        if (ViewBag.userId == message.OwnerUserId)
-                                                        {
-                                                            <li class="me">
-                                                                <figure><img src="~/SocialUI/images/resources/userlist-1.jpg" alt=""></figure>
-                                                                <p>@message.MessageContent<span style="float:right; font-size:12px;">@message.SendDate</span></p>
-
-                                                            </li>
-                                                        }
-                                                        else
-                                                        {
-                                                            <li class="you">
-                                                                <figure><img src="~/SocialUI/images/resources/userlist-2.jpg" alt=""></figure>
-                                                                <p>@message.MessageContent<span style="float:right; font-size:12px;">@message.SendDate</span></p>
-                                                            </li>
-                                                        }
-
-                                                    }
-                                                }
-                                                    
-
-
+                                            <ul class="chatting-area" style="height:1000px">
                                             </ul>
-                                            <div class="message-text-container">
+                                            <div class="message-text-container" style="display:none;" id="messageBox">
                                                 <form method="post">
-                                                    <textarea></textarea>
-                                                    <button title="send"><i class="fa fa-paper-plane"></i></button>
+                                                    <textarea id="textMessage"></textarea>
+                                                    <button title="send" type="submit" onclick="send(event)"><i class="fa fa-paper-plane"></i></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -101,6 +77,8 @@
 
 
 @section Scripts {
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/chat.js"></script>
     <script>
         var model = @Html.Raw(Json.Serialize(Model));
         var userId = @ViewBag.userId;
@@ -110,6 +88,21 @@
             model.forEach(function (message) {
                 if (message.id == id) {
                     var messages = message;
+                    document.getElementById('messageBox').style.display = 'block';
+                    document.getElementById('nameBox').style.display = 'block';
+
+                    $("#nemeArea").empty();
+                    var spanName = document.getElementById('nemeArea');
+                    var text = document.createTextNode(messages.user.userFirstName + ' ' + messages.user.userLastName);
+                    spanName.appendChild(text);
+                    $('#targetUserId').val(messages.user.userId);
+                    $('#targetUserPic').attr("src", messages.user.userProfilePicture)
+
+
+
+                    var targetUserId = messages.user.userId;
+
+                    console.log(targetUserId);
 
                     $(".chatting-area").empty();
 
@@ -128,13 +121,82 @@
                     });
 
                     $(".chatting-area").append(messageHtml);
+                    // $(".chatting-area").append(targetUserIdHtml);
+
                 }
             });
         };
-    
+
+        "use strict";
 
 
+        var jwtToken = '@ViewBag.token'
 
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7091/MessageHub", {
+                accessTokenFactory: () => jwtToken
+            })
+            .build();
+
+
+        function send(event) {
+            event.preventDefault();
+            connection.invoke("MessageSend", $('#textMessage').val(), $('#targetUserId').val());
+            var message = $('#textMessage').val()
+            var messageHtml = '';
+            messageHtml += '<li class="me">';
+            messageHtml += '<figure><img src="~/SocialUI/images/resources/userlist-1.jpg alt=""></figure>';
+            messageHtml += '<p>' + message + '<span style="float:right; font-size:12px;"></span></p>';
+            messageHtml += '</li>';
+
+            $(".chatting-area").append(messageHtml);
+            $('#textMessage').val('');
+        }
+
+
+        connection.on("ReceivePrivateMessage", (senderUserId, message) => {
+            console.log(message);
+            var targetUser = $('#targetUserId').val();
+            console.log(targetUser + ' ' + senderUserId);
+
+            if (senderUserId == targetUser) {
+                var messageHtml = '';
+                messageHtml += '<li class="you">';
+                messageHtml += '<figure><img src="~/SocialUI/images/resources/userlist-1.jpg alt=""></figure>';
+                messageHtml += '<p>' + message + '<span style="float:right; font-size:12px;"></span></p>';
+                messageHtml += '</li>';
+
+                $(".chatting-area").append(messageHtml);
+            }
+            else {
+              
+                model.forEach(function (chat) {
+                    console.log(chat);
+                    if (chat.user.userId == senderUserId) {
+                        console.log(chat);
+                        var newMessage = {
+                            sendDate: Date.now(),
+                            messageContent: message,
+                            messageId: chat.messageId,
+                            ownerUserId: userId
+                        };
+
+                        chat.messageDetails.push(newMessage);
+                    }
+                })
+            }
+
+        });
+
+        connection.start().then(() => {
+            ShowConnectionState();
+            console.log("Bağlantı kimliği:", connection.connectionId);
+
+
+        }).catch((err) => {
+            ShowConnectionState();
+            console.log('Hata:', err.toString());
+        });
 
     </script>
 }
