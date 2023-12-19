@@ -132,7 +132,28 @@
         </div>
     </div>
 </section>
+<style>
+    #videoThumbOverlay {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Karanlık bir arka plan eklemek için */
+        color: white; /* Yazı rengi */
+        justify-content: center;
+        align-items: center;
+    }
 
+    #videoThumbContainer:hover #videoThumbOverlay {
+        display: flex;
+    }
+
+    #videoThumbOverlay i {
+        font-size: 20px;
+    }
+</style>
 @section Scripts {
     <script>
 
@@ -237,6 +258,56 @@
                 postButton.removeAttribute('disabled');
             }, 2000); // 2 saniye sonra simülasyonu tamamla
         });
+        function showVideoThumbnail(input) {
+            var fileInput = input;
+            var file = fileInput.files[0];
+
+            if (file) {
+                var video = document.createElement("video");
+                video.src = URL.createObjectURL(file);
+                video.width = 150; // Resmin genişliğini isteğe bağlı olarak ayarlayabilirsiniz
+                video.height = 75; // Resmin yüksekliğini isteğe bağlı olarak ayarlayabilirsiniz
+
+                var videoThumb = document.getElementById("videoThumb");
+                videoThumb.innerHTML = "";
+                videoThumb.appendChild(video);
+
+                video.addEventListener("loadeddata", function () {
+                    URL.revokeObjectURL(video.src);
+                });
+                var videoThumbnail = document.getElementById('videoThumbContainer');
+                videoThumbnail.style.display = "block";
+            }
+        }
+        function deleteVideo() {
+            $('#fileInput').val('');
+            $('#imageFile').val('');
+            var videoThumb = document.getElementById("videoThumb");
+            videoThumb.innerHTML = "";
+            var videoThumb = document.getElementById('videoThumbContainer');
+            videoThumb.style.display = "none";
+        }
+        function showImageThumbnail(input) {
+            var fileInput = input;
+            var file = fileInput.files[0];
+
+            if (file) {
+                var image = document.createElement("img"); // "img" elementi, resim göstermek için kullanılmalıdır
+                image.src = URL.createObjectURL(file);
+                image.height = 75; // Resmin yüksekliğini isteğe bağlı olarak ayarlayabilirsiniz
+
+                var imageThumb = document.getElementById("videoThumb");
+                imageThumb.innerHTML = "";
+                imageThumb.appendChild(image);
+
+                image.addEventListener("load", function () {
+                    URL.revokeObjectURL(image.src); // Bellek sızıntısını önlemek için
+                });
+
+                var imageThumbnailContainer = document.getElementById('videoThumbContainer');
+                imageThumbnailContainer.style.display = "block";
+            }
+        }
 
     </script>
 

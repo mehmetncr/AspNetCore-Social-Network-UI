@@ -1,11 +1,11 @@
 ﻿@model PostViewModel
 
 <div class="central-meta">
-	<div class="new-postbox">
-		<figure>
-			<img src="images/resources/admin2.jpg" alt="">
-		</figure>
-		<div class="newpst-input">
+    <div class="new-postbox">
+        <figure>
+            <img src="@ViewBag.profilPicture" alt="">
+        </figure>
+        <div class="newpst-input">
             <!-- HTML dosyası -->
             <form asp-controller="Post" asp-action="AddPost" method="post" enctype="multipart/form-data" id="postForm">
                 <textarea rows="2" asp-for="PostTextContent" placeholder="write something"></textarea>
@@ -13,32 +13,35 @@
                     <ul>
                         <li>
                             <label class="fileContainer">
-                                <input type="text" style="display:none; width:270px;" id="youtube-input" placeholder="YouTube Linki Girin" asp-for="PostYoutubeUrl">
+                                <input type="text" style="display:none; width:250px;" id="youtube-input" placeholder="YouTube Linki Girin" asp-for="PostYoutubeUrl">
                             </label>
                             <i class="fa fa-youtube fa-lg" style="color:#088dcd; margin-right:10px;" onclick="youtube()"></i>
                         </li>
                         <li>
                             <i class="fa fa-image fa-lg" style="color:#088dcd;"></i>
                             <label class="fileContainer">
-                                <input type="file" asp-for="PostImageUrl" name="formFile">
+                                <input type="file" onchange="showImageThumbnail(this)" asp-for="PostImageUrl" name="formFile" id="imageFile">
                             </label>
                         </li>
+                        
                         <li>
+                            
+                           <div>
                             <i class="fa fa-video-camera fa-lg" style="color:#088dcd;"></i>
                             <label class="fileContainer">
-                                <input type="file" asp-for="PostVideoUrl" name="formFile2" id="fileInput">
+                                <input type="file" onchange="showVideoThumbnail(this)" asp-for="PostVideoUrl" name="formFile2" id="fileInput">
                             </label>
-                            <div id="uploadAnimation" style="display: none;">Yükleniyor...</div>
-                        </li>
-                        <li>
-                            <button type="submit" id="postButton" >Post</button>
+                            </div>
                         </li>
                     </ul>
                 </div>
+                <div id="videoThumbContainer" style="width: 150px; height: 75px; text-align: center; cursor: pointer; position: relative; float:right; align-items: center; margin-top: 10px; display:none;">
+                    <div id="videoThumb" style="display:flex;"></div>
+                    <div id="videoThumbOverlay" onclick="deleteVideo()">
+                        <i class="fa fa-times"></i>
+                    </div>
+                </div>
             </form>
-		</div>
-	</div>
-
+        </div>
+    </div>
 </div><!-- add post new box -->
-
-
