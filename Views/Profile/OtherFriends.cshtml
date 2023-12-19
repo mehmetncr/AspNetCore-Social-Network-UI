@@ -1,10 +1,48 @@
-﻿@model List<FriendsViewModel>
+﻿@model OtherFriendsViewModel
 @{
     ViewData["Title"] = "OtherFriends";
     Layout = "~/Views/Shared/LayoutPage.cshtml";
 }
 
+<section>
+    <div class="feature-photo">
+        <figure><img src=@Model.User.UserCoverPicture alt=""></figure>
+        <div class="add-btn">
+            <span>@Model.User.UserFollowerCount Arkadaş</span>
+            <a href="#" title="" data-ripple="">Arkadaş Ekle</a>
+        </div>
 
+        <div class="container-fluid">
+            <div class="row merged">
+                <div class="col-lg-2 col-sm-3">
+                    <div class="user-avatar">
+                        <figure>
+                            <img src=@Model.User.UserProfilePicture alt="">
+
+                        </figure>
+                    </div>
+                </div>
+                <div class="col-lg-10 col-sm-9">
+                    <div class="timeline-info">
+                        <ul>
+                            <li class="admin-name">
+                                <h5>@Model.User.UserFirstName @Model.User.UserLastName</h5>
+                                @* <span>Group Admin</span> *@
+                            </li>
+                            <li>
+                                <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.User.UserId" data-ripple="">Gönderiler</a>
+                                <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.User.UserId" data-ripple="">Fotoğraflar</a>
+                                <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.User.UserId" data-ripple="">Videolar</a>
+                                <a class="" asp-action="OtherFriends" asp-controller="Profile" asp-route-id="@Model.User.UserId" title="" data-ripple="">Arkadaşlar</a>
+
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <section>
     <div class="gap gray-bg">
         <div class="container-fluid">
@@ -23,14 +61,14 @@
                             <div class="central-meta">
                                 <div class="frnds">
                                     <ul class="nav nav-tabs">
-                                        <li class="nav-item"><a class="active" href="#frends" data-toggle="tab">Arkadaşlar</a> <span>@Model.Count()</span></li>                                     
+                                        <li class="nav-item"><a class="active" href="#frends" data-toggle="tab">Arkadaşlar</a> <span>@Model.User.UserFollowerCount</span></li>                                     
                                     </ul>
 
                                     <!-- Tab panes -->
                                     <div class="tab-content">
                                         <div class="tab-pane active fade show " id="frends">
                                             <ul class="nearby-contct">
-                                                @foreach (var friend in Model)
+                                                @foreach (var friend in Model.Friends)
                                                 {
                                                     <li>
                                                         <div class="nearly-pepls">

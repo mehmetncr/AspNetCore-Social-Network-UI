@@ -50,7 +50,8 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			var http = _httpClientFactory.CreateClient();
 			var content = new StringContent(jsonData, encoding: Encoding.UTF8, "application/json");
 			var result = await http.PostAsync("https://localhost:7091/api/Accounts/Login", content);
-			if (result.IsSuccessStatusCode)
+            var asdsadsd = await result.Content.ReadAsStringAsync();
+            if (result.IsSuccessStatusCode)
 			{
 				var asdsad = await result.Content.ReadAsStringAsync();
 				HttpContext.Session.SetString("user", await result.Content.ReadAsStringAsync());
