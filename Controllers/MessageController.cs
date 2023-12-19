@@ -28,6 +28,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
 				var jsonData = await respons.Content.ReadAsStringAsync();  
 				var data = JsonConvert.DeserializeObject<List<MessageViewModel>>(jsonData);
 				ViewBag.userId = HttpContext.Session.GetJsonUser().UserId;
+				ViewBag.token = token;
                 return View(data);
 			}
 			return View();
