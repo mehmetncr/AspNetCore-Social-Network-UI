@@ -21,13 +21,28 @@
                                 <div class="widget">
                                     <h4 class="widget-title">Socials</h4>
                                     <ul class="socials">
-                                        @* @foreach (var item in Model.User.SocialMediaAccountsViewModel)
+                                        @foreach (var item in Model.User.SocialMediaAccounts)
                                         {
-                                        <li class="facebook">
-                                        <a title="" href="#"><i class="fa fa-facebook"></i> <span>facebook</span> <ins>45 likes</ins></a>
-                                        </li>
+                                            if (item.SocialMediaAccountName == "Facebook")
+                                            {
+                                                <li class="facebook">
+                                                    <a title="" href="#"><i class="fa fa-facebook"></i> <span>facebook</span> </a>
+                                                </li>
+                                            }
+                                            else if (item.SocialMediaAccountName == "Google")
+                                            {
+                                                <li class="google">
+                                                    <a title="" href="#"><i class="fa fa-facebook"></i> <span>google</span> </a>
+                                                </li>
+                                            }
+                                            else if (item.SocialMediaAccountName == "Twitter")
+                                            {
+                                                <li class="twitter">
+                                                    <a title="" href="#"><i class="fa fa-facebook"></i> <span>twitter</span> </a>
+                                                </li>
+                                            }
 
-                                        }           *@
+                                        }
 
                                     </ul>
                                 </div>
@@ -35,15 +50,14 @@
                                 <partial name="ShortCutsPartialView" />
                                 <!--ShortCuts-->
 
-                               
+
                             </aside>
                         </div><!-- sidebar -->
                         <div class="col-lg-6">
                             <div class="loadMore">
                                 <vc:new-post></vc:new-post>     <!-- Yeni post paylaşma view componenti -->
-                           
-                                    @await Html.PartialAsync("PostsPartialView", new HomeViewModel { PostDtos = Model.Posts })
-                               
+                                @await Html.PartialAsync("PostsPartialView", new HomeViewModel { PostDtos = Model.Posts })
+
                             </div>
                         </div><!-- centerl meta -->
                         <div class="col-lg-3">

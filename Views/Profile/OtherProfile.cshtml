@@ -12,14 +12,14 @@
             <span>@Model.UserFollowerCount Arkadaş</span>
             <a href="#" title="" data-ripple="">Arkadaş Ekle</a>
         </div>
-       
+
         <div class="container-fluid">
             <div class="row merged">
                 <div class="col-lg-2 col-sm-3">
                     <div class="user-avatar">
                         <figure>
                             <img src=@Model.UserProfilePicture alt="">
-                            
+
                         </figure>
                     </div>
                 </div>
@@ -28,14 +28,14 @@
                         <ul>
                             <li class="admin-name">
                                 <h5>@Model.UserFirstName @Model.UserLastName</h5>
-                                @* <span>Group Admin</span> *@
+
                             </li>
                             <li>
-                                <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">time line</a>
-                                <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Photos</a>
-                                <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Videos</a>
-                                <a class="" asp-action="OtherFriends" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Friends</a>
-                                
+                                <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Gönderiler</a>
+                                <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Fotoğraflar</a>
+                                <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Videolar</a>
+                                <a class="" asp-action="OtherFriends" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Arkadaşlar</a>
+
                             </li>
                         </ul>
                     </div>
@@ -56,13 +56,29 @@
                                 <div class="widget">
                                     <h4 class="widget-title">Socials</h4>
                                     <ul class="socials">
-                                        @* @foreach (var item in Model.User.SocialMediaAccountsViewModel)
+                                        @foreach (var item in Model.SocialMediaAccounts)
                                         {
-                                        <li class="facebook">
-                                        <a title="" href="#"><i class="fa fa-facebook"></i> <span>facebook</span> <ins>45 likes</ins></a>
-                                        </li>
+                                            if (item.SocialMediaAccountName=="Facebook")
+                                            {
+                                                <li class="facebook">
+                                                    <a title="" href="#"><i class="fa fa-facebook"></i> <span>facebook</span> </a>
+                                                </li>
+                                            }
+                                            else if (item.SocialMediaAccountName == "Google")
+                                            {
+                                                <li class="google">
+                                                    <a title="" href="#"><i class="fa fa-facebook"></i> <span>google</span> </a>
+                                                </li>
+                                            }
+                                            else if (item.SocialMediaAccountName == "Twitter")
+                                            {
+                                                <li class="twitter">
+                                                    <a title="" href="#"><i class="fa fa-facebook"></i> <span>twitter</span> </a>
+                                                </li>
+                                            }
+                                           
 
-                                        }           *@
+                                        }
 
                                     </ul>
                                 </div>
@@ -75,7 +91,7 @@
                         </div><!-- sidebar -->
                         <div class="col-lg-6">
                             <div class="loadMore">
-                               
+
                                 @await Html.PartialAsync("PostsPartialView", new HomeViewModel { PostDtos = Model.Posts })
 
                             </div>
@@ -84,7 +100,7 @@
                             <aside class="sidebar static">
 
                                 <div class="widget friend-list stick-widget">
-                                    
+
                                     <div class="chat-box">
                                         <div class="chat-head">
                                             <span class="status f-online"></span>

@@ -2,11 +2,11 @@
 {
     public class SocialMediaAccountViewModel
     {
-        public int Id { get; set; }
-        public int UserViewModelId { get; set; }
-        public string Name { get; set; }
-        public string Url { get; set; }
-        public virtual UserViewModel UserViewModel { get; set; }
+        public int SocialMediaAccountId { get; set; }
+        public int SocialMediaAccountUserId { get; set; }
+        public string SocialMediaAccountName { get; set; }
+        public string SocialMediaAccountUrl { get; set; }
+
 
     }
 }

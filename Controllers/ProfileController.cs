@@ -316,7 +316,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             if (respons.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData);
+                var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
                 return View(data);
             }
             return View();
@@ -333,7 +333,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             if (respons.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData);
+                var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
                 return View(data);
             }
             return View();
@@ -350,7 +350,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             if (respons.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<List<FriendsViewModel>>(jsonData);
+                var data = JsonConvert.DeserializeObject<OtherFriendsViewModel>(jsonData);
                 return View(data);
             }
             return View();
