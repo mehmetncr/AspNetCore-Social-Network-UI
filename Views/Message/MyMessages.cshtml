@@ -1,4 +1,4 @@
-﻿@model List<MessageViewModel>
+﻿@model MessagesAndFriendsViewModel
 @{
     ViewData["Title"] = "MyMassages";
     Layout = "~/Views/Shared/LayoutPage.cshtml";
@@ -8,6 +8,28 @@
 <!--Profile Top Nav-->
 <vc:profile-nav></vc:profile-nav>
 <!--Profile Top Nav-->
+<style>
+
+    .message-bubble {
+        position: absolute;
+        background-color: #f1f1f1;
+        border: 1px solid #d4d4d4;
+        padding: 10px;
+        border-radius: 8px;
+        display: none;
+        z-index: 1;
+    }
+
+
+    .message-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
 
 <section>
     <div class="gap gray-bg">
@@ -23,12 +45,12 @@
                             </aside>
                         </div><!-- sidebar -->
                         <div class="col-lg-6">
-                            <div class="central-meta">
+                            <div class="central-meta" style="height:600px">
                                 <div class="messages">
                                     <h5 class="f-title"><i class="ti-comments-smiley"></i>Tüm Mesajlar</h5>
                                     <div class="message-box">
                                         <ul class="peoples">
-                                            @foreach (var message in Model)
+                                            @foreach (var message in Model.Messages)
                                             {
                                                 <li>
 
@@ -40,6 +62,8 @@
                                                         <span>@message.User.UserFirstName @message.User.UserLastName</span>
                                                     </div>
                                                 </li>
+
+
                                             }
 
                                         </ul>
@@ -48,6 +72,7 @@
                                                 <figure><img src="images/resources/friend-avatar.jpg" id="targetUserPic" alt=""></figure>
                                                 <span id="nemeArea"></span>
                                                 <input id="targetUserId" type="hidden" />
+                                                <input id="messageId" type="hidden" />
                                             </div>
                                             <ul class="chatting-area" style="height:1000px">
                                             </ul>
@@ -64,7 +89,32 @@
                         </div><!-- centerl meta -->
                         <div class="col-lg-3">
                             <aside class="sidebar static">
+                                <div class="widget friend-list stick-widget" id="friendsList" style="height:600px">
+                                    <h4 class="widget-title">Arkadaşlar</h4>
+                                    <div id="searchDir"></div>
+                                    <ul id="people-list" class="friendz-list">
+                                        @foreach (var friend in Model.Friends)
+                                        {
+                                            <li>
+                                                <div id="messageBubble_@friend.Friend.UserId" class="message-bubble">
+                                                    <button class="message-button" onclick="sendMessage('@friend.Friend.UserId')">Mesaj Gönder</button>
+                                                </div>
+                                                <figure>
+                                                    <img src=@friend.Friend.UserProfilePicture alt="">
+                                                    <span class="status f-@(friend.Friend.UserIsOnline?"online":"off")"></span>
+                                                </figure>
+                                                <div class="friendz-meta">
+                                                    <a href="#" onmouseover="showMessageButton('@friend.Friend.UserId')" onmouseout="hideMessageButton('@friend.Friend.UserId')">@friend.Friend.UserFirstName @friend.Friend.UserLastName</a>
 
+                                                </div>
+
+                                            </li>
+                                        }
+
+                                    </ul>
+
+
+                                </div><!-- friends list sidebar -->
                             </aside>
                         </div><!-- sidebar -->
                     </div>
@@ -80,10 +130,10 @@
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/chat.js"></script>
     <script>
-        var model = @Html.Raw(Json.Serialize(Model));
+        var model = @Html.Raw(Json.Serialize(Model.Messages));
         var userId = @ViewBag.userId;
 
-
+        //kişinin veri tabanında olan mesajlarını seçilen kşiye göre getirir
         function messageFriend(id) {
             model.forEach(function (message) {
                 if (message.id == id) {
@@ -96,6 +146,7 @@
                     var text = document.createTextNode(messages.user.userFirstName + ' ' + messages.user.userLastName);
                     spanName.appendChild(text);
                     $('#targetUserId').val(messages.user.userId);
+                    $('#messageId').val(messages.id);
                     $('#targetUserPic').attr("src", messages.user.userProfilePicture)
 
 
@@ -121,27 +172,28 @@
                     });
 
                     $(".chatting-area").append(messageHtml);
+                    scrollToBottom();
                     // $(".chatting-area").append(targetUserIdHtml);
 
                 }
             });
         };
-
+        //---------------------------------------WebSockets --------------------------------------------------------
         "use strict";
 
 
         var jwtToken = '@ViewBag.token'
-
+        //SignalR bağlantısı sağlanır
         var connection = new signalR.HubConnectionBuilder()
             .withUrl("https://localhost:7091/MessageHub", {
                 accessTokenFactory: () => jwtToken
             })
             .build();
 
-
+        //mesaj gönderim işlemi
         function send(event) {
             event.preventDefault();
-            connection.invoke("MessageSend", $('#textMessage').val(), $('#targetUserId').val());
+            connection.invoke("MessageSend", $('#textMessage').val(), $('#targetUserId').val(), $('#messageId').val());
             var message = $('#textMessage').val()
             var messageHtml = '';
             messageHtml += '<li class="me">';
@@ -151,14 +203,15 @@
 
             $(".chatting-area").append(messageHtml);
             $('#textMessage').val('');
+            scrollToBottom();
         }
 
-
+        //gelen mesajları dinler
         connection.on("ReceivePrivateMessage", (senderUserId, message) => {
             console.log(message);
             var targetUser = $('#targetUserId').val();
             console.log(targetUser + ' ' + senderUserId);
-
+            //eğer gelen mesaj açık olan bir konuşmanın ise konuşmaya eklenir
             if (senderUserId == targetUser) {
                 var messageHtml = '';
                 messageHtml += '<li class="you">';
@@ -167,9 +220,11 @@
                 messageHtml += '</li>';
 
                 $(".chatting-area").append(messageHtml);
+                scrollToBottom();
+
             }
             else {
-              
+                // eğer konuşma kapalı ise mesajlara eklenir
                 model.forEach(function (chat) {
                     console.log(chat);
                     if (chat.user.userId == senderUserId) {
@@ -189,14 +244,47 @@
         });
 
         connection.start().then(() => {
-            ShowConnectionState();
             console.log("Bağlantı kimliği:", connection.connectionId);
 
-
         }).catch((err) => {
-            ShowConnectionState();
             console.log('Hata:', err.toString());
         });
+
+
+        window.addEventListener('beforeunload', function () {
+            connection.invoke('DisconnectOnUnload').catch(function (err) {
+                return console.error(err.toString());
+            });
+        });
+        //------------------------------------------WebSockets-------------------------------------------------------------
+
+        //mesajların hep en alt kısmını gösterir
+        function scrollToBottom() {
+            var chattingArea = $(".chatting-area");
+            chattingArea.scrollTop(chattingArea[0].scrollHeight);
+        }
+
+
+
+
+
+        //  arkadaşlar listesinde üerine gelinen kşi için mesaj gönder butonu çıkarır
+        function showMessageButton(userId) {
+            var bubble = document.getElementById('messageBubble_' + userId);
+            bubble.style.display = 'block';
+        }
+
+        function hideMessageButton(userId) {
+            var bubble = document.getElementById('messageBubble_' + userId);
+            bubble.style.display = 'none';
+        }
+
+        function sendMessage(userId) {
+            // Burada mesaj gönderme işlemleri yapabilirsiniz.
+            alert('Mesaj gönderildi! Kullanıcı ID: ' + userId);
+
+
+        }
 
     </script>
 }
