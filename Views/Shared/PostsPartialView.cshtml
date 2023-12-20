@@ -637,7 +637,7 @@ else
                             <img src="@post.PostUserDto.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
-                            <ins><a href="time-line.html" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUserDto.UserId" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
                             <span>Paylaşıldı: @post.PostCreateDate.ToString("g")</span>
                         </div>
                         <div class="post-meta">

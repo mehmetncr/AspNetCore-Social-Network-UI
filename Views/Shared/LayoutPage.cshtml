@@ -19,7 +19,44 @@
     <link rel="stylesheet" href="~/SocialUI/css/color.css">
     <link rel="stylesheet" href="~/SocialUI/css/responsive.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
 
+        .top-search {
+            float: left;
+            position: relative;
+        }
+
+        /* Arama sonuçlarının stil ayarları */
+        #searchResults {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #f4f2f2;
+            display: none;
+            z-index: 1;
+            margin-top: 5px; /* Arama sonuçları ile input arasındaki boşluğu ayarlar */
+            border: 1px solid #ccc; /* Sonuç kutusuna çerçeve ekler */
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Gölge efekti ekler */
+        }
+
+        .result-item {
+            padding: 10px;
+            border-bottom: 1px solid #ced4da; /* Her sonuç arasına ince bir çizgi ekler */
+            cursor: pointer;
+            display: flex; /* Elemanları yatay hizalar */
+            align-items: center; /* Elemanları dikey hizalar */
+        }
+
+            .result-item img {
+                border-radius: 50%; /* Resmi yuvarlar */
+                margin-right: 10px; /* Resim ile metin arasındaki boşluğu ayarlar */
+                width: 50px;
+            }
+
+        /* Diğer stiller buraya eklenebilir */
+
+    </style>
 </head>
 <body>
     <!--<div class="se-pre-con"></div>-->
@@ -230,9 +267,10 @@
             <div class="top-area">
                 <div class="top-search">
                     <form method="post" class="">
-                        <input type="text" placeholder="Search Friend">
+                        <input type="text" placeholder="Arkadaş Ara..." oninput="searchTop(this.value)">
                         <button data-ripple><i class="ti-search"></i></button>
                     </form>
+                    <div id="searchResults"></div>
                 </div>
                 <ul class="setting-area">
                     <li><a href="newsfeed.html" title="Home" data-ripple=""><i class="ti-home"></i></a></li>
@@ -381,10 +419,9 @@
                         <a href="#" title=""><span class="status f-online"></span>online</a>
                         <a href="#" title=""><span class="status f-away"></span>away</a>
                         <a href="#" title=""><span class="status f-off"></span>offline</a>
-                        <a href="/Profile/myprofile" target="_self"><i class="ti-user"></i> view profile</a>
-                        <a href="#" title=""><i class="ti-pencil-alt"></i>edit profile</a>
-                        <a href="#" title=""><i class="ti-target"></i>activity log</a>
-                        <a href="#" title=""><i class="ti-settings"></i>account setting</a>
+                        <a href="javascript:void(0)" onclick="viewProfile()"><i class="ti-user"></i> view profile</a>
+                        <a href="javascript:void(0)" onclick="viewEditUser()"><i class="ti-pencil-alt"></i>edit profile</a>
+                        <a href="javascript:void(0)" onclick="accountSettings()"><i class="ti-settings"></i>account setting</a>
                         <a href="#" title=""><i class="ti-power-off"></i>log out</a>
                     </div>
                 </div>
@@ -397,7 +434,94 @@
 
 
     </div>
+    <script>
+        function viewProfile() {
+            window.location.href = "https://localhost:7184/Profile/myprofile";
+        }
+        function viewEditUser() {
+            window.location.href = "https://localhost:7184/Profile/EditUserInfo";
+        }
+        function accountSettings() {
+            window.location.href = "https://localhost:7184/Profile/EditUserSettings";
+        }
+        async function getFilteredResults(query) {
+            // AJAX isteğini yapan fonksiyonu Promise döndürecek şekilde düzenledik
+            return new Promise((resolve, reject) => {
+                $.ajax({
+                    type: "GET",
+                    url: "/Account/GetAllUsers",
+                    success: function (result) {
+                        // AJAX isteği başarılı olduğunda Promise'i çözer
+                        const filteredUsers = result.filter(user =>
+                            user.userFirstName.toLowerCase().includes(query.toLowerCase()) ||
+                            user.userLastName.toLowerCase().includes(query.toLowerCase())
+                        );
+                        var filtUsers = filteredUsers.slice(0, 5);
+                        resolve(filtUsers);
+                    },
+                    error: function (error) {
+                        // AJAX isteği hata döndüğünde Promise'i reddeder
+                        reject(error);
+                    }
+                });
+            });
+        }
 
+        async function searchTop(query) {
+            const searchResultsContainer = document.getElementById("searchResults");
+
+            try {
+                // Asenkron işlemi bekleyerek filtrelenmiş sonuçları al
+                const filteredResults = await getFilteredResults(query);
+                console.log(filteredResults);
+                // Sonuçları ekrana yazdır
+                console.log(filteredResults);
+                searchResultsContainer.innerHTML = "";
+                filteredResults.forEach(result => {
+                    const resultElement = document.createElement("div");
+                    resultElement.classList.add("result-item");
+
+                    const imgElement = document.createElement("img");
+                    imgElement.src = result.userProfilePicture;
+                    imgElement.alt = result.userFirstName;
+                    resultElement.appendChild(imgElement);
+
+                    const nameElement = document.createElement("div");
+                    nameElement.textContent = result.userFirstName +" " + result.userLastName;
+                    resultElement.appendChild(nameElement);
+
+                    // İsterseniz burada click event'i ekleyebilirsiniz
+                    resultElement.addEventListener("click", () => {
+                        window.location.href = "https://localhost:7184/Profile/OtherProfile/" + result.userId;
+                    });
+
+                    searchResultsContainer.appendChild(resultElement);
+                });
+
+                // Arama sonuçlarını göster veya gizle
+                searchResultsContainer.style.display = query.trim() === "" ? "none" : "block";
+            } catch (error) {
+                console.error("Hata oluştu:", error);
+            }
+        }
+        const searchInput = document.querySelector("input[type='text']");
+
+        // inputa herhangi bir şey yazıldığında searchResultsContainer'ı göster
+        searchInput.addEventListener("input", function () {
+            const searchResultsContainer = document.getElementById("searchResults");
+            searchResultsContainer.style.display = this.value.trim() === "" ? "none" : "block";
+        });
+
+        // sayfa üzerinde herhangi bir yere tıklandığında searchResultsContainer'ı gizle
+        document.addEventListener("click", function (event) {
+            const searchResultsContainer = document.getElementById("searchResults");
+
+            // tıklanan öğe searchResultsContainer içinde değilse, searchResultsContainer'ı gizle
+            if (!searchInput.contains(event.target) && !searchResultsContainer.contains(event.target)) {
+                searchResultsContainer.style.display = "none";
+            }
+        });
+    </script>
     <script src="~/js/site.js"></script>
     <script src="~/SocialUI/js/main.min.js"></script>
     <script src="~/SocialUI/js/script.js"></script>
