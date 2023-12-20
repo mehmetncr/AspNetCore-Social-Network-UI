@@ -39,7 +39,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
                 }
             }
 
-            if (model.PostYoutubeUrl != null)
+            else if (model.PostYoutubeUrl != null)
             {
                 model.PostType = "Youtube";
             }
