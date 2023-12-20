@@ -33,6 +33,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();  //gelen datanın içindeki veriler çıkarılır
                 var data = JsonConvert.DeserializeObject<ProfileViewModel>(jsonData);  //gelen Json Tipindeki data view modele deserilize edilir
+                ViewBag.profilPicture = data.User.UserProfilePicture;
                 return View(data);
             }
             return View();
