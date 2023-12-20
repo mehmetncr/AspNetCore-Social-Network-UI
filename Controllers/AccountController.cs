@@ -80,5 +80,17 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			return View(model);
 
         }
+		[HttpGet]
+		public async Task<List<UserViewModel>> GetAllUsers()
+		{
+            var http = _httpClientFactory.CreateClient();
+            var result = await http.GetAsync("https://localhost:7091/api/Accounts/GetAllUsers");
+			if (result.IsSuccessStatusCode)
+			{
+				var users = JsonConvert.DeserializeObject<List<UserViewModel>>(await result.Content.ReadAsStringAsync());
+                return users ;
+			}
+			return null;
+        }
 	}
 }
