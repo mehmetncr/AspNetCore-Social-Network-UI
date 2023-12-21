@@ -357,6 +357,31 @@ namespace AspNetCore_Social_Network_UI.Controllers
             return View();
 
         }
+        [HttpPost]
+        public async Task<IActionResult> EditProfilePhoto(IFormFile formFile)
+        {
+            if (formFile != null)
+            {
+                var user = HttpContext.Session.GetJsonUser();
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\profilpictures", formFile.FileName);
+                var stream = new FileStream(path, FileMode.Create);
+                formFile.CopyTo(stream);
+                UserViewModel newUser = user;
+                newUser.UserProfilePicture = "/images/profilpictures/" + formFile.FileName;
+                
+                var http = _httpClientFactory.CreateClient();
+                http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, user.AccessToken);
+                var jsonData = JsonConvert.SerializeObject(newUser);
+                var content = new StringContent(jsonData, encoding: Encoding.UTF8, "application/json");
+                var result = await http.PutAsync("https://localhost:7091/api/Profiles/update", content);
+                var errorMessage = await result.Content.ReadAsStringAsync();
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("MyProfile");
+                }
+            }
+            return RedirectToAction("MyProfile");
+        }
     }
 
 }

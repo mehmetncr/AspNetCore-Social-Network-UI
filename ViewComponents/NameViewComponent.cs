@@ -9,8 +9,7 @@ namespace AspNetCore_Social_Network_UI.ViewComponents
 		public IViewComponentResult Invoke()
 		{
 			UserViewModel user = HttpContext.Session.GetJsonUser();
-			string username = user.UserFirstName+" "+user.UserLastName;
-			return View("Default",	username);
+			return View("Default",	user);
 		}
 		
 		
