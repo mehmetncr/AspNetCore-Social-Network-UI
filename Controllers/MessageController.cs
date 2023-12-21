@@ -17,7 +17,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
         {
             _httpClientFactory = httpClientFactory;
         }
-
+        [HttpGet]
         public async Task<IActionResult> MyMessages()
         {
             string token = HttpContext.Session.GetJsonUser().AccessToken;
@@ -29,24 +29,26 @@ namespace AspNetCore_Social_Network_UI.Controllers
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<MessagesAndFriendsViewModel>(jsonData);
+                data.UserProfilPic = HttpContext.Session.GetJsonUser().UserProfilePicture;
                 ViewBag.userId = HttpContext.Session.GetJsonUser().UserId;
                 ViewBag.token = token;
                 return View(data);
             }
             return View();
         }
-        //public async Task<IActionResult> StartNewChat(int userId)
-        //{          
-        //          string token = HttpContext.Session.GetJsonUser().AccessToken;
-        //          var http = _httpClientFactory.CreateClient(); 
-        //          http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);      
-        //          var result = await http.PostAsync("https://localhost:7091/api/Post/AddPost/"+ userId);
-        //          if (result.IsSuccessStatusCode)
-        //          {
-        //              return RedirectToAction("Index", "Home");
-        //          }
-        //          var errorMessage = await result.Content.ReadAsStringAsync();
-        //          return RedirectToAction("Index", "Home");
-        //      }
+        [HttpPost]
+        public async Task<string> StartNewChat(int userId)
+        {
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var result = await http.GetAsync("https://localhost:7091/api/Messages/StartNewChat/" + userId);
+            if (result.IsSuccessStatusCode)
+            {
+                return await result.Content.ReadAsStringAsync();
+                
+            }      
+            return await result.Content.ReadAsStringAsync();
+        }
     }
 }
