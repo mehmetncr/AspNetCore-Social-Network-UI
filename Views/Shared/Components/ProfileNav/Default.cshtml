@@ -9,7 +9,7 @@
         <form class="edit-phto">
             <i class="fa fa-camera-retro"></i>
             <label class="fileContainer">
-                Fotoğrafı değiştir
+                Kapak Fotoğrafını değiştir
                 <input type="file" />
             </label>
         </form>
@@ -18,12 +18,12 @@
                 <div class="col-lg-2 col-sm-3">
                     <div class="user-avatar">
                         <figure>
-                            <img src=@Model.UserProfilePicture alt="">
-                            <form class="edit-phto">
+                            <img src="@Model.UserProfilePicture" alt=""  style="width: 290px; height:290px;">
+                            <form class="edit-photo" asp-action="EditProfilePhoto" asp-controller="Profile" enctype="multipart/form-data" method="post" id="profilePhoto">
                                 <i class="fa fa-camera-retro"></i>
                                 <label class="fileContainer">
                                     Profil Fotoğrafını Değiştir
-                                    <input type="file" />
+                                    <input type="file" name="formFile" id="profilePhotoFileInput" />
                                 </label>
                             </form>
                         </figure>
@@ -51,3 +51,4 @@
         </div>
     </div>
 </section><!-- top area -->
+

@@ -157,3 +157,11 @@
     </div>
 </section>
 
+@section Scripts {
+    <script>
+        document.getElementById('profilePhotoFileInput').addEventListener('change', function () {
+            document.getElementById('profilePhoto').submit();
+        });
+
+    </script>
+}
