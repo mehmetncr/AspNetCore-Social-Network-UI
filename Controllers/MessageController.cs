@@ -31,7 +31,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
                 var data = JsonConvert.DeserializeObject<MessagesAndFriendsViewModel>(jsonData);
                 data.UserProfilPic = HttpContext.Session.GetJsonUser().UserProfilePicture;
                 ViewBag.userId = HttpContext.Session.GetJsonUser().UserId;
-                ViewBag.token = token;
+               
                 return View(data);
             }
             return View();

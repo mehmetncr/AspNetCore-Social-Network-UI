@@ -77,7 +77,7 @@
                                             <ul class="chatting-area" style="height:1000px">
                                             </ul>
                                             <div class="message-text-container" style="display:none;" id="messageBox">
-                                                <form method="post">
+                                                <form method="post" >
                                                     <textarea id="textMessage"></textarea>
                                                     <button title="send" type="submit" onclick="send(event)"><i class="fa fa-paper-plane"></i></button>
                                                 </form>
@@ -187,13 +187,6 @@
         "use strict";
 
 
-        var jwtToken = '@ViewBag.token'
-        //SignalR bağlantısı sağlanır
-        var connection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:7091/MessageHub", {
-                accessTokenFactory: () => jwtToken
-            })
-            .build();
 
         //mesaj gönderim işlemi
         function send(event) {
@@ -226,74 +219,9 @@
             })
         }
 
-        //gelen mesajları dinler
-        connection.on("ReceivePrivateMessage", (senderUserId, message) => {
-
-            var targetUser = $('#targetUserId').val();
-            console.log(targetUser + ' ' + senderUserId);
-            //eğer gelen mesaj açık olan bir konuşmanın ise konuşmaya eklenir
-            if (senderUserId == targetUser) {
-
-
-                model.forEach(function (chat) {
-
-                    if (chat.user.userId == senderUserId) {
-
-                        var newMessage = {
-                            sendDate: Date.now(),
-                            messageContent: message,
-                            messageId: chat.messageId,
-                            ownerUserId: senderUserId
-                        };
-
-                        chat.messageDetails.push(newMessage);
-
-                        var messageHtml = '';
-                        messageHtml += '<li class="you">';
-                        messageHtml += '<figure><img src="' + chat.user.userProfilePicture + '" alt=""></figure>';
-                        messageHtml += '<p>' + message + '<span style="float:right; font-size:12px;">' + new Date().toLocaleString('tr-TR') + '</span></p>';
-                        messageHtml += '</li>';
-
-                        $(".chatting-area").append(messageHtml);
-                        scrollToBottom();
-                    }
-                })
-
-            }
-            else {
-                // eğer konuşma kapalı ise mesajlara eklenir
-                model.forEach(function (chat) {
-
-                    if (chat.user.userId == senderUserId) {
-
-                        var newMessage = {
-                            sendDate: new Date(),
-                            messageContent: message,
-                            messageId: chat.messageId,
-                            ownerUserId: senderUserId
-                        };
-
-                        chat.messageDetails.push(newMessage);
-                    }
-                })
-            }
-
-        });
-
-
-        connection.start().then(() => {
-            console.log("Bağlantı kimliği:", connection.connectionId);
-        }).catch((err) => {
-            console.log('Hata:', err.toString());
-        });
 
 
 
-        window.addEventListener('beforeunload', function () {
-            connection.invoke('DisconnectOnUnload').catch(function (err) {
-                return console.error(err.toString());
-            });
-        });
         //------------------------------------------WebSockets-------------------------------------------------------------
 
         //mesajların hep en alt kısmını gösterir
@@ -401,19 +329,7 @@
 
 
 
-
-
-
         }
-
-
-
-
-
-
-
-
-
 
 
 
