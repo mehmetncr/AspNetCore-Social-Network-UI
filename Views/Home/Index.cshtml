@@ -74,10 +74,91 @@
         var userProfilPic = @Html.Raw(Json.Serialize(Model.MessagesAndFriendsViewModel.UserProfilPic));
         var userId = @ViewBag.userId;
 
+        function messageFriend(id) {
+            model.forEach(function (message) {
+                if (message.id == id) {
+                    var messages = message;
+                    debugger;
+                    $("#nameArea").empty();
+                    var nameArea = document.getElementById('nameArea');
+                    var text = document.createTextNode(messages.user.userFirstName + ' ' + messages.user.userLastName);
+                    nameArea.appendChild(text);
+                    $('#targetUserId').val(messages.user.userId);
+                    $('#messageId').val(messages.id);
+
+
+                    var targetUserId = messages.user.userId;
+
+
+
+                    $("#messageBox").empty();
+
+                    var messageHtml = '';
+                    console.log('user id' + userId);
+                    messages.messageDetails.forEach(function (chat) {
+                        console.log('mesaj id' + chat.ownerUserId);
+                        var messageClass = chat.ownerUserId == userId ? "you" : "me";
+                        var messageContent = chat.messageContent;
+                        var sendDate = new Date(chat.sendDate);
+
+                        messageHtml += '<li class="' + messageClass + '">';
+                        messageHtml += ' <div class="chat-thumb"><img style="float:right;" src="' + (messageClass == "you" ? '' + userProfilPic + '' : '' + messages.user.userProfilePicture + '') + '" alt=""></div>';
+                        messageHtml += ' <div class="notification-event">'
+                        messageHtml += ' <span class="chat-message-item" style="width:100%;">' + messageContent + '</span> <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">' + sendDate.toLocaleString('tr-TR') + '</time></span>';
+                        messageHtml += '</div>'
+                        messageHtml += '</li>';
+                    });
+
+                    $("#messageBox").append(messageHtml);
+                    scrollToBottom();
+                    // $(".chatting-area").append(targetUserIdHtml);
+
+                }
+            });
+        };
+
+
+        //mesaj gönderim işlemi
+        function send(event) {
+            var message = $('#textMessage').val()
+            event.preventDefault();
+            connection.invoke("MessageSend", message, $('#targetUserId').val(), $('#messageId').val());
+
+            var messageHtml = '';
+            messageHtml += '<li class="you">';
+            messageHtml += ' <div class="chat-thumb"><img src="' + userProfilPic + '" alt=""></div>';
+            messageHtml += ' <div class="notification-event">'
+            messageHtml += '<span class="chat-message-item" style="width:100%;">' + message + '</span> <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">' + new Date().toLocaleString('tr-TR') + '</time></span>';
+            messageHtml += '</div>'
+            messageHtml += '</li>';
+
+            $("#messageBox").append(messageHtml);
+            $('#textMessage').val('');
+            scrollToBottom();
+            model.forEach(function (chat) {
+
+                if (chat.id == $('#messageId').val()) {
+
+                    var newMessage = {
+                        sendDate: new Date(),
+                        messageContent: message,
+                        messageId: chat.id,
+                        ownerUserId: userId
+                    };
+
+                    chat.messageDetails.push(newMessage);
+                }
+            })
+        }
+
+
+
 
         function sendMessage(userId) {
             var msg = false;
+            
             model.forEach(function (message) {
+                
                 if (message.user.userId == userId) {
                     messageFriend(message.id);
                     msg = true;
@@ -142,23 +223,20 @@
                                 }
                             }
                         });
-
-
                     },
                     error: function (xhr, status, error) {
                         console.error("Yeni Mesaj AJAX Hatası:", status, error);
                     }
                 });
-
             }
-
-
-
-
-
-
         }
 
+        //mesajların hep en alt kısmını gösterir
+
+        function scrollToBottom() {
+            var chattingArea = $("#messageBox");
+            chattingArea.scrollTop(chattingArea[0].scrollHeight);
+        }
 
     </script>
 

@@ -84,7 +84,60 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
             <span class="tag green">New</span>`;
             messagesList.appendChild(newLi);
         });
+
+        var messageBoxTargetUserId = $('#targetUserId').val();
+
+        if (senderUserId == messageBoxTargetUserId) {
+
+            model.forEach(function (chat) {
+
+                if (chat.user.userId == senderUserId) {
+
+                    var newMessage = {
+                        sendDate: Date.now(),
+                        messageContent: message,
+                        messageId: chat.messageId,
+                        ownerUserId: senderUserId
+                    };
+
+                    chat.messageDetails.push(newMessage);
+
+                    var messageHtml = '';
+                    messageHtml += '<li class="me">';
+                    messageHtml += '<div class="chat-thumb"><img src="' + chat.user.userProfilePicture + '" alt=""></div>';
+                    messageHtml += ' <div class="notification-event">'
+                    messageHtml += '<span class="chat-message-item" style="width:100%;">' + message + '</span> <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">' + new Date().toLocaleString('tr-TR') + '</time></span>';
+                    messageHtml += '</div>'
+                    messageHtml += '</li>';
+
+                    $("#messageBox").append(messageHtml);
+                    scrollToBottom();
+                }
+            })
+
+        }
+        else {
+            // eğer konuşma kapalı ise mesajlara eklenir
+            model.forEach(function (chat) {
+
+                if (chat.user.userId == senderUserId) {
+
+                    var newMessage = {
+                        sendDate: new Date(),
+                        messageContent: message,
+                        messageId: chat.messageId,
+                        ownerUserId: senderUserId
+                    };
+
+                    chat.messageDetails.push(newMessage);
+                }
+            })
+        }
+
     }
+
+
+
 });
 
 
