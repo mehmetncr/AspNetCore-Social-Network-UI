@@ -1,0 +1,45 @@
+﻿@model string
+
+
+<script>
+    var token = @Json.Serialize(Model);
+</script>
+
+<ul class="setting-area">
+    <li><a href="newsfeed.html" title="Home" data-ripple=""><i class="ti-home"></i></a></li>
+    <li>
+        <a href="#" title="Notification" data-ripple="">
+            <i class="ti-bell"></i><span>20</span>
+        </a>
+        <div class="dropdowns">
+            <span>4 Yeni Bildirim</span>
+            <ul class="drops-menu">
+                <li onclick="basbana()">
+                    <a href="notifications.html" title="">
+                        <img src="images/resources/thumb-1.jpg" alt="">
+                        <div class="mesg-meta">
+                            <h6>sarah Loren</h6>
+                            <span>Hi, how r u dear ...?</span>
+                            <i>2 min ago</i>
+                        </div>
+                    </a>
+                    <span class="tag green">New</span>
+                </li>
+            </ul>
+            <a href="notifications.html" title="" class="more-mesg">Hepsini Gör</a>
+        </div>
+    </li>
+    <li>
+        <a href="#" title="Messages" data-ripple=""><i class="ti-comment"></i><span>12</span></a>
+        <div class="dropdowns">
+            <span>5 Yeni Mesaj</span>
+            <ul class="drops-menu" id="messagesList">
+               
+            </ul>
+            <a href="messages.html" title="" class="more-mesg">Hepsini Gör</a>
+        </div>
+    </li>
+
+
+</ul>
+
