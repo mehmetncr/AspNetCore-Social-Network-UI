@@ -1,6 +1,6 @@
-@model HomeViewModel
+@model HomeAndMessageViewModel
 
-@if (Model.PostDtos == null || !Model.PostDtos.Any())
+@if (Model.HomeViewModel.PostDtos == null || !Model.HomeViewModel.PostDtos.Any())
 {
     <h3>Henüz Paylaşım Yok</h3>
 }
@@ -8,7 +8,7 @@ else
 {
 
 
-    @foreach (var post in Model.PostDtos)
+    @foreach (var post in Model.HomeViewModel.PostDtos)
     {
         if (post.PostType == "Image")
         {

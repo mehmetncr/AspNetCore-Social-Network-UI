@@ -30,8 +30,23 @@ namespace AspNetCore_Social_Network_UI.Controllers
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();  //gelen datanın içindeki veriler çıkarılır
                 var data = JsonConvert.DeserializeObject<HomeViewModel>(jsonData);  //gelen Json Tipindeki data view modele deserilize edilir
-                ViewBag.profilPicture = userProfilPicture;
-                return View(data);
+                var response = await http.GetAsync("https://localhost:7091/api/Messages/GetAllMessages");
+                var res = respons.Content.ReadAsStringAsync();
+                if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var secJsonData = await response.Content.ReadAsStringAsync();
+                    var secData = JsonConvert.DeserializeObject<MessagesAndFriendsViewModel>(secJsonData);
+                    secData.UserProfilPic = HttpContext.Session.GetJsonUser().UserProfilePicture;
+                    ViewBag.userId = HttpContext.Session.GetJsonUser().UserId;
+                    ViewBag.token = token;
+                    ViewBag.profilPicture = userProfilPicture;
+                    HomeAndMessageViewModel model = new HomeAndMessageViewModel()
+                    {
+                        HomeViewModel = data,
+                        MessagesAndFriendsViewModel = secData,
+                    };
+                    return View(model);
+                }
             }
             return View();
 

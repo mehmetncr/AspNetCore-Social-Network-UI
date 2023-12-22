@@ -104,7 +104,7 @@
                                                     <span class="status f-@(friend.Friend.UserIsOnline?"online":"off")"></span>
                                                 </figure>
                                                 <div class="friendz-meta">
-                                                    <a href="#" >@friend.Friend.UserFirstName @friend.Friend.UserLastName</a>
+                                                    <a href="#">@friend.Friend.UserFirstName @friend.Friend.UserLastName</a>
 
                                                 </div>
 
@@ -157,7 +157,7 @@
 
                     var targetUserId = messages.user.userId;
 
-              
+
 
                     $(".chatting-area").empty();
 
@@ -211,9 +211,9 @@
             $('#textMessage').val('');
             scrollToBottom();
             model.forEach(function (chat) {
-         
+
                 if (chat.id == $('#messageId').val()) {
-           
+
                     var newMessage = {
                         sendDate: new Date(),
                         messageContent: message,
@@ -228,7 +228,7 @@
 
         //gelen mesajları dinler
         connection.on("ReceivePrivateMessage", (senderUserId, message) => {
-     
+
             var targetUser = $('#targetUserId').val();
             console.log(targetUser + ' ' + senderUserId);
             //eğer gelen mesaj açık olan bir konuşmanın ise konuşmaya eklenir
@@ -236,9 +236,9 @@
 
 
                 model.forEach(function (chat) {
-                 
+
                     if (chat.user.userId == senderUserId) {
-                 
+
                         var newMessage = {
                             sendDate: Date.now(),
                             messageContent: message,
@@ -263,9 +263,9 @@
             else {
                 // eğer konuşma kapalı ise mesajlara eklenir
                 model.forEach(function (chat) {
-                
+
                     if (chat.user.userId == senderUserId) {
-                      
+
                         var newMessage = {
                             sendDate: new Date(),
                             messageContent: message,
@@ -320,10 +320,10 @@
         function sendMessage(userId) {
             // Burada mesaj gönderme işlemleri yapabilirsiniz.
             //alert('Mesaj gönderildi! Kullanıcı ID: ' + userId);
-            
+
             //var messages = @Html.Raw(Json.Serialize(Model.Messages));
             var msg = false;
-           // console.log(messages);
+            // console.log(messages);
             model.forEach(function (message) {
                 if (message.user.userId == userId) {
                     messageFriend(message.id);

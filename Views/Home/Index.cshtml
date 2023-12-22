@@ -1,4 +1,4 @@
-﻿@model HomeViewModel
+﻿@model HomeAndMessageViewModel
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/LayoutPage.cshtml";
@@ -7,76 +7,7 @@
 
 <div class="fixed-sidebar right">
     <div class="chat-friendz">
-        <partial name="OnlineFriendsPartialView" data="@Model.OnlineFriendsDtos" />
-        <div class="chat-box">
-            <div class="chat-head">
-                <span class="status f-online"></span>
-                <h6>Bucky Barnes</h6>
-                <div class="more">
-                    <span class="more-optns">
-                        <i class="ti-more-alt"></i>
-                        <ul>
-                            <li>block chat</li>
-                            <li>unblock chat</li>
-                            <li>conversation</li>
-                        </ul>
-                    </span>
-                    <span class="close-mesage"><i class="ti-close"></i></span>
-                </div>
-            </div>
-            <div class="chat-list">
-                <ul>
-                    <li class="me">
-                        <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
-                        <div class="notification-event">
-                            <span class="chat-message-item">
-                                Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-                            </span>
-                            <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                        </div>
-                    </li>
-                    <li class="you">
-                        <div class="chat-thumb"><img src="images/resources/chatlist2.jpg" alt=""></div>
-                        <div class="notification-event">
-                            <span class="chat-message-item">
-                                Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-                            </span>
-                            <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                        </div>
-                    </li>
-                    <li class="me">
-                        <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
-                        <div class="notification-event">
-                            <span class="chat-message-item">
-                                Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-                            </span>
-                            <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                        </div>
-                    </li>
-                </ul>
-                <form class="text-box">
-                    <textarea placeholder="Post enter to post..."></textarea>
-                    <div class="add-smiles">
-                        <span title="add icon" class="em em-expressionless"></span>
-                    </div>
-                    <div class="smiles-bunch">
-                        <i class="em em---1"></i>
-                        <i class="em em-smiley"></i>
-                        <i class="em em-anguished"></i>
-                        <i class="em em-laughing"></i>
-                        <i class="em em-angry"></i>
-                        <i class="em em-astonished"></i>
-                        <i class="em em-blush"></i>
-                        <i class="em em-disappointed"></i>
-                        <i class="em em-worried"></i>
-                        <i class="em em-kissing_heart"></i>
-                        <i class="em em-rage"></i>
-                        <i class="em em-stuck_out_tongue"></i>
-                    </div>
-                    <button type="submit"></button>
-                </form>
-            </div>
-        </div>
+        <vc:home-friends-and-messages></vc:home-friends-and-messages>
     </div>
 </div><!-- right sidebar user chat -->
 
@@ -101,7 +32,7 @@
                             <vc:new-post></vc:new-post>
                             <!--New Post Form-->
                             <div class="loadMore">
-                                <partial name="PostsPartialView" data="@Model.PostDtos" />
+                                <partial name="PostsPartialView" data="@Model.HomeViewModel.PostDtos" />
                             </div>
                         </div><!-- centerl meta -->
                         <div class="col-lg-3">
@@ -110,7 +41,7 @@
                                 <div class="widget stick-widget">
                                     <h4 class="widget-title">Önerilen Arkadaşlar</h4>
                                     <ul class="followers">
-                                        @foreach (var offeruser in Model.OfferUserDtos)
+                                        @foreach (var offeruser in Model.HomeViewModel.OfferUserDtos)
                                         {
                                             <li>
                                                 <figure><img src="@offeruser.UserProfilePicture" alt=""></figure>
@@ -133,3 +64,102 @@
     </div>
 </section>
 
+@section Scripts {
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/chat.js"></script>
+    <script>
+
+        var model = @Html.Raw(Json.Serialize(Model.MessagesAndFriendsViewModel.Messages));
+        var friends = @Html.Raw(Json.Serialize(Model.MessagesAndFriendsViewModel.Friends));
+        var userProfilPic = @Html.Raw(Json.Serialize(Model.MessagesAndFriendsViewModel.UserProfilPic));
+        var userId = @ViewBag.userId;
+
+
+        function sendMessage(userId) {
+            var msg = false;
+            model.forEach(function (message) {
+                if (message.user.userId == userId) {
+                    messageFriend(message.id);
+                    msg = true;
+                    console.log("if");
+                }
+                console.log("for");
+            })
+            if (msg == false) {
+                //yeni konuşma açılır veri tabanına ve id si alınır
+                $.ajax({
+                    type: "POST",
+                    url: "/Message/StartNewChat/",
+                    data: { userId: userId },
+                    success: function (result) {
+
+
+                        friends.forEach(function (friend) {
+                            if (friend.friend.userId == userId) {
+
+
+                                var newPerson = {
+                                    id: result,
+                                    user: {
+                                        userId: friend.friend.userId,
+                                        userProfilePicture: friend.friend.userProfilePicture,
+                                        userIsOnline: friend.friend.userIsOnline,
+                                        userFirstName: friend.friend.userFirstName,
+                                        userLastName: friend.friend.userLastName
+                                    },
+                                    messageDetails: []
+                                };
+
+                                // Yeni kişiyi temsil eden HTML oluşturun
+                                var newPersonHtml = '<li>' +
+                                    '<figure>' +
+                                    '<img src="' + newPerson.user.userProfilePicture + '" alt="">' +
+                                    '<span class="status f-' + (newPerson.user.userIsOnline ? 'online' : 'off') + '"></span>' +
+                                    '</figure>' +
+                                    '<div class="people-name" data-id="' + newPerson.id + '">' +
+                                    '<span>' + newPerson.user.userFirstName + ' ' + newPerson.user.userLastName + '</span>' +
+                                    '</div>' +
+                                    '</li>';
+
+                                // HTML'i listeye ekleyin
+                                var peopleList = document.getElementById('peopleList');
+                                if (peopleList) {
+                                    var tempDiv = document.createElement('div');
+                                    tempDiv.innerHTML = newPersonHtml;
+
+                                    var newPersonElement = tempDiv.firstChild;
+                                    peopleList.appendChild(newPersonElement);
+                                    model.push(newPerson);
+                                    messageFriend(result);
+                                    // Olayı ekleyin
+                                    var peopleName = newPersonElement.querySelector('.people-name');
+                                    if (peopleName) {
+                                        peopleName.addEventListener('click', function () {
+                                            var personId = this.getAttribute('data-id');
+                                            messageFriend(personId);
+                                        });
+                                    }
+                                }
+                            }
+                        });
+
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Yeni Mesaj AJAX Hatası:", status, error);
+                    }
+                });
+
+            }
+
+
+
+
+
+
+        }
+
+
+    </script>
+
+}

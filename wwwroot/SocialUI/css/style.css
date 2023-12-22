@@ -4758,7 +4758,6 @@ canvas {
 .chat-box {
     background: #fbfbfb none repeat scroll 0 0;
     border-radius: 3px;
-    bottom: -2px;
     position: absolute;
     right: 100%;
     width: 300px;
@@ -5382,7 +5381,6 @@ canvas {
     display: inline-block;
     text-align: center;
     width: 100%;
-    position: relative;
 }
 
 .chat-users {
@@ -5424,9 +5422,6 @@ canvas {
     background-color: transparent !important;
 }
 
-.chat-friendz .chat-box {
-    bottom: -40px;
-}
 
 .menu-left {
     display: inline-block;
