@@ -1,6 +1,6 @@
 ﻿@model MessagesAndFriendsViewModel
 
-<ul class="chat-users">
+<ul class="chat-users" style="height:48%;">
     @foreach (var friend in Model.Friends)
     {
         <li>
@@ -14,7 +14,9 @@
 <div class="chat-box">
     <div class="chat-head">
         <span class="status f-online"></span>
-        <h6>Bucky Barnes</h6>
+        <h6 id="nameArea"></h6>
+        <input id="targetUserId" type="hidden" />
+        <input id="messageId" type="hidden" />
         <div class="more">
             <span class="more-optns">
                 <i class="ti-more-alt"></i>
@@ -28,7 +30,7 @@
         </div>
     </div>
     <div class="chat-list">
-        <ul id="messageBox">
+        <ul id="messageBox" style="height:600px;">
             <li class="me">
                 <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
                 <div class="notification-event">
@@ -49,25 +51,9 @@
             </li>
         </ul>
         <form class="text-box">
-            <textarea placeholder="Post enter to post..."></textarea>
-            <div class="add-smiles">
-                <span title="add icon" class="em em-expressionless"></span>
-            </div>
-            <div class="smiles-bunch">
-                <i class="em em---1"></i>
-                <i class="em em-smiley"></i>
-                <i class="em em-anguished"></i>
-                <i class="em em-laughing"></i>
-                <i class="em em-angry"></i>
-                <i class="em em-astonished"></i>
-                <i class="em em-blush"></i>
-                <i class="em em-disappointed"></i>
-                <i class="em em-worried"></i>
-                <i class="em em-kissing_heart"></i>
-                <i class="em em-rage"></i>
-                <i class="em em-stuck_out_tongue"></i>
-            </div>
-            <button type="submit"></button>
+            <textarea placeholder="Mesaj girin..." id="textMessage" style="width:85%"></textarea>
+         
+            <button title="send" type="submit" onclick="send(event)"><i class="fa fa-paper-plane"></i></button>
         </form>
     </div>
 </div>
