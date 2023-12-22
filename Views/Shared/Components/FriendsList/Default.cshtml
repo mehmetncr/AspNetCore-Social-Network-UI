@@ -1,4 +1,4 @@
-﻿@model UserViewModel
+﻿@model MessagesAndFriendsViewModel
 
 <div class="col-lg-3">
     <aside class="sidebar static">
@@ -15,7 +15,7 @@
                             <img src=@friend.Friend.UserProfilePicture alt="">
                             <span class="status f-@(friend.Friend.UserIsOnline?"online":"off")"></span>
                         </figure>
-                        <div class="friendz-meta">
+                        <div class="friendz-meta" >
                             <a href="time-line.html">@friend.Friend.UserFirstName @friend.Friend.UserLastName</a>
 
                         </div>
