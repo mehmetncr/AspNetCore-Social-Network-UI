@@ -10,7 +10,34 @@
         <vc:home-friends-and-messages></vc:home-friends-and-messages>
     </div>
 </div><!-- right sidebar user chat -->
+<div class="chat-box">
+    <div class="chat-head">
+        <span class="status f-online"></span>
+        <h6 id="nameArea"></h6>
+        <input id="targetUserId" type="hidden" />
+        <input id="messageId" type="hidden" />
+        <div class="more">
+            <span class="more-optns">
+                <i class="ti-more-alt"></i>
+                <ul>
+                    <li>block chat</li>
+                    <li>unblock chat</li>
+                    <li>conversation</li>
+                </ul>
+            </span>
+            <span class="close-mesage"><i class="ti-close"></i></span>
+        </div>
+    </div>
+    <div class="chat-list">
+        <ul id="messageBox" style="height:600px;">
+        </ul>
+        <form class="text-box">
+            <textarea placeholder="Mesaj girin..." id="textMessage" style="width:85%"></textarea>
 
+            <button title="send" type="submit" onclick="send(event)"><i class="fa fa-paper-plane"></i></button>
+        </form>
+    </div>
+</div>
 
 <section>
     <div class="gap2 gray-bg">
@@ -156,9 +183,9 @@
 
         function sendMessage(userId) {
             var msg = false;
-            
+
             model.forEach(function (message) {
-                
+
                 if (message.user.userId == userId) {
                     messageFriend(message.id);
                     msg = true;
@@ -191,36 +218,12 @@
                                     messageDetails: []
                                 };
 
-                                // Yeni kişiyi temsil eden HTML oluşturun
-                                var newPersonHtml = '<li>' +
-                                    '<figure>' +
-                                    '<img src="' + newPerson.user.userProfilePicture + '" alt="">' +
-                                    '<span class="status f-' + (newPerson.user.userIsOnline ? 'online' : 'off') + '"></span>' +
-                                    '</figure>' +
-                                    '<div class="people-name" data-id="' + newPerson.id + '">' +
-                                    '<span>' + newPerson.user.userFirstName + ' ' + newPerson.user.userLastName + '</span>' +
-                                    '</div>' +
-                                    '</li>';
 
                                 // HTML'i listeye ekleyin
-                                var peopleList = document.getElementById('peopleList');
-                                if (peopleList) {
-                                    var tempDiv = document.createElement('div');
-                                    tempDiv.innerHTML = newPersonHtml;
 
-                                    var newPersonElement = tempDiv.firstChild;
-                                    peopleList.appendChild(newPersonElement);
-                                    model.push(newPerson);
-                                    messageFriend(result);
-                                    // Olayı ekleyin
-                                    var peopleName = newPersonElement.querySelector('.people-name');
-                                    if (peopleName) {
-                                        peopleName.addEventListener('click', function () {
-                                            var personId = this.getAttribute('data-id');
-                                            messageFriend(personId);
-                                        });
-                                    }
-                                }
+                                model.push(newPerson);
+                                messageFriend(result);
+
                             }
                         });
                     },

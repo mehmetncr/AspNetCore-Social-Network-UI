@@ -66,7 +66,11 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
             messageContent: message,
             senderUserId: senderUserId
         }
+        
         newMessages.push(newMessageInfo);
+        if (newMessages.length > 5) {
+            newMessages.splice(0, 1);
+        }
         var messagesList = document.getElementById('messagesList');
         messagesList.innerHTML = "";
         newMessages.forEach(function (message) {

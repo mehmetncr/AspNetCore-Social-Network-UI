@@ -1,6 +1,6 @@
 ﻿@model MessagesAndFriendsViewModel
 
-<ul class="chat-users" style="height:48%;">
+<ul class="chat-users" style="height:450px;">
     @foreach (var friend in Model.Friends)
     {
         <li>
@@ -11,49 +11,4 @@
         </li>
     }
 </ul>
-<div class="chat-box">
-    <div class="chat-head">
-        <span class="status f-online"></span>
-        <h6 id="nameArea"></h6>
-        <input id="targetUserId" type="hidden" />
-        <input id="messageId" type="hidden" />
-        <div class="more">
-            <span class="more-optns">
-                <i class="ti-more-alt"></i>
-                <ul>
-                    <li>block chat</li>
-                    <li>unblock chat</li>
-                    <li>conversation</li>
-                </ul>
-            </span>
-            <span class="close-mesage"><i class="ti-close"></i></span>
-        </div>
-    </div>
-    <div class="chat-list">
-        <ul id="messageBox" style="height:600px;">
-            <li class="me">
-                <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
-                <div class="notification-event">
-                    <span class="chat-message-item">
-                        Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-                    </span>
-                    <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                </div>
-            </li>
-            <li class="you">
-                <div class="chat-thumb"><img src="images/resources/chatlist2.jpg" alt=""></div>
-                <div class="notification-event">
-                    <span class="chat-message-item">
-                        Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-                    </span>
-                    <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                </div>
-            </li>
-        </ul>
-        <form class="text-box">
-            <textarea placeholder="Mesaj girin..." id="textMessage" style="width:85%"></textarea>
-         
-            <button title="send" type="submit" onclick="send(event)"><i class="fa fa-paper-plane"></i></button>
-        </form>
-    </div>
-</div>
+
