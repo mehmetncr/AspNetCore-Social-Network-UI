@@ -10,7 +10,7 @@
         <figure><img src=@Model.UserCoverPicture alt=""></figure>
         <div class="add-btn">
             <span>@Model.UserFollowerCount Arkadaş</span>
-            <a href="#" title="" data-ripple="">Arkadaş Ekle</a>
+            <a href="#" title="" data-ripple="" onclick="addFriend('@Model.UserId'); return false;">Arkadaş Ekle</a>
         </div>
 
         <div class="container-fluid">
@@ -173,5 +173,6 @@
     </div>
 </section>
 
-
-
+@section Scripts {
+<script src="~/js/friend.js"></script>
+}

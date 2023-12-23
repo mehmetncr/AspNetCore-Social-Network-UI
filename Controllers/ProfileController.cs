@@ -29,7 +29,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/MyProfile");  //API adresi ve get isteği 
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK)  //gelen sonuç Ok ise  kodu ise
+            if (respons.IsSuccessStatusCode)  //gelen sonuç Ok ise  kodu ise
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();  //gelen datanın içindeki veriler çıkarılır
                 var data = JsonConvert.DeserializeObject<ProfileViewModel>(jsonData);  //gelen Json Tipindeki data view modele deserilize edilir
@@ -44,7 +44,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Images");  
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK) 
+            if (respons.IsSuccessStatusCode) 
             {
                 var jsonData = await respons.Content.ReadAsStringAsync(); 
                 var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData); 
@@ -64,7 +64,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Videos"); 
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync(); 
                 var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData);  
@@ -78,7 +78,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Friends"); 
-			if (respons.StatusCode == System.Net.HttpStatusCode.OK)  
+			if (respons.IsSuccessStatusCode)  
 			{
 				var jsonData = await respons.Content.ReadAsStringAsync(); 
 				var data = JsonConvert.DeserializeObject<ProfileFriendsViewModel>(jsonData); 
@@ -162,7 +162,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();  
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetInterest");  
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK)  
+            if (respons.IsSuccessStatusCode)  
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();  
                 var data = JsonConvert.DeserializeObject<List<InterestViewModel>>(jsonData);
@@ -224,7 +224,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/UserSettings");
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<PrivacySettingsViewModel>(jsonData);               
@@ -297,7 +297,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherProfile/"+id);
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
@@ -314,7 +314,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherPhotos/" + id);
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
@@ -331,7 +331,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherVideos/" + id);
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
@@ -348,7 +348,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherFriends/" + id);
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<OtherFriendsViewModel>(jsonData);

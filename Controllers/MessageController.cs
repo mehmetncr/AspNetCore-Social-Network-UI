@@ -25,7 +25,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var respons = await http.GetAsync("https://localhost:7091/api/Messages/GetAllMessages");
             var res = respons.Content.ReadAsStringAsync();
-            if (respons.StatusCode == System.Net.HttpStatusCode.OK)
+            if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<MessagesAndFriendsViewModel>(jsonData);
