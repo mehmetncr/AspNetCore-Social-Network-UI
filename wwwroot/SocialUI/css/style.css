@@ -4758,8 +4758,8 @@ canvas {
 .chat-box {
     background: #fbfbfb none repeat scroll 0 0;
     border-radius: 3px;
-    position: absolute;
-    right: 100%;
+    position: fixed;
+    right: 80px;
     width: 300px;
     z-index: 9999999;
     transform: translate(40px) scale(0);
@@ -4768,6 +4768,7 @@ canvas {
     transition: all 0.2s linear 0s;
     border: 1px solid #e1e8ed;
     text-align: left;
+    bottom:0;
 }
 
 .chat-box.show {
