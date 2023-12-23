@@ -58,7 +58,7 @@
                                     <ul class="socials">
                                         @foreach (var item in Model.SocialMediaAccounts)
                                         {
-                                            if (item.SocialMediaAccountName=="Facebook")
+                                            if (item.SocialMediaAccountName == "Facebook")
                                             {
                                                 <li class="facebook">
                                                     <a title="" href="#"><i class="fa fa-facebook"></i> <span>facebook</span> </a>
@@ -76,7 +76,7 @@
                                                     <a title="" href="#"><i class="fa fa-facebook"></i> <span>twitter</span> </a>
                                                 </li>
                                             }
-                                           
+
 
                                         }
 
@@ -92,7 +92,16 @@
                         <div class="col-lg-6">
                             <div class="loadMore">
 
-                                @await Html.PartialAsync("PostsPartialView", new HomeViewModel { PostDtos = Model.Posts })
+                                @{
+                                    HomeAndMessageViewModel post = new HomeAndMessageViewModel();
+                                    post.HomeViewModel = new HomeViewModel()
+            {
+                PostDtos = Model.Posts
+            };
+
+
+                                }
+                                @await Html.PartialAsync("PostsPartialView", post)
 
                             </div>
                         </div><!-- centerl meta -->
@@ -174,5 +183,5 @@
 </section>
 
 @section Scripts {
-<script src="~/js/friend.js"></script>
+    <script src="~/js/friend.js"></script>
 }

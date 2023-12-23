@@ -29,7 +29,16 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var errorMessage = await result.Content.ReadAsStringAsync();
             if (result.IsSuccessStatusCode)
             {
-                return "Ok";
+                var data = await result.Content.ReadAsStringAsync();
+                if (data=="Ok")
+                {
+                    return "Ok";
+                }
+                else
+                {
+                    return "AlreadySend";
+                }
+                
             }
             ModelState.AddModelError("Error", errorMessage);
 
