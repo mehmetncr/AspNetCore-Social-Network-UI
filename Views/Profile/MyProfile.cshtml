@@ -56,7 +56,16 @@
                         <div class="col-lg-6">
                             <div class="loadMore">
                                 <vc:new-post></vc:new-post>     <!-- Yeni post paylaşma view componenti -->
-                                @await Html.PartialAsync("PostsPartialView", new HomeViewModel { PostDtos = Model.Posts })
+                                @{
+                                    HomeAndMessageViewModel post = new HomeAndMessageViewModel();
+                                    post.HomeViewModel = new HomeViewModel()
+            {
+                PostDtos = Model.Posts
+            };
+
+
+                                }
+                                @await Html.PartialAsync("PostsPartialView", post)
 
                             </div>
                         </div><!-- centerl meta -->

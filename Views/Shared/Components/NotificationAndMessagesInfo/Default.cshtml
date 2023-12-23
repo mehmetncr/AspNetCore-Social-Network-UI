@@ -1,30 +1,37 @@
-﻿@model string
+﻿@model List<NotificationViewModel>
 
 
 <script>
-    var token = @Json.Serialize(Model);
+    var token = '@ViewBag.token';
 </script>
 
 <ul class="setting-area">
     <li><a href="newsfeed.html" title="Home" data-ripple=""><i class="ti-home"></i></a></li>
     <li>
         <a href="#" title="Notification" data-ripple="">
-            <i class="ti-bell"></i><span>20</span>
+            <i class="ti-bell"></i><span>@Model.Count()</span>
         </a>
         <div class="dropdowns">
-            <span>4 Yeni Bildirim</span>
+            <span>@Model.Count() Yeni Bildirim</span>
             <ul class="drops-menu">
-                <li onclick="basbana()">
-                    <a href="notifications.html" title="">
-                        <img src="images/resources/thumb-1.jpg" alt="">
-                        <div class="mesg-meta">
-                            <h6>sarah Loren</h6>
-                            <span>Hi, how r u dear ...?</span>
-                            <i>2 min ago</i>
-                        </div>
-                    </a>
-                    <span class="tag green">New</span>
-                </li>
+                @foreach (var notification in Model)
+                {
+                    if (notification.NotificationTitle!="Yeni Mesaj")
+                    {
+                        <li>
+                            <a href="notifications.html" title="">
+                                <img src=@notification.NotificationSenderUser.UserProfilePicture alt="">
+                                <div class="mesg-meta">
+                                    <h6>@notification.NotificationTitle</h6>
+                                    <span>@notification.NotificationSenderUser.UserFirstName @notification.NotificationSenderUser.UserLastName</span>
+                                    <i>2 min ago</i>
+                                </div>
+                            </a>
+                            <span class="tag green">New</span>
+                        </li>
+                    }                    
+                }
+                
             </ul>
             <a href="notifications.html" title="" class="more-mesg">Hepsini Gör</a>
         </div>
