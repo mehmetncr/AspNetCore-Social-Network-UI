@@ -1,39 +1,25 @@
 ﻿@model List<NotificationViewModel>
 
 
+
 <script>
     var token = '@ViewBag.token';
+    var noti = @Html.Raw(Json.Serialize(Model));
 </script>
 
 <ul class="setting-area">
     <li><a href="newsfeed.html" title="Home" data-ripple=""><i class="ti-home"></i></a></li>
     <li>
         <a href="#" title="Notification" data-ripple="">
-            <i class="ti-bell"></i><span>@Model.Count()</span>
+            <i class="ti-bell"></i><span id="notifiCount"></span>
         </a>
         <div class="dropdowns">
-            <span>@Model.Count() Yeni Bildirim</span>
-            <ul class="drops-menu">
-                @foreach (var notification in Model)
-                {
-                    if (notification.NotificationTitle!="Yeni Mesaj")
-                    {
-                        <li>
-                            <a href="notifications.html" title="">
-                                <img src=@notification.NotificationSenderUser.UserProfilePicture alt="">
-                                <div class="mesg-meta">
-                                    <h6>@notification.NotificationTitle</h6>
-                                    <span>@notification.NotificationSenderUser.UserFirstName @notification.NotificationSenderUser.UserLastName</span>
-                                    <i>2 min ago</i>
-                                </div>
-                            </a>
-                            <span class="tag green">New</span>
-                        </li>
-                    }                    
-                }
+            <span id="notifiCountText"></span>
+            <ul class="drops-menu" id="notificationList">
+                
                 
             </ul>
-            <a href="notifications.html" title="" class="more-mesg">Hepsini Gör</a>
+            <a href="/Profile/MyNotifications" title="" class="more-mesg">Hepsini Gör</a>
         </div>
     </li>
     <li>
