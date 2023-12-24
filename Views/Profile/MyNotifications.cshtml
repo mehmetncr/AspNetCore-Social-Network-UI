@@ -33,7 +33,7 @@
                                                 {
 
 
-                                                    <li>
+                                                    <li id="notificationItem_@notification.NotificationId">
                                                         <a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@notification.NotificationSenderUser.UserId">
                                                             <figure><img src=@notification.NotificationSenderUser.UserProfilePicture alt=""></figure>
                                                             <div class="notifi-meta">
@@ -42,8 +42,8 @@
                                                             </div>
                                                         </a>
                                                         <div style="display:inline-block; float:right;">
-                                                            <button class="btn">Kabul Et</button>
-                                                            <button class="btn">Reddet</button>
+                                                            <button class="btn" onclick="acceptReq('@notification.NotificationId')">Kabul Et</button>
+                                                            <button class="btn" onclick="rejectReq('@notification.NotificationId')">Reddet</button>
                                                         </div>
                                                     </li>
                                                 }
@@ -67,3 +67,41 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        function acceptReq(notificationId) {
+            $.ajax({
+                type: "POST",
+                url: "/Notification/AcceptReq/",
+                data: { notificationId: notificationId },
+                success: function (result) {
+
+
+                    var notificationItem = document.getElementById("notificationItem_" + notificationId);
+                    notificationItem.parentNode.removeChild(notificationItem);
+
+                },
+                error: function (error) {
+
+                }
+            });
+
+        }
+        function rejectReq(notificationId) {
+            $.ajax({
+                type: "POST",
+                url: "/Notification/RejectReq/",
+                data: { notificationId: notificationId },
+                success: function (result) {
+
+                    var notificationItem = document.getElementById("notificationItem_" + notificationId);
+                    notificationItem.parentNode.removeChild(notificationItem);
+                },
+                error: function (error) {
+
+                }
+            });
+        }
+    </script>
+}
