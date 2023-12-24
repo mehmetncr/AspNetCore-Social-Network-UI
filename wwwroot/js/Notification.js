@@ -61,35 +61,16 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
     }
     else {
 
-        //  ========= Notification İşlemleri =============
+
         var newMessageInfo = {
             messageContent: message,
             senderUserId: senderUserId
         }
         
         newMessages.push(newMessageInfo);
-        if (newMessages.length > 5) {
-            newMessages.splice(0, 1);
-        }
-        var messagesList = document.getElementById('messagesList');
-        messagesList.innerHTML = "";
-        newMessages.forEach(function (message) {
-
-            var newLi = document.createElement('li');
-
-            newLi.innerHTML = `<a href="notifications.html" title="">
-                <img src="message.userphoto" alt="">
-                <div class="mesg-meta">
-                    <h6>${message.senderUserId}</h6>
-                    <span>${message.messageContent}</span>
-                    <i>2 min ago</i>
-                </div>
-            </a>
-            <span class="tag green">New</span>`;
-            messagesList.appendChild(newLi);
-        });
-     
-
+        
+        localStorage.setItem('newMessage', true);
+        document.getElementById('notificationSpan').style.display = 'inline-block';
 
 
         var messageBoxTargetUserId = $('#targetUserId').val();
@@ -144,6 +125,15 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
     }
 
 
+
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var newMessageNotification = localStorage.getItem('newMessage');
+    console.log(newMessageNotification);
+    if (newMessageNotification == "true") {
+        document.getElementById('notificationSpan').style.display = 'inline-block';
+    };
 
 });
 
