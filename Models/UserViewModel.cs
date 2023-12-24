@@ -35,7 +35,7 @@ namespace AspNetCore_Social_Network_UI.Models
         public virtual List<NotificationViewModel>? Notificationl { get; set; }
 
 		public int? UserPrivacySettingsId { get; set; }
-		public virtual PrivacySettingsViewModel UserPrivacy { get; set; }
+		public virtual PrivacySettingsViewModel UserPrivacySettings { get; set; }
 
         public virtual List<FriendsViewModel>? Friends{ get; set; }
         public virtual List<InterestViewModel>? Interests { get; set; }

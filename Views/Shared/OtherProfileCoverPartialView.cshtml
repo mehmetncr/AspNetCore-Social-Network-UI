@@ -1,0 +1,70 @@
+﻿@model UserViewModel
+@{
+    FriendsViewModel friendStatus = Model.Friends.FirstOrDefault(x => x.FriendsUserId == ViewBag.UserId);
+}
+
+<section>
+    <div class="feature-photo">
+        <figure><img src=@Model.UserCoverPicture alt=""></figure>
+        <div class="add-btn">
+            <span>@Model.UserFollowerCount Arkadaş</span>
+            @if (friendStatus != null)
+            {
+                if (friendStatus.FriendsStatus == "approved")
+                {
+                    <a href="#" title="" id="friendStatus" data-ripple="" onclick="addFriend('@Model.UserId'); return false;">Arkadaşlıktan Çıkar</a>
+                }
+                else if (friendStatus.FriendsStatus == "pending")
+                {
+                    <a href="#" title="" data-ripple="" id="friendStatus" onclick="addFriend('@Model.UserId'); return false;">Arkadaşlık İsteği Gönderildi</a>
+                }
+            }
+            else
+            {
+
+                if (Model.UserPrivacySettings.PrivacySettingsFriendRequest)
+                {
+                    <a href="#" title="" data-ripple="" id="friendStatus" onclick="addFriend('@Model.UserId'); return false;">Arkadaş Ekle</a>
+                }
+                else
+                {
+                    <a href="#" title="" data-ripple="">İstek Kabul Edilmiyor</a>
+                }
+            }
+        </div>
+
+        <div class="container-fluid">
+            <div class="row merged">
+                <div class="col-lg-2 col-sm-3">
+                    <div class="user-avatar">
+                        <figure>
+                            <img src=@Model.UserProfilePicture alt="">
+
+                        </figure>
+                    </div>
+                </div>
+                <div class="col-lg-10 col-sm-9">
+                    <div class="timeline-info">
+                        <ul>
+                            <li class="admin-name">
+                                <h5>@Model.UserFirstName @Model.UserLastName</h5>
+
+                            </li>
+                            @if (!Model.UserPrivacySettings.PrivacySettingsHiddenProfile || friendStatus?.FriendsStatus == "approved")
+                            {
+                                <li>
+                                    <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Gönderiler</a>
+                                    <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Fotoğraflar</a>
+                                    <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Videolar</a>
+                                    <a class="" asp-action="OtherFriends" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Arkadaşlar</a>
+
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

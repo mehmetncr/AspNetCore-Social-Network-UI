@@ -5,183 +5,102 @@
 }
 
 
-<section>
-    <div class="feature-photo">
-        <figure><img src=@Model.UserCoverPicture alt=""></figure>
-        <div class="add-btn">
-            <span>@Model.UserFollowerCount Arkadaş</span>
-            <a href="#" title="" data-ripple="" onclick="addFriend('@Model.UserId'); return false;">Arkadaş Ekle</a>
-        </div>
+@{
+    FriendsViewModel statusFriend = Model.Friends.FirstOrDefault(x => x.FriendsUserId == ViewBag.UserId);
+}
 
-        <div class="container-fluid">
-            <div class="row merged">
-                <div class="col-lg-2 col-sm-3">
-                    <div class="user-avatar">
-                        <figure>
-                            <img src=@Model.UserProfilePicture alt="">
 
-                        </figure>
-                    </div>
-                </div>
-                <div class="col-lg-10 col-sm-9">
-                    <div class="timeline-info">
-                        <ul>
-                            <li class="admin-name">
-                                <h5>@Model.UserFirstName @Model.UserLastName</h5>
+<partial name="OtherProfileCoverPartialView" model="@Model" />
 
-                            </li>
-                            <li>
-                                <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Gönderiler</a>
-                                <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Fotoğraflar</a>
-                                <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Videolar</a>
-                                <a class="" asp-action="OtherFriends" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Arkadaşlar</a>
 
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+@if (!Model.UserPrivacySettings.PrivacySettingsHiddenProfile || statusFriend?.FriendsStatus == "approved")
+{
 
-<section>
-    <div class="gap gray-bg">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row" id="page-contents">
-                        <div class="col-lg-3">
-                            <aside class="sidebar static">
-                                <div class="widget">
-                                    <h4 class="widget-title">Socials</h4>
-                                    <ul class="socials">
-                                        @foreach (var item in Model.SocialMediaAccounts)
-                                        {
-                                            if (item.SocialMediaAccountName == "Facebook")
+    <section>
+        <div class="gap gray-bg">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row" id="page-contents">
+                            <div class="col-lg-3">
+                                <aside class="sidebar static">
+                                    <div class="widget">
+                                        <h4 class="widget-title">Socials</h4>
+                                        <ul class="socials">
+                                            @foreach (var item in Model.SocialMediaAccounts)
                                             {
-                                                <li class="facebook">
-                                                    <a title="" href="#"><i class="fa fa-facebook"></i> <span>facebook</span> </a>
-                                                </li>
-                                            }
-                                            else if (item.SocialMediaAccountName == "Google")
-                                            {
-                                                <li class="google">
-                                                    <a title="" href="#"><i class="fa fa-facebook"></i> <span>google</span> </a>
-                                                </li>
-                                            }
-                                            else if (item.SocialMediaAccountName == "Twitter")
-                                            {
-                                                <li class="twitter">
-                                                    <a title="" href="#"><i class="fa fa-facebook"></i> <span>twitter</span> </a>
-                                                </li>
+                                                if (item.SocialMediaAccountName == "Facebook")
+                                                {
+                                                    <li class="facebook">
+                                                        <a title="" href="#"><i class="fa fa-facebook"></i> <span>facebook</span> </a>
+                                                    </li>
+                                                }
+                                                else if (item.SocialMediaAccountName == "Google")
+                                                {
+                                                    <li class="google">
+                                                        <a title="" href="#"><i class="fa fa-facebook"></i> <span>google</span> </a>
+                                                    </li>
+                                                }
+                                                else if (item.SocialMediaAccountName == "Twitter")
+                                                {
+                                                    <li class="twitter">
+                                                        <a title="" href="#"><i class="fa fa-facebook"></i> <span>twitter</span> </a>
+                                                    </li>
+                                                }
+
+
                                             }
 
-
-                                        }
-
-                                    </ul>
-                                </div>
-                                <!--ShortCuts-->
-                                <partial name="ShortCutsPartialView" />
-                                <!--ShortCuts-->
-
-
-                            </aside>
-                        </div><!-- sidebar -->
-                        <div class="col-lg-6">
-                            <div class="loadMore">
-
-                                @{
-                                    HomeAndMessageViewModel post = new HomeAndMessageViewModel();
-                                    post.HomeViewModel = new HomeViewModel()
-            {
-                PostDtos = Model.Posts
-            };
-
-
-                                }
-                                @await Html.PartialAsync("PostsPartialView", post)
-
-                            </div>
-                        </div><!-- centerl meta -->
-                        <div class="col-lg-3">
-                            <aside class="sidebar static">
-
-                                <div class="widget friend-list stick-widget">
-
-                                    <div class="chat-box">
-                                        <div class="chat-head">
-                                            <span class="status f-online"></span>
-                                            <h6>Bucky Barnes</h6>
-                                            <div class="more">
-                                                <span><i class="ti-more-alt"></i></span>
-                                                <span class="close-mesage"><i class="ti-close"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="chat-list">
-                                            <ul>
-                                                <li class="me">
-                                                    <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
-                                                    <div class="notification-event">
-                                                        <span class="chat-message-item">
-                                                            Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-                                                        </span>
-                                                        <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                                                    </div>
-                                                </li>
-                                                <li class="you">
-                                                    <div class="chat-thumb"><img src="images/resources/chatlist2.jpg" alt=""></div>
-                                                    <div class="notification-event">
-                                                        <span class="chat-message-item">
-                                                            Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-                                                        </span>
-                                                        <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                                                    </div>
-                                                </li>
-                                                <li class="me">
-                                                    <div class="chat-thumb"><img src="images/resources/chatlist1.jpg" alt=""></div>
-                                                    <div class="notification-event">
-                                                        <span class="chat-message-item">
-                                                            Hi James! Please remember to buy the food for tomorrow! I’m gonna be handling the gifts and Jake’s gonna get the drinks
-                                                        </span>
-                                                        <span class="notification-date"><time datetime="2004-07-24T18:18" class="entry-date updated">Yesterday at 8:10pm</time></span>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <form class="text-box">
-                                                <textarea placeholder="Post enter to post..."></textarea>
-                                                <div class="add-smiles">
-                                                    <span title="add icon" class="em em-expressionless"></span>
-                                                </div>
-                                                <div class="smiles-bunch">
-                                                    <i class="em em---1"></i>
-                                                    <i class="em em-smiley"></i>
-                                                    <i class="em em-anguished"></i>
-                                                    <i class="em em-laughing"></i>
-                                                    <i class="em em-angry"></i>
-                                                    <i class="em em-astonished"></i>
-                                                    <i class="em em-blush"></i>
-                                                    <i class="em em-disappointed"></i>
-                                                    <i class="em em-worried"></i>
-                                                    <i class="em em-kissing_heart"></i>
-                                                    <i class="em em-rage"></i>
-                                                    <i class="em em-stuck_out_tongue"></i>
-                                                </div>
-                                                <button type="submit"></button>
-                                            </form>
-                                        </div>
+                                        </ul>
                                     </div>
-                                </div><!-- friends list sidebar -->
-                            </aside>
-                        </div><!-- sidebar -->
+                                    <!--ShortCuts-->
+                                    <partial name="ShortCutsPartialView" />
+                                    <!--ShortCuts-->
+
+
+                                </aside>
+                            </div><!-- sidebar -->
+                            <div class="col-lg-6">
+                                <div class="loadMore">
+
+                                    @{
+                                        HomeAndMessageViewModel post = new HomeAndMessageViewModel();
+                                        post.HomeViewModel = new HomeViewModel()
+                {
+                    PostDtos = Model.Posts
+                };
+
+
+                                    }
+                                    @await Html.PartialAsync("PostsPartialView", post)
+
+                                </div>
+                            </div><!-- centerl meta -->
+                            <div class="col-lg-3">
+                                <aside class="sidebar static">
+
+                                </aside>
+                            </div><!-- sidebar -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+}
+else
+{
+    <div class="central-meta item">
+        <div class="user-post">
+            <div class="friend-info text-center">
 
+                <h3>Profilim şu anda gizli, sadece arkadaşlarım içeriklerimi görebilir. Eğer arkadaşlarımdan biri değilsen, istek göndermeyi deneyebilirsin.</h3>
+              
+            </div>
+     
+        </div>
+    </div>
+}
 @section Scripts {
     <script src="~/js/friend.js"></script>
 }
