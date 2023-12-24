@@ -4,103 +4,90 @@
     Layout = "~/Views/Shared/LayoutPage.cshtml";
 }
 
-<section>
-    <div class="feature-photo">
-        <figure><img src=@Model.User.UserCoverPicture alt=""></figure>
-        <div class="add-btn">
-            <span>@Model.User.UserFollowerCount Arkadaş</span>
-            <a href="#" title="" data-ripple="">Arkadaş Ekle</a>
-        </div>
 
-        <div class="container-fluid">
-            <div class="row merged">
-                <div class="col-lg-2 col-sm-3">
-                    <div class="user-avatar">
-                        <figure>
-                            <img src=@Model.User.UserProfilePicture alt="">
+@{
+    FriendsViewModel statusFriend = Model.User.Friends.FirstOrDefault(x => x.FriendsUserId == ViewBag.UserId);
+}
 
-                        </figure>
-                    </div>
-                </div>
-                <div class="col-lg-10 col-sm-9">
-                    <div class="timeline-info">
-                        <ul>
-                            <li class="admin-name">
-                                <h5>@Model.User.UserFirstName @Model.User.UserLastName</h5>
-                                @* <span>Group Admin</span> *@
-                            </li>
-                            <li>
-                                <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.User.UserId" data-ripple="">Gönderiler</a>
-                                <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.User.UserId" data-ripple="">Fotoğraflar</a>
-                                <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.User.UserId" data-ripple="">Videolar</a>
-                                <a class="" asp-action="OtherFriends" asp-controller="Profile" asp-route-id="@Model.User.UserId" title="" data-ripple="">Arkadaşlar</a>
 
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section>
-    <div class="gap gray-bg">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row" id="page-contents">
-                        <div class="col-lg-3">
-                            <aside class="sidebar static">
-                                <!--ShortCuts-->
-                                <partial name="ShortCutsPartialView" />
-                                <!--ShortCuts-->
+<partial name="OtherProfileCoverPartialView" model="@Model.User" />
 
-                            </aside>
-                        </div><!-- sidebar -->
-                        <div class="col-lg-6">
-                            <div class="central-meta">
-                                <div class="frnds">
-                                    <ul class="nav nav-tabs">
-                                        <li class="nav-item"><a class="active" href="#frends" data-toggle="tab">Arkadaşlar</a> <span>@Model.User.UserFollowerCount</span></li>                                     
-                                    </ul>
+@if (!Model.User.UserPrivacySettings.PrivacySettingsHiddenProfile || statusFriend?.FriendsStatus == "approved")
+{
 
-                                    <!-- Tab panes -->
-                                    <div class="tab-content">
-                                        <div class="tab-pane active fade show " id="frends">
-                                            <ul class="nearby-contct">
-                                                @foreach (var friend in Model.Friends)
-                                                {
-                                                    <li>
-                                                        <div class="nearly-pepls">
-                                                            <figure>
-                                                                <a href="time-line.html" title=""><img src=@friend.Friend.UserProfilePicture alt=""></a>
-                                                            </figure>
-                                                            <div class="pepl-info">
-                                                                <h4><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@friend.Friend.UserId" title="">@friend.Friend.UserFirstName @friend.Friend.UserLastName</a></h4> 
-                                                            
 
+    <section>
+        <div class="gap gray-bg">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row" id="page-contents">
+                            <div class="col-lg-3">
+                                <aside class="sidebar static">
+                                    <!--ShortCuts-->
+                                    <partial name="ShortCutsPartialView" />
+                                    <!--ShortCuts-->
+
+                                </aside>
+                            </div><!-- sidebar -->
+                            <div class="col-lg-6">
+                                <div class="central-meta">
+                                    <div class="frnds">
+                                        <ul class="nav nav-tabs">
+                                            <li class="nav-item"><a class="active" href="#frends" data-toggle="tab">Arkadaşlar</a> <span>@Model.User.UserFollowerCount</span></li>
+                                        </ul>
+
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+                                            <div class="tab-pane active fade show " id="frends">
+                                                <ul class="nearby-contct">
+                                                    @foreach (var friend in Model.Friends)
+                                                    {
+                                                        <li>
+                                                            <div class="nearly-pepls">
+                                                                <figure>
+                                                                    <a href="time-line.html" title=""><img src=@friend.Friend.UserProfilePicture alt=""></a>
+                                                                </figure>
+                                                                <div class="pepl-info">
+                                                                    <h4><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@friend.Friend.UserId" title="">@friend.Friend.UserFirstName @friend.Friend.UserLastName</a></h4>
+
+
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li>
-                                                }
-                                            </ul>
-                                            <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                                <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                                            </div>
+
                                         </div>
-                                      
                                     </div>
                                 </div>
-                            </div>
-                        </div><!-- centerl meta -->
-                        <div class="col-lg-3">
-                            <aside class="sidebar static">
+                            </div><!-- centerl meta -->
+                            <div class="col-lg-3">
+                                <aside class="sidebar static">
 
 
 
-                            </aside>
-                        </div><!-- sidebar -->
+                                </aside>
+                            </div><!-- sidebar -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
+}
+else
+{
+    <div class="central-meta item">
+        <div class="user-post">
+            <div class="friend-info text-center">
+
+                <h3>Profilim şu anda gizli, sadece arkadaşlarım içeriklerimi görebilir. Eğer arkadaşlarımdan biri değilsen, istek göndermeyi deneyebilirsin.</h3>
+
+            </div>
+
+        </div>
     </div>
-</section>
+}

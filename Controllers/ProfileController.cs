@@ -293,6 +293,11 @@ namespace AspNetCore_Social_Network_UI.Controllers
         public async Task<IActionResult> OtherProfile(int id)
         {
 
+            int userId = HttpContext.Session.GetJsonUser().UserId;
+            if (id==userId)
+            {
+                return RedirectToAction("MyProfile");
+            }
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
@@ -300,7 +305,8 @@ namespace AspNetCore_Social_Network_UI.Controllers
             if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
+                var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);         
+                ViewBag.UserId = userId;
                 return View(data);
             }
             return View();
@@ -309,7 +315,11 @@ namespace AspNetCore_Social_Network_UI.Controllers
         [HttpGet]
         public async Task<IActionResult> OtherPhotos(int id)
         {
-
+            int userId = HttpContext.Session.GetJsonUser().UserId;
+            if (id == userId)
+            {
+                return RedirectToAction("MyPhotos");
+            }
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
@@ -318,6 +328,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
+                ViewBag.UserId = userId;
                 return View(data);
             }
             return View();
@@ -326,7 +337,11 @@ namespace AspNetCore_Social_Network_UI.Controllers
         [HttpGet]
         public async Task<IActionResult> OtherVideos(int id)
         {
-
+            int userId = HttpContext.Session.GetJsonUser().UserId;
+            if (id == userId)
+            {
+                return RedirectToAction("MyVideos");
+            }
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
@@ -335,6 +350,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
+                ViewBag.UserId = userId;
                 return View(data);
             }
             return View();
@@ -343,7 +359,11 @@ namespace AspNetCore_Social_Network_UI.Controllers
         [HttpGet]
         public async Task<IActionResult> OtherFriends(int id)
         {
-
+            int userId = HttpContext.Session.GetJsonUser().UserId;
+            if (id == userId)
+            {
+                return RedirectToAction("MyFriends");
+            }
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
@@ -352,6 +372,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<OtherFriendsViewModel>(jsonData);
+                ViewBag.UserId = userId;
                 return View(data);
             }
             return View();

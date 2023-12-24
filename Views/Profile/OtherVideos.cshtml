@@ -4,45 +4,14 @@
     Layout = "~/Views/Shared/LayoutPage.cshtml";
 }
 
-<section>
-    <div class="feature-photo">
-        <figure><img src=@Model.UserCoverPicture alt=""></figure>
-        <div class="add-btn">
-            <span>@Model.UserFollowerCount Arkadaş</span>
-            <a href="#" title="" data-ripple="">Arkadaş Ekle</a>
-        </div>
+@{
+    FriendsViewModel statusFriend = Model.Friends.FirstOrDefault(x => x.FriendsUserId == ViewBag.UserId);
+}
 
-        <div class="container-fluid">
-            <div class="row merged">
-                <div class="col-lg-2 col-sm-3">
-                    <div class="user-avatar">
-                        <figure>
-                            <img src=@Model.UserProfilePicture alt="">
 
-                        </figure>
-                    </div>
-                </div>
-                <div class="col-lg-10 col-sm-9">
-                    <div class="timeline-info">
-                        <ul>
-                            <li class="admin-name">
-                                <h5>@Model.UserFirstName @Model.UserLastName</h5>
-                                @* <span>Group Admin</span> *@
-                            </li>
-                            <li>
-                                <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Gönderiler</a>
-                                <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Fotoğraflar</a>
-                                <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Videolar</a>
-                                <a class="" asp-action="OtherFriends" asp-controller="Profile" asp-route-id="@Model.UserId" title="" data-ripple="">Arkadaşlar</a>
-
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<partial name="OtherProfileCoverPartialView" model="@Model" />
+@if (!Model.UserPrivacySettings.PrivacySettingsHiddenProfile || statusFriend?.FriendsStatus == "approved")
+{
 <section>
     <div class="gap gray-bg">
         <div class="container-fluid">
@@ -104,4 +73,17 @@
         </div>
     </div>
 </section>
+}
+else
+{
+    <div class="central-meta item">
+        <div class="user-post">
+            <div class="friend-info text-center">
 
+                <h3>Profilim şu anda gizli, sadece arkadaşlarım içeriklerimi görebilir. Eğer arkadaşlarımdan biri değilsen, istek göndermeyi deneyebilirsin.</h3>
+
+            </div>
+
+        </div>
+    </div>
+}
