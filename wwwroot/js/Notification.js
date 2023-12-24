@@ -61,7 +61,7 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
     }
     else {
 
-
+        //  ========= Notification İşlemleri =============
         var newMessageInfo = {
             messageContent: message,
             senderUserId: senderUserId
@@ -88,6 +88,9 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
             <span class="tag green">New</span>`;
             messagesList.appendChild(newLi);
         });
+     
+
+
 
         var messageBoxTargetUserId = $('#targetUserId').val();
 
