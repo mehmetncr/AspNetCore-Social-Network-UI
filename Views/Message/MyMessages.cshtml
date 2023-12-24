@@ -130,7 +130,7 @@
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/js/chat.js"></script>
     <script>
-
+        localStorage.setItem('newMessage', false);
         var model = @Html.Raw(Json.Serialize(Model.Messages));
         var friends = @Html.Raw(Json.Serialize(Model.Friends));
         var userProfilPic = @Html.Raw(Json.Serialize(Model.UserProfilPic));

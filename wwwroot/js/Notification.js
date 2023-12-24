@@ -61,13 +61,18 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
     }
     else {
 
-        //  ========= Notification İşlemleri =============
+
         var newMessageInfo = {
             messageContent: message,
             senderUserId: senderUserId
         }
 
         newMessages.push(newMessageInfo);
+
+        
+        localStorage.setItem('newMessage', true);
+        document.getElementById('notificationSpan').style.display = 'inline-block';
+
         if (newMessages.length > 5) {
             newMessages.splice(0, 1);
         }
@@ -144,6 +149,15 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
     }
 
 
+
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    var newMessageNotification = localStorage.getItem('newMessage');
+    console.log(newMessageNotification);
+    if (newMessageNotification == "true") {
+        document.getElementById('notificationSpan').style.display = 'inline-block';
+    };
 
 });
 
