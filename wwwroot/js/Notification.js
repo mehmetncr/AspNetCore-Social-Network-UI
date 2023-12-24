@@ -66,7 +66,7 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
             messageContent: message,
             senderUserId: senderUserId
         }
-        
+
         newMessages.push(newMessageInfo);
         if (newMessages.length > 5) {
             newMessages.splice(0, 1);
@@ -88,7 +88,7 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
             <span class="tag green">New</span>`;
             messagesList.appendChild(newLi);
         });
-     
+
 
 
 
@@ -148,31 +148,73 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
 });
 
 
-//SignalR bağlantısı sağlanır
+document.addEventListener("DOMContentLoaded", function () {
+    var infoCount = noti.length;
+    var spanName = document.getElementById('notifiCount');
+    var text = document.createTextNode(infoCount);
+    spanName.appendChild(text);
+    var spanText = document.getElementById('notifiCountText');
+    var textinfo = document.createTextNode(infoCount + " Yeni Bildirim");
+    spanText.appendChild(textinfo);
+
+    var ulelement = document.getElementById('notificationList');
+
+    noti.forEach(function (notification) {
+
+        var lielement = document.createElement("li");
+        lielement.innerHTML = `
+                <a href="notifications.html" title="">
+                    <img src="${notification.notificationSenderUser.userProfilePicture}" alt="">
+                    <div class="mesg-meta">
+                        <h6>${notification.notificationTitle}</h6>
+                        <span>${notification.notificationSenderUser.userFirstName} ${notification.notificationSenderUser.userLastName}</span>
+                        <i>2 min ago</i>
+                    </div>
+                </a>
+            
+            `;
+        ulelement.appendChild(lielement);
+    });
 
 
-//mesaj gönderim işlemi
-//function send(event) {
-//    var message = $('#textMessage').val()
-//    event.preventDefault();
-//    connection.invoke("MessageSend", message, $('#targetUserId').val(), $('#messageId').val());
 
-
-//}
-
-////gelen mesajları dinler
-//connection.on("ReceivePrivateMessage", (senderUserId, message) => {
-//    cconsole.log(message);
-
-//});
+});
 
 
 
 
 
-//window.addEventListener('beforeunload', function () {
-//    connection.invoke('DisconnectOnUnload').catch(function (err) {
-//        return console.error(err.toString());
-//    });
-//});
-//------------------------------------------WebSockets-------------------------------------------------------------
+
+
+connection.on("ReceiveFriendReq", (notification) => {
+
+    
+    var spanName = document.getElementById('notifiCount');
+    var count = parseInt(spanName.innerText) + 1;
+    spanName.innerText = '';
+    var text = document.createTextNode(count);
+    spanName.appendChild(text);
+
+    var spanText = document.getElementById('notifiCountText');
+    spanText.innerText = '';
+    var textinfo = document.createTextNode(count + " Yeni Bildirim");
+    spanText.appendChild(textinfo);
+
+
+    var ulElement = document.getElementById('notificationList');
+
+    var newLiElement = document.createElement('li');
+    newLiElement.innerHTML = `
+        <a href="notifications.html" title="">
+                    <img src="${notification.notificationSenderUser.userProfilePicture}" alt="">
+                    <div class="mesg-meta">
+                        <h6>${notification.notificationTitle}</h6>
+                        <span>${notification.notificationSenderUser.userFirstName} ${notification.notificationSenderUser.userLastName}</span>
+                        <i>2 min ago</i>
+                    </div>
+                </a>
+              
+            `;
+    ulElement.appendChild(newLiElement);
+});
+

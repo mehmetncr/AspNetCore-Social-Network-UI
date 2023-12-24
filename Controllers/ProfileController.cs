@@ -86,7 +86,20 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			}
 			return View();
 		}
-
+        public async Task<IActionResult> MyNotifications()
+        {
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var respons = await http.GetAsync("https://localhost:7091/api/Notifications/GetAllNotification");
+            if (respons.IsSuccessStatusCode)
+            {
+                var jsonData = await respons.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<NotificationViewModel>>(jsonData);
+                return View(data);
+            }
+            return View();
+        }
 
 
         [HttpGet]
