@@ -66,11 +66,35 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
             messageContent: message,
             senderUserId: senderUserId
         }
-        
+
         newMessages.push(newMessageInfo);
+
         
         localStorage.setItem('newMessage', true);
         document.getElementById('notificationSpan').style.display = 'inline-block';
+
+        if (newMessages.length > 5) {
+            newMessages.splice(0, 1);
+        }
+        var messagesList = document.getElementById('messagesList');
+        messagesList.innerHTML = "";
+        newMessages.forEach(function (message) {
+
+            var newLi = document.createElement('li');
+
+            newLi.innerHTML = `<a href="notifications.html" title="">
+                <img src="message.userphoto" alt="">
+                <div class="mesg-meta">
+                    <h6>${message.senderUserId}</h6>
+                    <span>${message.messageContent}</span>
+                    <i>2 min ago</i>
+                </div>
+            </a>
+            <span class="tag green">New</span>`;
+            messagesList.appendChild(newLi);
+        });
+
+
 
 
         var messageBoxTargetUserId = $('#targetUserId').val();
@@ -138,31 +162,73 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-//SignalR bağlantısı sağlanır
+document.addEventListener("DOMContentLoaded", function () {
+    var infoCount = noti.length;
+    var spanName = document.getElementById('notifiCount');
+    var text = document.createTextNode(infoCount);
+    spanName.appendChild(text);
+    var spanText = document.getElementById('notifiCountText');
+    var textinfo = document.createTextNode(infoCount + " Yeni Bildirim");
+    spanText.appendChild(textinfo);
+
+    var ulelement = document.getElementById('notificationList');
+
+    noti.forEach(function (notification) {
+
+        var lielement = document.createElement("li");
+        lielement.innerHTML = `
+                <a href="notifications.html" title="">
+                    <img src="${notification.notificationSenderUser.userProfilePicture}" alt="">
+                    <div class="mesg-meta">
+                        <h6>${notification.notificationTitle}</h6>
+                        <span>${notification.notificationSenderUser.userFirstName} ${notification.notificationSenderUser.userLastName}</span>
+                        <i>2 min ago</i>
+                    </div>
+                </a>
+            
+            `;
+        ulelement.appendChild(lielement);
+    });
 
 
-//mesaj gönderim işlemi
-//function send(event) {
-//    var message = $('#textMessage').val()
-//    event.preventDefault();
-//    connection.invoke("MessageSend", message, $('#targetUserId').val(), $('#messageId').val());
 
-
-//}
-
-////gelen mesajları dinler
-//connection.on("ReceivePrivateMessage", (senderUserId, message) => {
-//    cconsole.log(message);
-
-//});
+});
 
 
 
 
 
-//window.addEventListener('beforeunload', function () {
-//    connection.invoke('DisconnectOnUnload').catch(function (err) {
-//        return console.error(err.toString());
-//    });
-//});
-//------------------------------------------WebSockets-------------------------------------------------------------
+
+
+connection.on("ReceiveFriendReq", (notification) => {
+
+    
+    var spanName = document.getElementById('notifiCount');
+    var count = parseInt(spanName.innerText) + 1;
+    spanName.innerText = '';
+    var text = document.createTextNode(count);
+    spanName.appendChild(text);
+
+    var spanText = document.getElementById('notifiCountText');
+    spanText.innerText = '';
+    var textinfo = document.createTextNode(count + " Yeni Bildirim");
+    spanText.appendChild(textinfo);
+
+
+    var ulElement = document.getElementById('notificationList');
+
+    var newLiElement = document.createElement('li');
+    newLiElement.innerHTML = `
+        <a href="notifications.html" title="">
+                    <img src="${notification.notificationSenderUser.userProfilePicture}" alt="">
+                    <div class="mesg-meta">
+                        <h6>${notification.notificationTitle}</h6>
+                        <span>${notification.notificationSenderUser.userFirstName} ${notification.notificationSenderUser.userLastName}</span>
+                        <i>2 min ago</i>
+                    </div>
+                </a>
+              
+            `;
+    ulElement.appendChild(newLiElement);
+});
+
