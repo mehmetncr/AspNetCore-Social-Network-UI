@@ -120,9 +120,14 @@ namespace AspNetCore_Social_Network_UI.Controllers
             user.UserLocation = model.UserLocation;
             user.UserBiography = model.UserBiography;
             user.UserPhoneNumber = model.UserPhoneNumber;
+            user.UserLanguage1 = model.UserLanguage1;
+            user.UserLanguage2 = model.UserLanguage2;
+            user.UserLanguage3 = model.UserLanguage3;
 
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
             var jsonData = JsonConvert.SerializeObject(user);
             var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var content = new StringContent(jsonData, encoding: Encoding.UTF8, "application/json");
             var result = await http.PutAsync("https://localhost:7091/api/Profiles/update", content);
             var errorMessage = await result.Content.ReadAsStringAsync();
@@ -151,8 +156,10 @@ namespace AspNetCore_Social_Network_UI.Controllers
             user.UserEducationInfo = model.UserEducationInfo;
             user.UserJobInfo = model.UserJobInfo;
 
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
             var jsonData = JsonConvert.SerializeObject(user);
             var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var content = new StringContent(jsonData, encoding: Encoding.UTF8, "application/json");
             var result = await http.PutAsync("https://localhost:7091/api/Profiles/update", content);
             var errorMessage = await result.Content.ReadAsStringAsync();
@@ -190,7 +197,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
         public async Task<List<InterestViewModel>> AddUserIntrest(string interest)    //ilgi alanı ekleme
         {
             var user = HttpContext.Session.GetJsonUser();        
-            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            string token = user.AccessToken;
             var http = _httpClientFactory.CreateClient(); 
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var jsondata = JsonConvert.SerializeObject(interest);

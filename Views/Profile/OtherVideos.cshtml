@@ -12,67 +12,69 @@
 <partial name="OtherProfileCoverPartialView" model="@Model" />
 @if (!Model.UserPrivacySettings.PrivacySettingsHiddenProfile || statusFriend?.FriendsStatus == "approved")
 {
-<section>
-    <div class="gap gray-bg">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="row" id="page-contents">
-                        <div class="col-lg-3">
-                            <aside class="sidebar static">
-                                <!--ShortCuts-->
-                                <partial name="ShortCutsPartialView" />
-                                <!--ShortCuts-->
+    <section>
+        <div class="gap gray-bg">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row" id="page-contents">
+                            <div class="col-lg-3">
+                                <aside class="sidebar static">
+                                    <!--ShortCuts-->
+                                    <partial name="ShortCutsPartialView" />
+                                    <!--ShortCuts-->
 
-                            </aside>
-                        </div><!-- sidebar -->
-                        <div class="col-lg-6">
-                            <div class="central-meta">
-                                <ul class="photos">
-                                    @if (Model.Posts.Where(x=>x.PostType=="Video").Count() < 1)
-                                    {
-
-                                        <h3>Hiç Vieo Paylaşılmamış..</h3>
-
-                                    }
-                                    else
-                                    {
-
-
-                                        @foreach (var post in Model.Posts)
+                                </aside>
+                            </div><!-- sidebar -->
+                            <div class="col-lg-6">
+                                <div class="central-meta">
+                                    <ul class="photos">
+                                        @if (Model.Posts.Where(x => x.PostType == "Video").Count() < 1)
                                         {
-                                            if (post.PostType == "Video")
-                                            {
 
-
-                                                <li>
-                                                    <div class="embed-responsive embed-responsive-16by9">
-                                                        <video width="770" controls>
-                                                            <source src="@post.PostVideoUrl" type="video/mp4">
-                                                        </video>
-                                                    </div>
-                                                </li>
-                                            }
-                                           
+                                            <h3>Hiç Vieo Paylaşılmamış..</h3>
 
                                         }
-                                    }
-                                </ul>
-                                <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
-                            </div><!-- photos -->
-                        </div><!-- centerl meta -->
-                        <div class="col-lg-3">
-                            <aside class="sidebar static">
+                                        else
+                                        {
 
 
-                            </aside>
-                        </div><!-- sidebar -->
+                                            @foreach (var post in Model.Posts)
+                                            {
+                                                if (post.PostType == "Video")
+                                                {
+                                                    <li>
+                                                        <div class="embed-responsive embed-responsive-16by9">
+                                                            <video width="770" controls>
+                                                                <source src="@post.PostVideoUrl" type="video/mp4">
+                                                            </video>
+                                                        </div>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    continue;
+                                                }
+
+
+                                            }
+                                        }
+                                    </ul>
+                                    <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+                                </div><!-- photos -->
+                            </div><!-- centerl meta -->
+                            <div class="col-lg-3">
+                                <aside class="sidebar static">
+
+
+                                </aside>
+                            </div><!-- sidebar -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 }
 else
 {

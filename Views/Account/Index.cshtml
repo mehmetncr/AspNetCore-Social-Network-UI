@@ -233,7 +233,9 @@
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
                 success: function (response) {
-                    $('.login-reg-bg').removeClass('show');
+                    $('.forgot-pwd').hide();
+                    $('.sign').show();
+                    $('.reg').hide();
                     return false;
                 },
                 error: function (xhr, status, error) {

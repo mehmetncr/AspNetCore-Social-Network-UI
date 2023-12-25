@@ -79,7 +79,7 @@
             // Arkadaşlık isteği switch durumu değiştiğinde
             switchElement1.addEventListener("change", function () {
                 var switchValue1 = switchElement1.checked; 
-                console.log("Switch durumu değişti: " + switchValue1);
+
 
                 // Kullanıcıya SweetAlert ile onay mesajı gösterir
                 Swal.fire({
@@ -99,7 +99,7 @@
                             url: '/Profile/UpdateSettings',
                             data: { settingName: 'ReqFriends', settingValue: switchValue1 },
                             success: function (result) {
-                                console.log(result);
+                          
                             }
                         });
                     } else {
@@ -116,7 +116,7 @@
             //Mesaj isteği switch durumu değiştiğinde
             switchElement2.addEventListener("change", function () {
                 var switchValue2 = switchElement2.checked;
-                console.log("Switch durumu değişti: " + switchValue2);
+             
 
                 // Kullanıcıya SweetAlert ile onay mesajı gösterir
                 Swal.fire({
@@ -155,7 +155,7 @@
             //Profil gizliliği switch durumu değiştiğinde
             switchElement3.addEventListener("change", function () {
                 var switchValue3 = switchElement3.checked;
-                console.log("Switch durumu değişti: " + switchValue3);
+        
 
                 // Kullanıcıya SweetAlert ile onay mesajı gösterir
                 Swal.fire({
@@ -175,7 +175,7 @@
                             url: '/Profile/UpdateSettings',
                             data: { settingName: 'HiddenProfile' },
                             success: function (result) {
-                                console.log(result)
+                           
                             }
 
                         })

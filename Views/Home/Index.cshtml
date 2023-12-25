@@ -70,13 +70,21 @@
                                     <ul class="followers">
                                         @foreach (var offeruser in Model.HomeViewModel.OfferUserDtos)
                                         {
-                                            <li>
-                                                <figure><img src="@offeruser.UserProfilePicture" alt=""></figure>
-                                                <div class="friend-meta">
-                                                    <h4><a asp-controller="Profile" asp-action="OtherProfile" asp-route-id="@offeruser.UserId" title="">@offeruser.UserFirstName @offeruser.UserLastName</a></h4>
-                                                    <a href="#" title="" class="underline">Arkadaş Ekle</a>
-                                                </div>
-                                            </li>
+                                            if (offeruser.UserId == ViewBag.userId)
+                                            {
+                                                continue;
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <figure><img src="@offeruser.UserProfilePicture" alt=""></figure>
+                                                    <div class="friend-meta">
+                                                        <h4><a asp-controller="Profile" asp-action="OtherProfile" asp-route-id="@offeruser.UserId" title="">@offeruser.UserFirstName @offeruser.UserLastName</a></h4>
+                                                        <a href="#" title="" class="underline">Arkadaş Ekle</a>
+                                                    </div>
+                                                </li>
+                                            }
+                                           
                                         }
 
                                     </ul>
