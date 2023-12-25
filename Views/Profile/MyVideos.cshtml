@@ -25,37 +25,53 @@
                         <div class="col-lg-6">
                             <div class="central-meta">
                                 <ul class="photos">
-                                    @if (Model== null)
+                                    @if (Model == null)
                                     {
-                                     
-                                            <h3>Hiç Vieo Paylaşılmamış..</h3>
-                                      
+
+                                        <div class="central-meta">
+                                            <div class="new-postbox text-center">
+                                                <h2>Henüz hiçbir şey paylaşılmamış..</h2>
+                                            </div>
+                                        </div>
+
                                     }
                                     else
                                     {
 
-
                                         @foreach (var post in Model)
                                         {
-                                            <li>
-                                                <div class="embed-responsive embed-responsive-16by9">
-                                                    <video width="770" controls>
-                                                        <source src="@post.PostVideoUrl" type="video/mp4">
-                                                    </video>
-                                                </div>
-                                            </li>
+                                            if (post.PostType == "Video")
+                                            {
+                                                <li>
+                                                    <div class="embed-responsive embed-responsive-16by9">
+                                                        <video width="770" controls>
+                                                            <source src="@post.PostVideoUrl" type="video/mp4">
+                                                        </video>
+                                                    </div>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                continue;
+                                            }
                                         }
                                     }
                                 </ul>
                                 <div class="lodmore"><button class="btn-view btn-load-more"></button></div>
-                            </div><!-- photos -->
-                        </div><!-- centerl meta -->
+                            </div>
+
+                            <!-- photos -->
+                        </div>
+
+                        <!-- centerl meta -->
                         <div class="col-lg-3">
                             <aside class="sidebar static">
 
 
                             </aside>
-                        </div><!-- sidebar -->
+                        </div>
+
+                        <!-- sidebar -->
                     </div>
                 </div>
             </div>

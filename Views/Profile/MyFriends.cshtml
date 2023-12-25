@@ -21,7 +21,7 @@
                                 <!--ShortCuts-->
                                 <partial name="ShortCutsPartialView" />
                                 <!--ShortCuts-->
-                               
+
                             </aside>
                         </div><!-- sidebar -->
                         <div class="col-lg-6">
@@ -38,7 +38,7 @@
                                             <ul class="nearby-contct">
                                                 @foreach (var friend in Model.friends)
                                                 {
-                                                    <li>
+                                                    <li id="@friend.Friend.UserId">
                                                         <div class="nearly-pepls">
                                                             <figure>
                                                                 <a href="time-line.html" title=""><img src=@friend.Friend.UserProfilePicture alt=""></a>
@@ -46,7 +46,7 @@
                                                             <div class="pepl-info">
                                                                 <h4><a href="time-line.html" title="">@friend.Friend.UserFirstName @friend.Friend.UserLastName</a></h4>
 
-                                                                <a href="#" title="" class="add-butn more-action" data-ripple="">Arkadaşlıktan Çıkar</a>
+                                                                <a href="#" title="" class="add-butn more-action" data-ripple="" onclick="DeleteFriend(@friend.Friend.UserId)">Arkadaşlıktan Çıkar</a>
 
                                                             </div>
                                                         </div>
@@ -61,14 +61,14 @@
                                                 {
 
 
-                                                    <li>
+                                                    <li >
                                                         <div class="nearly-pepls">
                                                             <figure>
                                                                 <a href="time-line.html" title=""><img src=@req.FriendReqFriendReqSender.UserProfilePicture alt=""></a>
                                                             </figure>
                                                             <div class="pepl-info">
                                                                 <h4><a href="time-line.html" title="">@req.FriendReqFriendReqSender.UserFirstName @req.FriendReqFriendReqSender.UserLastName</a></h4>
-                                                             
+
                                                                 <a href="#" title="" class="add-butn more-action" data-ripple="">İsteği Sil</a>
                                                                 <a href="#" title="" class="add-butn" data-ripple="">Kabul Et</a>
                                                             </div>
@@ -84,8 +84,6 @@
                         </div><!-- centerl meta -->
                         <div class="col-lg-3">
                             <aside class="sidebar static">
-                                
-       
 
                             </aside>
                         </div><!-- sidebar -->
@@ -95,3 +93,43 @@
         </div>
     </div>
 </section>
+
+
+@section Scripts {
+    <script>
+        function DeleteFriend(id) {
+           
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Arkadaşlığı bitirmek istiyor musunuz?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet',
+                cancelButtonText: 'Hayır'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kullanıcı "Evet" derse, AJAX isteğini gönder
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Friend/DeleteFriend',
+                        data: { friendsId: id },
+                        success: function (result) {
+                            document.getElementById(id).remove();
+
+                           
+                         
+
+                        }
+                    });
+                } else {
+                 
+                }
+            });
+        }
+
+
+    </script>
+
+}

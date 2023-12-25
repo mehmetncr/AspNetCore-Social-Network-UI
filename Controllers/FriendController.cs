@@ -43,8 +43,22 @@ namespace AspNetCore_Social_Network_UI.Controllers
             ModelState.AddModelError("Error", errorMessage);
 
             return "No";
-
-
+        }
+        [HttpPost]
+        public async Task<string> DeleteFriend(int friendsId)
+        {
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient(); 
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var jsondata = JsonConvert.SerializeObject(friendsId);
+            var content = new StringContent(jsondata, encoding: Encoding.UTF8, "application/json");
+            var result = await http.PostAsync("https://localhost:7091/api/Friends", content);
+            if (result.IsSuccessStatusCode)
+            {
+                return "Ok";
+            }
+            var errorMessage = await result.Content.ReadAsStringAsync();
+            return "No";
         }
     }
 }

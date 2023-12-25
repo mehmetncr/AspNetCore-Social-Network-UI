@@ -53,7 +53,7 @@
                             @if (!Model.UserPrivacySettings.PrivacySettingsHiddenProfile || friendStatus?.FriendsStatus == "approved")
                             {
                                 <li>
-                                    <a class="active" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Gönderiler</a>
+                                    <a class="" asp-action="OtherProfile" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Gönderiler</a>
                                     <a class="" asp-action="OtherPhotos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Fotoğraflar</a>
                                     <a class="" asp-action="OtherVideos" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Videolar</a>
                                     <a class="" asp-action="OtherFriends" asp-controller="Profile" title="" asp-route-id="@Model.UserId" data-ripple="">Arkadaşlar</a>

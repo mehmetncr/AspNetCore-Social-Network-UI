@@ -26,7 +26,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
         [DisableRequestSizeLimit]
         public async Task<IActionResult> AddPost(PostViewModel model, IFormFile formFile, IFormFile formFile2)
         {
-            if (HttpContext.Request.Form.Files.Count()>0)
+            if (HttpContext.Request.Form.Files.Count() > 0)
             {
                 var videoFile = HttpContext.Request.Form.Files[0];
                 if (videoFile != null && videoFile.ContentType == "video/mp4")  //Video kontrolüne çevilecek
@@ -37,19 +37,21 @@ namespace AspNetCore_Social_Network_UI.Controllers
                     videoFile.CopyTo(stream);
                     model.PostVideoUrl = "/images/postvideos/" + videoFile.FileName;
                 }
-            }
 
+
+             
+                else if (formFile != null) //IFromFile kontrolüne çevirilecek
+                {
+                    model.PostType = "Image";
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\postimages", formFile.FileName);
+                    var stream = new FileStream(path, FileMode.Create);
+                    formFile.CopyTo(stream);
+                    model.PostImageUrl = "/images/postimages/" + formFile.FileName;
+                }
+            }
             else if (model.PostYoutubeUrl != null)
             {
                 model.PostType = "Youtube";
-            }
-            else if (formFile != null) //IFromFile kontrolüne çevirilecek
-            {
-                model.PostType = "Image";
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\postimages", formFile.FileName);
-                var stream = new FileStream(path, FileMode.Create);
-                formFile.CopyTo(stream);
-                model.PostImageUrl = "/images/postimages/" + formFile.FileName;
             }
 
             else
