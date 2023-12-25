@@ -1,63 +1,201 @@
-﻿function postLike(postId, likeCount) {
-    var likeIcon = document.getElementById(`likeIcon${postId}`)
-    var likeCountElement = document.getElementById(`like${postId}`)
+﻿function postLike(postId, userId) {
+    var likeIcon = document.getElementById(`likeIcon${postId}`);
+    var likeCountElement = document.getElementById(`like${postId}`);
+    var localLikedPosts = JSON.parse(localStorage.getItem('likedPosts'));
+    var localDislikedPosts = JSON.parse(localStorage.getItem('dislikedPosts'));
 
-    if (likeIcon.classList.contains('ti-heart')) {
+    if (localDislikedPosts != null) {
+        localDislikedPosts.forEach(function (item) {
+            if (item.postId == postId && item.isDislike == true) {
+                postTakeBackDislike(postId);
+            }
+        })
+    }
+    
+
+    if (likeIcon.classList.contains('fa-regular')) {
         $.ajax({
             type: "POST",
             url: "/Post/PostLike/",
             data: { postId: postId },
             success: function (result) {
-                console.log('result' + result);
-                console.log(likeCount);
-                likeIcon.classList.remove("ti-heart");
-                likeIcon.classList.add("fa", "fa-heart");
+                likeIcon.classList.remove("fa-regular");
+                likeIcon.classList.add("fa-solid");
                 likeCountElement.innerHTML = result;
+                console.log(userId);
+                
+                postNotification(userId, "Like");
+                
+                var newLikedPost = {
+                    postId: postId,
+                    isLike: true
+                };
+
+                if (localLikedPosts == null) {
+                    localStorage.setItem('likedPosts', JSON.stringify([newLikedPost]));
+                } else {
+                    var postExists = false;
+
+                    for (var i = 0; i < localLikedPosts.length; i++) {
+                        if (localLikedPosts[i].postId == postId) {
+                            localLikedPosts[i].isLike = true;
+                            localStorage.setItem('likedPosts', JSON.stringify(localLikedPosts));
+                            postExists = true;
+                            break;
+                        }
+                    }
+
+                    if (!postExists) {
+                        localLikedPosts.push(newLikedPost);
+                        localStorage.setItem('likedPosts', JSON.stringify(localLikedPosts));
+                    }
+                }
             },
             error: function () {
                 // Hata durumunda yapılacak işlemler
             }
         });
+    } else {
+        // Kullanıcı daha önce like atmışsa, like'ı geri al
+        postTakeBackLike(postId);
     }
-    else {
+}
+
+function postTakeBackLike(postId) {
+    var likeIcon = document.getElementById(`likeIcon${postId}`);
+    var likeCountElement = document.getElementById(`like${postId}`);
+    var localLikedPosts = JSON.parse(localStorage.getItem('likedPosts'));
+
+    if (likeIcon.classList.contains('fa-solid')) {
         $.ajax({
             type: "POST",
             url: "/Post/PostTakeBackLike/",
             data: { postId: postId },
             success: function (result) {
-                console.log('result' + result);
-                console.log(likeCount);
-                likeIcon.classList.remove("fa", "fa-heart");
-                likeIcon.classList.add("ti-heart");
+                likeIcon.classList.remove("fa-solid");
+                likeIcon.classList.add("fa-regular");
                 likeCountElement.innerHTML = result;
+
+                // Eğer post zaten varsa, like'ı geri al
+                if (localLikedPosts != null) {
+                    for (var i = 0; i < localLikedPosts.length; i++) {
+                        if (localLikedPosts[i].postId == postId) {
+                            localLikedPosts[i].isLike = false;
+                            localStorage.setItem('likedPosts', JSON.stringify(localLikedPosts));
+                            break;
+                        }
+                    }
+                }
             },
             error: function () {
                 // Hata durumunda yapılacak işlemler
             }
         });
+    }
+}
 
+function postNotification(userId, notificationType) {
+    connection.invoke("PostNotification", userId,notificationType);
+}
+
+function postDislike(postId, userId) {
+    var dislikeIcon = document.getElementById(`dislikeIcon${postId}`);
+    var dislikeCountElement = document.getElementById(`dislike${postId}`);
+    var localDislikedPosts = JSON.parse(localStorage.getItem('dislikedPosts'));
+    var localLikedPosts = JSON.parse(localStorage.getItem('likedPosts'));
+    if (localLikedPosts != null) {
+        localLikedPosts.forEach(function (item) {
+            if (item.postId == postId && item.isLike == true) {
+                postTakeBackLike(postId);
+            }
+        })
+    }
+    
+
+
+
+    if (dislikeIcon.classList.contains('fa-regular')) {
+        $.ajax({
+            type: "POST",
+            url: "/Post/PostDislike/",
+            data: { postId: postId },
+            success: function (result) {
+                console.log('result' + result);
+                dislikeIcon.classList.remove("fa-regular");
+                dislikeIcon.classList.add("fa-solid");
+                dislikeCountElement.innerHTML = result;
+                postNotification(userId, "Dislike");
+                var newDislikedPost = {
+                    postId: postId,
+                    isDislike: true
+                };
+
+                if (localDislikedPosts == null) {
+                    localStorage.setItem('dislikedPosts', JSON.stringify([newDislikedPost]));
+                } else {
+                    var postExists = false;
+
+                    for (var i = 0; i < localDislikedPosts.length; i++) {
+                        if (localDislikedPosts[i].postId == postId) {
+                            localDislikedPosts[i].isDislike = true;
+                            localStorage.setItem('dislikedPosts', JSON.stringify(localDislikedPosts));
+                            postExists = true;
+                            break;
+                        }
+                    }
+
+                    if (!postExists) {
+                        localDislikedPosts.push(newDislikedPost);
+                        localStorage.setItem('dislikedPosts', JSON.stringify(localDislikedPosts));
+                    }
+                }
+            },
+            error: function () {
+                // Hata durumunda yapılacak işlemler
+            }
+        });
+    } else {
+        // Kullanıcı daha önce dislike atmışsa, dislike'ı geri al
+        postTakeBackDislike(postId);
+    }
+}
+
+function postTakeBackDislike(postId) {
+    var dislikeIcon = document.getElementById(`dislikeIcon${postId}`);
+    var dislikeCountElement = document.getElementById(`dislike${postId}`);
+    var localDislikedPosts = JSON.parse(localStorage.getItem('dislikedPosts'));
+
+    if (dislikeIcon.classList.contains('fa-solid')) {
+        $.ajax({
+            type: "POST",
+            url: "/Post/PostTakeBackDislike/",
+            data: { postId: postId },
+            success: function (result) {
+                dislikeIcon.classList.remove("fa-solid");
+                dislikeIcon.classList.add("fa-regular");
+                dislikeCountElement.innerHTML = result;
+
+                // Eğer post zaten varsa, dislike'ı geri al
+                if (localDislikedPosts != null) {
+                    for (var i = 0; i < localDislikedPosts.length; i++) {
+                        if (localDislikedPosts[i].postId == postId) {
+                            localDislikedPosts[i].isDislike = false;
+                            localStorage.setItem('dislikedPosts', JSON.stringify(localDislikedPosts));
+                            break;
+                        }
+                    }
+                }
+            },
+            error: function () {
+                // Hata durumunda yapılacak işlemler
+            }
+        });
     }
 }
 
 
-
-function postDislike(postId) {
-    $.ajax({
-        type: "POST",
-        url: "/Post/PostLike/",
-        data: { postId: postId },
-        success: function (result) {
-            // Beğeni sayısını güncelle
-            $("#likeCount").html(result);
-        },
-        error: function () {
-
-        }
-    });
-}
-
 function replyToComment(commentId, commentContent, firstName, lastName, postId) {
-    // Yanıtlanan yorumun içeriğini ve ID'sini form içine ekleyin
+
     console.log(postId);
     var replyToArea = document.getElementById(`replyArea${postId}`);
     if (replyToArea.style.display === "none") {
@@ -68,8 +206,6 @@ function replyToComment(commentId, commentContent, firstName, lastName, postId) 
     $(`#commentUser${postId}`).text('Cevap Veriliyor: ' + firstName + ' ' + lastName);
     $(`#parentComment${postId}`).val(commentId);
 
-    // Formun görünürlüğünü sağlayın (gerekirse)
-    // Örneğin: $('#addcomment2').show();
 }
 function closeReplyToArea(postId) {
     var replyToArea = document.getElementById(`replyArea${postId}`);
@@ -92,12 +228,12 @@ document.getElementById('fileInput').addEventListener('change', function () {
     var uploadAnimation = document.getElementById('uploadAnimation');
     var postButton = document.getElementById('postButton');
 
-    // Dosya yükleme simülasyonu (Gerçek bir yükleme işlemi için sunucu tarafı kodu eklenmelidir)
+
     uploadAnimation.style.display = 'block';
     setTimeout(function () {
         uploadAnimation.style.display = 'none';
         postButton.removeAttribute('disabled');
-    }, 2000); // 2 saniye sonra simülasyonu tamamla
+    }, 2000); 
 });
 function showVideoThumbnail(input) {
     var fileInput = input;
@@ -106,8 +242,8 @@ function showVideoThumbnail(input) {
     if (file) {
         var video = document.createElement("video");
         video.src = URL.createObjectURL(file);
-        video.width = 150; // Resmin genişliğini isteğe bağlı olarak ayarlayabilirsiniz
-        video.height = 75; // Resmin yüksekliğini isteğe bağlı olarak ayarlayabilirsiniz
+        video.width = 150; 
+        video.height = 75; 
 
         var videoThumb = document.getElementById("videoThumb");
         videoThumb.innerHTML = "";
@@ -133,9 +269,9 @@ function showImageThumbnail(input) {
     var file = fileInput.files[0];
 
     if (file) {
-        var image = document.createElement("img"); // "img" elementi, resim göstermek için kullanılmalıdır
+        var image = document.createElement("img"); 
         image.src = URL.createObjectURL(file);
-        image.height = 75; // Resmin yüksekliğini isteğe bağlı olarak ayarlayabilirsiniz
+        image.height = 75; 
 
         var imageThumb = document.getElementById("videoThumb");
         imageThumb.innerHTML = "";

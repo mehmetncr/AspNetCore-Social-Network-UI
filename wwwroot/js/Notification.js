@@ -69,7 +69,7 @@ connection.on("ReceivePrivateMessage", (senderUserId, message) => {
 
         newMessages.push(newMessageInfo);
 
-        
+
         localStorage.setItem('newMessage', true);
         document.getElementById('notificationSpan').style.display = 'inline-block';
 
@@ -162,6 +162,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+
+
 document.addEventListener("DOMContentLoaded", function () {
     var infoCount = noti.length;
     var spanName = document.getElementById('notifiCount');
@@ -196,13 +198,42 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+connection.on("ReceivePostNotifRes", (notification) => {
+
+    debugger;
+    var spanName = document.getElementById('notifiCount');
+    var count = parseInt(spanName.innerText) + 1;
+    spanName.innerText = '';
+    var text = document.createTextNode(count);
+    spanName.appendChild(text);
+
+    var spanText = document.getElementById('notifiCountText');
+    spanText.innerText = '';
+    var textinfo = document.createTextNode(count + " Yeni Bildirim");
+    spanText.appendChild(textinfo);
 
 
+    var ulElement = document.getElementById('notificationList');
+
+    var newLiElement = document.createElement('li');
+    newLiElement.innerHTML = `
+        <a href="notifications.html" title="">
+                    <img src="${notification.notificationSenderUser.userProfilePicture}" alt="">
+                    <div class="mesg-meta">
+                        <h6>${notification.notificationTitle}</h6>
+                        <span>${notification.notificationSenderUser.userFirstName} ${notification.notificationSenderUser.userLastName}</span>
+                        <i>2 min ago</i>
+                    </div>
+                </a>
+              
+            `;
+    ulElement.appendChild(newLiElement);
+});
 
 
 connection.on("ReceiveFriendReq", (notification) => {
 
-    
+
     var spanName = document.getElementById('notifiCount');
     var count = parseInt(spanName.innerText) + 1;
     spanName.innerText = '';

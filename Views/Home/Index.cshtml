@@ -241,6 +241,28 @@
             chattingArea.scrollTop(chattingArea[0].scrollHeight);
         }
 
+
+        document.addEventListener("DOMContentLoaded", function () {
+            debugger;
+            var likedPosts = JSON.parse(localStorage.getItem('likedPosts'));
+            likedPosts.forEach(function (item) {
+                if (item.isLike == true) {
+                    var newLikeIcon = document.getElementById(`likeIcon${item.postId}`);
+                    newLikeIcon.classList.add("fa-solid");
+                    newLikeIcon.classList.remove("fa-regular");
+                }
+            })
+            var dislikedPosts = JSON.parse(localStorage.getItem('dislikedPosts'));
+            dislikedPosts.forEach(function (item) {
+                if (item.isDislike == true) {
+                    var newDislikeIcon = document.getElementById(`dislikeIcon${item.postId}`);
+                    newDislikeIcon.classList.add("fa-solid");
+                    newDislikeIcon.classList.remove("fa-regular");
+                }
+            })
+        });
+
+
     </script>
 
 }
