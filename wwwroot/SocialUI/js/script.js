@@ -324,6 +324,7 @@ jQuery(document).ready(function ($) {
 
     function submitForm(form) {
         var postId = form.find("input[name='postId']").val();
+        var postOwnerUserId = form.find("input[name='postOwnerUserId']").val();
 
         // Simüle edilmiş bir POST isteği
         $.ajax({
@@ -332,9 +333,10 @@ jQuery(document).ready(function ($) {
             data: form.serialize(), // Form verilerini al
             success: function (result) {
                 // Başarılı yanıt alındığında yeni yorumu sayfaya ekle
+                debugger;
                 var commentContainer = $(`#${postId}`);
                 commentContainer.empty();
-
+                postNotification(postOwnerUserId, "Comment");       //Yorum yapıldığında post sahibine bildirim gönderme işlemi
                 result.forEach(function (item) {
                     form.find("textarea[name='comment']").val('');
                     var date = new Date(item.commentDate);

@@ -43,15 +43,15 @@ else
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="like" data-toggle="tooltip" title="like">
-                                            <i class="ti-heart"></i>
-                                            <ins>@post.PostLikeNumber</ins>
+                                        <span class="like" data-toggle="tooltip" title="Bunu Beğendim">
+                                            <i class="fa-regular fa-thumbs-up" style="color: #0f8000;" id='likeIcon@(post.PostId)' onclick="postLike('@post.PostId', '@post.PostUserId')"></i>
+                                            <ins id='like@(post.PostId)'>@post.PostLikeNumber</ins>
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="dislike" data-toggle="tooltip" title="dislike">
-                                            <i class="ti-heart-broken"></i>
-                                            <ins>@post.PostDislikeNumber</ins>
+                                        <span class="dislike" data-toggle="tooltip" title="Bunu Beğenmedim">
+                                            <i class="fa-regular fa-thumbs-down" style="color: #ff0000;" id='dislikeIcon@(post.PostId)' onclick="postDislike('@post.PostId', '@post.PostUserId')"></i>
+                                            <ins id='dislike@(post.PostId)'>@post.PostDislikeNumber</ins>
                                         </span>
                                     </li>
                                     <li class="social-media">
@@ -118,6 +118,7 @@ else
                                         </div>
                                         <form method="post" id="addcomment1" onsubmit="submitForm('addcomment1')">
                                             <input type="hidden" name="postId" value="@post.PostId">
+                                            <input type="hidden" name="postOwnerUserId" value="@post.PostUserId">
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
                                             <input type="hidden" name="commentId" id='parentComment@(post.PostId)'>
                                             <div class="add-smiles">
@@ -256,15 +257,15 @@ else
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="like" data-toggle="tooltip" title="like">
-                                            <i class="ti-heart" id='likeIcon@(post.PostId)' onclick="postLike('@post.PostId', '@post.PostLikeNumber')"></i>
+                                        <span class="like" data-toggle="tooltip" title="Bunu Beğendim">
+                                            <i class="fa-regular fa-thumbs-up" style="color: #0f8000;" id='likeIcon@(post.PostId)' onclick="postLike('@post.PostId', '@post.PostUserId')"></i>
                                             <ins id='like@(post.PostId)'>@post.PostLikeNumber</ins>
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="dislike" data-toggle="tooltip" title="dislike">
-                                            <i class="ti-heart-broken"></i>
-                                            <ins>@post.PostDislikeNumber</ins>
+                                        <span class="dislike" data-toggle="tooltip" title="Bunu Beğenmedim">
+                                            <i class="fa-regular fa-thumbs-down" style="color: #ff0000;" id='dislikeIcon@(post.PostId)' onclick="postDislike('@post.PostId', '@post.PostUserId')"></i>
+                                            <ins id='dislike@(post.PostId)'>@post.PostDislikeNumber</ins>
                                         </span>
                                     </li>
                                     <li class="social-media">
@@ -333,6 +334,8 @@ else
                                             </div>
                                             <input type="hidden" name="postId" value="@post.PostId">
                                             <input type="hidden" name="commentId" id='parentComment@(post.PostId)'>
+                                            <input type="hidden" name="postOwnerUserId" value="@post.PostUserId">
+
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
 
                                             <div class="add-smiles">
@@ -457,15 +460,15 @@ else
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="like" data-toggle="tooltip" title="like">
-                                            <i class="ti-heart"></i>
-                                            <ins>@post.PostLikeNumber</ins>
+                                        <span class="like" data-toggle="tooltip" title="Bunu Beğendim">
+                                            <i class="fa-regular fa-thumbs-up" style="color: #0f8000;" id='likeIcon@(post.PostId)' onclick="postLike('@post.PostId', '@post.PostUserId')"></i>
+                                            <ins id='like@(post.PostId)'>@post.PostLikeNumber</ins>
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="dislike" data-toggle="tooltip" title="dislike">
-                                            <i class="ti-heart-broken"></i>
-                                            <ins>@post.PostDislikeNumber</ins>
+                                        <span class="dislike" data-toggle="tooltip" title="Bunu Beğenmedim">
+                                            <i class="fa-regular fa-thumbs-down" style="color: #ff0000;" id='dislikeIcon@(post.PostId)' onclick="postDislike('@post.PostId', '@post.PostUserId')"></i>
+                                            <ins id='dislike@(post.PostId)'>@post.PostDislikeNumber</ins>
                                         </span>
                                     </li>
                                     <li class="social-media">
@@ -533,6 +536,8 @@ else
                                                 </div>
                                             </div>
                                             <input type="hidden" name="postId" value="@post.PostId">
+                                            <input type="hidden" name="postOwnerUserId" value="@post.PostUserId">
+
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
                                             <input type="hidden" name="commentId" id='parentComment@(post.PostId)'>
                                             <div class="add-smiles">
@@ -661,15 +666,15 @@ else
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="like" data-toggle="tooltip" title="like">
-                                            <i class="ti-heart"></i>
-                                            <ins>@post.PostLikeNumber</ins>
+                                        <span class="like" data-toggle="tooltip" title="Bunu Beğendim">
+                                            <i class="fa-regular fa-thumbs-up" style="color: #0f8000;" id='likeIcon@(post.PostId)' onclick="postLike('@post.PostId', '@post.PostUserId')"></i>
+                                            <ins id='like@(post.PostId)'>@post.PostLikeNumber</ins>
                                         </span>
                                     </li>
                                     <li>
-                                        <span class="dislike" data-toggle="tooltip" title="dislike">
-                                            <i class="ti-heart-broken"></i>
-                                            <ins>@post.PostDislikeNumber</ins>
+                                        <span class="dislike" data-toggle="tooltip" title="Bunu Beğenmedim">
+                                            <i class="fa-regular fa-thumbs-down" style="color: #ff0000;" id='dislikeIcon@(post.PostId)' onclick="postDislike('@post.PostId', '@post.PostUserId')"></i>
+                                            <ins id='dislike@(post.PostId)'>@post.PostDislikeNumber</ins>
                                         </span>
                                     </li>
                                     <li class="social-media">
@@ -737,6 +742,7 @@ else
                                                 </div>
                                             </div>
                                             <input type="hidden" name="postId" value="@post.PostId">
+                                            <input type="hidden" name="postOwnerUserId" value="@post.PostUserId">
                                             <textarea name="comment" placeholder="Yorumunuz..."></textarea>
                                             <input type="hidden" name="commentId" id='parentComment@(post.PostId)'>
                                             <div class="add-smiles">
