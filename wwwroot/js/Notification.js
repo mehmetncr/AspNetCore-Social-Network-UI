@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var lielement = document.createElement("li");
         lielement.innerHTML = `
-                <a href="notifications.html" title="">
+                <a href="#" onclick="viewPost('${notification.notificationDescription}')" title="">
                     <img src="${notification.notificationSenderUser.userProfilePicture}" alt="">
                     <div class="mesg-meta">
                         <h6>${notification.notificationTitle}</h6>
@@ -196,7 +196,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-
+function viewPost(id) {
+    alert(id);
+}
 
 connection.on("ReceivePostNotifRes", (notification) => {
 
@@ -263,3 +265,14 @@ connection.on("ReceiveFriendReq", (notification) => {
     ulElement.appendChild(newLiElement);
 });
 
+function deleteNotification() {   
+    $.ajax({
+        type: "GET",
+        url: "/Notification/DeleteNotification/",   
+        success: function (result) {   
+            
+        },
+        error: function () {        
+        }
+    });
+}

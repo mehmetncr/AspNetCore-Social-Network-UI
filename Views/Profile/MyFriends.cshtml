@@ -29,7 +29,7 @@
                                 <div class="frnds">
                                     <ul class="nav nav-tabs">
                                         <li class="nav-item"><a class="active" href="#frends" data-toggle="tab">Arkadaşlarım</a> <span>@Model.friends.Count()</span></li>
-                                        <li class="nav-item"><a class="" href="#frends-req" data-toggle="tab">Arkadaşlık İstekleri</a><span>@Model.friendRequests.Count()</span></li>
+                                       
                                     </ul>
 
                                     <!-- Tab panes -->
@@ -41,10 +41,10 @@
                                                     <li id="@friend.Friend.UserId">
                                                         <div class="nearly-pepls">
                                                             <figure>
-                                                                <a href="time-line.html" title=""><img src=@friend.Friend.UserProfilePicture alt=""></a>
+                                                                <a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@friend.Friend.UserId" title=""><img src=@friend.Friend.UserProfilePicture alt=""></a>
                                                             </figure>
                                                             <div class="pepl-info">
-                                                                <h4><a href="time-line.html" title="">@friend.Friend.UserFirstName @friend.Friend.UserLastName</a></h4>
+                                                                <h4><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@friend.Friend.UserId" title="">@friend.Friend.UserFirstName @friend.Friend.UserLastName</a></h4>
 
                                                                 <a href="#" title="" class="add-butn more-action" data-ripple="" onclick="DeleteFriend(@friend.Friend.UserId)">Arkadaşlıktan Çıkar</a>
 
@@ -57,24 +57,7 @@
                                         </div>
                                         <div class="tab-pane fade" id="frends-req">
                                             <ul class="nearby-contct">
-                                                @foreach (var req in Model.friendRequests)
-                                                {
-
-
-                                                    <li >
-                                                        <div class="nearly-pepls">
-                                                            <figure>
-                                                                <a href="time-line.html" title=""><img src=@req.FriendReqFriendReqSender.UserProfilePicture alt=""></a>
-                                                            </figure>
-                                                            <div class="pepl-info">
-                                                                <h4><a href="time-line.html" title="">@req.FriendReqFriendReqSender.UserFirstName @req.FriendReqFriendReqSender.UserLastName</a></h4>
-
-                                                                <a href="#" title="" class="add-butn more-action" data-ripple="">İsteği Sil</a>
-                                                                <a href="#" title="" class="add-butn" data-ripple="">Kabul Et</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                }
+                                               
                                             </ul>
                                             <button class="btn-view btn-load-more"></button>
                                         </div>

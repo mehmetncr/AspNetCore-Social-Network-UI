@@ -7,12 +7,12 @@
     <div class="feature-photo">
         <figure><img src=@Model.UserCoverPicture alt=""></figure>
         <div class="add-btn">
-            <span>@Model.UserFollowerCount Arkadaş</span>
+            
             @if (friendStatus != null)
             {
                 if (friendStatus.FriendsStatus == "approved")
                 {
-                    <a href="#" title="" id="friendStatus" data-ripple="" onclick="addFriend('@Model.UserId'); return false;">Arkadaşlıktan Çıkar</a>
+                   <h5 style="background-color:white; padding:10px; border-radius:10px">Arkadaşın</h5>
                 }
                 else if (friendStatus.FriendsStatus == "pending")
                 {

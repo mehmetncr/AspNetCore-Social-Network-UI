@@ -10,7 +10,7 @@
 <ul class="setting-area">
     <li><a href="newsfeed.html" title="Home" data-ripple=""><i class="ti-home"></i></a></li>
     <li>
-        <a href="#" title="Notification" data-ripple="">
+        <a href="#" title="Notification" data-ripple="" onclick="deleteNotification(); return false;">
             <i class="ti-bell"></i><span id="notifiCount"></span>
         </a>
         <div class="dropdowns">
@@ -19,7 +19,7 @@
                 
                 
             </ul>
-            <a href="/Profile/MyNotifications" title="" class="more-mesg">Hepsini Gör</a>
+            <a href="/Profile/MyNotifications" title="" class="more-mesg" onclick="notification()">Hepsini Gör</a>
         </div>
     </li>
 </ul>
