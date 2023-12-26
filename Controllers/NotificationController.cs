@@ -55,5 +55,17 @@ namespace AspNetCore_Social_Network_UI.Controllers
             ModelState.AddModelError("Error", errorMessage);
 
         }
+        [HttpGet]
+        public async Task DeleteNotification()
+        {
+
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var result = await http.GetAsync("https://localhost:7091/api/Notifications/NotificationSeen");
+            var value = await result.Content.ReadAsStringAsync();
+
+
+        }
     }
 }

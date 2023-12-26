@@ -1,11 +1,13 @@
 ﻿using AspNetCore_Social_Network_UI.Models;
 using AspNetCore_Social_Network_UI.SessionExtensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Project;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using NuGet.Configuration;
+using NuGet.Protocol;
 using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -91,7 +93,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var respons = await http.GetAsync("https://localhost:7091/api/Notifications/GetAllNotification");
+            var respons = await http.GetAsync("https://localhost:7091/api/Notifications/AllNotification");
             if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
@@ -133,7 +135,9 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var errorMessage = await result.Content.ReadAsStringAsync();
             if (result.IsSuccessStatusCode)
             {
-                HttpContext.Session.SetString("user", await result.Content.ReadAsStringAsync());
+                UserViewModel newUser = JsonConvert.DeserializeObject < UserViewModel >( await result.Content.ReadAsStringAsync());
+                newUser.AccessToken = token;
+                HttpContext.Session.SetString("user", JsonConvert.SerializeObject(newUser));
                 return View(model);
             }
             ModelState.AddModelError("Error", errorMessage);
@@ -165,7 +169,9 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var errorMessage = await result.Content.ReadAsStringAsync();
             if (result.IsSuccessStatusCode)
             {
-                HttpContext.Session.SetString("user", await result.Content.ReadAsStringAsync());
+                UserViewModel newUser = JsonConvert.DeserializeObject<UserViewModel>(await result.Content.ReadAsStringAsync());
+                newUser.AccessToken = token;
+                HttpContext.Session.SetString("user", JsonConvert.SerializeObject(newUser));
                 return View(model);
             }
             ModelState.AddModelError("Error", errorMessage);

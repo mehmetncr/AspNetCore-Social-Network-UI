@@ -20,8 +20,13 @@ namespace AspNetCore_Social_Network_UI.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Index()
+		public IActionResult Index(string valid)
 		{
+			if (valid==null)
+			{
+                return View();
+            }
+			ModelState.AddModelError("", "Email veya şifre hatalı!");
 			return View();
 		}
 		[HttpPost]
@@ -58,8 +63,8 @@ namespace AspNetCore_Social_Network_UI.Controllers
 				//var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));  Her User çekildiğinde bu şekilde alınacak
 				return RedirectToAction("Index", "Home");
 			}
-            
-            return View(model);
+
+			return RedirectToAction("Index",new {valid="wrong"});
 
 		}
 		[HttpPost]

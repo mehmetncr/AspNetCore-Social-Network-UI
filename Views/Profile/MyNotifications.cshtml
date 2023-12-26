@@ -47,6 +47,25 @@
                                                         </div>
                                                     </li>
                                                 }
+                                                else
+                                                {
+                                                    <li id="notificationItem_@notification.NotificationId">
+                                                        <a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@notification.NotificationSenderUser.UserId">
+                                                            <figure><img src=@notification.NotificationSenderUser.UserProfilePicture alt=""></figure>
+                                                        </a>
+                                                      
+                                                        <div class="notifi-meta">
+                                                            <a  asp-route-id="@notification.NotificationDescription">
+                                                            <span style="display:block">@notification.NotificationTitle</span>
+                                                            </a>
+                                                            <a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@notification.NotificationSenderUser.UserId">
+                                                                <span>@notification.NotificationSenderUser.UserFirstName @notification.NotificationSenderUser.UserLastName </span>
+                                                            </a>
+                                                        </div>
+
+
+                                                    </li>
+                                                }
 
                                             }
 
