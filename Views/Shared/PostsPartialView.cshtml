@@ -20,10 +20,10 @@ else
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="@post.PostUserDto.UserProfilePicture" alt="">
+                            <img src="@post.PostUser.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
-                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUserDto.UserId">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUser.UserId">@post.PostUser.UserFirstName @post.PostUser.UserLastName</a></ins>
                             <span>
                                 Paylaşıldı: @post.PostCreateDate.ToString("g")
                             </span>
@@ -150,7 +150,7 @@ else
                         </div>
                         <ul class="we-comet" id="@post.PostId">
                             @{
-                                var commentList = post.CommentsDto.OrderByDescending(x => x.CommentDate).Take(5);
+                                var commentList = post.Comments.OrderByDescending(x => x.CommentDate).Take(5);
                             }
                             @foreach (var comment in commentList)
                             {
@@ -207,7 +207,7 @@ else
 
                             }
                             <li>
-                                <a href="#" title="" class="showmore underline">more comments</a>
+                                <a title="" class="showmore underline" asp-action="PostDetail" asp-controller="Post" asp-route-postId="@post.PostId">Daha Fazla Yorum</a>
                             </li>
 
                         </ul>
@@ -224,10 +224,10 @@ else
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="@post.PostUserDto.UserProfilePicture" alt="">
+                            <img src="@post.PostUser.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
-                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUserDto.UserId">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUser.UserId">@post.PostUser.UserFirstName @post.PostUser.UserLastName</a></ins>
                             <span>Paylaşıldı: @post.PostCreateDate.ToString("g")</span>
                         </div>
 
@@ -367,7 +367,7 @@ else
                         </div>
                         <ul class="we-comet" id="@post.PostId">
                             @{
-                                var commentList = post.CommentsDto.OrderByDescending(x => x.CommentDate).Take(5);
+                                var commentList = post.Comments.OrderByDescending(x => x.CommentDate).Take(5);
                             }
                             @foreach (var comment in commentList)
                             {
@@ -425,7 +425,7 @@ else
 
                             }
                             <li>
-                                <a href="#" title="" class="showmore underline">more comments</a>
+                                <a title="" class="showmore underline" asp-action="PostDetail" asp-controller="Post" asp-route-postId="@post.PostId">Daha Fazla Yorum</a>
                             </li>
 
                         </ul>
@@ -440,10 +440,10 @@ else
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="@post.PostUserDto.UserProfilePicture" alt="">
+                            <img src="@post.PostUser.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
-                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUserDto.UserId">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUser.UserId">@post.PostUser.UserFirstName @post.PostUser.UserLastName</a></ins>
                             <span>
                                 Paylaşıldı: @post.PostCreateDate.ToString("g")
                             </span>
@@ -569,7 +569,7 @@ else
                         </div>
                         <ul class="we-comet" id="@post.PostId">
                             @{
-                                var commentList = post.CommentsDto.OrderByDescending(x => x.CommentDate).Take(5);
+                                var commentList = post.Comments.OrderByDescending(x => x.CommentDate).Take(5);
                             }
                             @foreach (var comment in commentList)
                             {
@@ -628,7 +628,7 @@ else
 
                             }
                             <li>
-                                <a href="#" title="" class="showmore underline">more comments</a>
+                                <a title="" class="showmore underline" asp-action="PostDetail" asp-controller="Post" asp-route-postId="@post.PostId">Daha Fazla Yorum</a>
                             </li>
 
                         </ul>
@@ -643,10 +643,10 @@ else
                 <div class="user-post">
                     <div class="friend-info">
                         <figure>
-                            <img src="@post.PostUserDto.UserProfilePicture" alt="">
+                            <img src="@post.PostUser.UserProfilePicture" alt="">
                         </figure>
                         <div class="friend-name">
-                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUserDto.UserId" title="">@post.PostUserDto.UserFirstName @post.PostUserDto.UserLastName</a></ins>
+                            <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@post.PostUser.UserId" title="">@post.PostUser.UserFirstName @post.PostUser.UserLastName</a></ins>
                             <span>Paylaşıldı: @post.PostCreateDate.ToString("g")</span>
                         </div>
                         <div class="post-meta">
@@ -774,7 +774,7 @@ else
                         </div>
                         <ul class="we-comet" id="@post.PostId">
                             @{
-                                var commentList = post.CommentsDto.OrderByDescending(x => x.CommentDate).Take(5);
+                                var commentList = post.Comments.OrderByDescending(x => x.CommentDate).Take(5);
                             }
                             @foreach (var comment in commentList)
                             {
@@ -831,7 +831,7 @@ else
 
                             }
                             <li>
-                                <a href="#" title="" class="showmore underline">more comments</a>
+                                <a title="" class="showmore underline" asp-action="PostDetail" asp-controller="Post" asp-route-postId="@post.PostId">Daha Fazla Yorum</a>
                             </li>
 
                         </ul>

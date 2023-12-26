@@ -12,7 +12,7 @@
         })
     }
     
-
+    debugger;
     if (likeIcon.classList.contains('fa-regular')) {
         $.ajax({
             type: "POST",

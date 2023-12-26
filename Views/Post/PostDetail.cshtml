@@ -1,0 +1,220 @@
+﻿@model PostViewModel
+
+@{
+    ViewData["Title"] = "PostDetail";
+    Layout = "~/Views/Shared/LayoutPage.cshtml";
+}
+
+<section>
+    <div class="gap gray-bg">
+        <div class="container@(Model.PostType == "Youtube" || Model.PostType == "Image" || Model.PostType == "Video" ? "-fluid": "")">
+            <div class="row">
+                <div class="col-lg-12">
+                    <a class="btn btn-secondary" style="margin-bottom:10px; color:white;" asp-action="Index" asp-controller="Home"><i class="fa-solid fa-arrow-left"></i></a>
+                    <div class="row" id="page-contents">
+                        @if (Model.PostType == "Youtube" || Model.PostType == "Image" || Model.PostType == "Video")
+                        {
+                            <div class="col-lg-7">
+                                <div>
+                                    <div class="central-meta item">
+                                        <div class="user-post">
+                                            <div class="friend-info">
+
+                                                <div class="post-meta">
+                                                    @if (Model.PostType == "Youtube")
+                                                    {
+                                                        var youtubeLink = Model.PostYoutubeUrl.Split("=")[1].Split("&")[0];
+
+                                                        <iframe height="600"
+                                                                src="https://www.youtube.com/embed/@youtubeLink">
+                                                        </iframe>
+                                                    }
+                                                    @if (Model.PostType == "Image")
+                                                    {
+                                                        <img src="@Model.PostImageUrl" />
+                                                    }
+                                                    @if (Model.PostType == "Video")
+                                                    {
+                                                        <div class="embed-responsive embed-responsive-16by9">
+                                                            <video width="770" controls>
+                                                                <source src="@Model.PostVideoUrl" type="video/mp4">
+                                                            </video>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- centerl meta -->
+                            </div>
+                        }
+                        
+
+                        <div class="col-lg-@(Model.PostType == "Youtube" || Model.PostType == "Image" || Model.PostType == "Video" ? "5": "12") central-meta item">
+                            <div class="friend-info">
+                                <figure>
+                                    <img src="@Model.PostUser.UserProfilePicture" alt="">
+                                </figure>
+                                <div class="friend-name">
+                                    <ins><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@Model.PostUser.UserId">@Model.PostUser.UserFirstName @Model.PostUser.UserLastName</a></ins>
+                                    <span>@Model.PostCreateDate.ToString("g")</span>
+                                </div>
+                            </div>
+
+                            <div class="description">
+
+                                <p>
+                                    @if (Model.PostTextContent != null)
+                                    {
+                                        @Model.PostTextContent
+                                    }
+                                </p>
+                            </div>
+                            <div class="we-video-info" style="border-bottom:solid 1px lightgrey; margin-bottom:20px;">
+                                <ul>
+                                    <li>
+                                        <span class="comment" data-toggle="tooltip" title="Comments">
+                                            <i class="fa fa-comments-o"></i>
+                                            <ins>@Model.PostCommentNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="like" data-toggle="tooltip" title="Bunu Beğendim">
+                                            <i class="fa-regular fa-thumbs-up" style="color: #0f8000;" id='likeIcon@(Model.PostId)' onclick="postLike('@Model.PostId', '@Model.PostUserId')"></i>
+                                            <ins id='like@(Model.PostId)'>@Model.PostLikeNumber</ins>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="dislike" data-toggle="tooltip" title="Bunu Beğenmedim">
+                                            <i class="fa-regular fa-thumbs-down" style="color: #ff0000;" id='dislikeIcon@(Model.PostId)' onclick="postDislike('@Model.PostId', '@Model.PostUserId')"></i>
+                                            <ins id='dislike@(Model.PostId)'>@Model.PostDislikeNumber</ins>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="text-center" style="font-weight: bold; font-size: larger;">Yorumlar</div>
+                            <div class="coment-area " style="height:400px; overflow-x: hidden; overflow-y: auto; text-align: justify;">
+                                <ul class="we-comet" id="@Model.PostId">
+                                    @{
+                                        var commentList = Model.Comments.OrderByDescending(x => x.CommentDate);
+                                    }
+                                    @foreach (var comment in commentList)
+                                    {
+                                        if (comment.CommentId != 0)
+                                        {
+                                            <li>
+                                                <div class="comet-avatar">
+                                                    <img width="50" src="@comment.CommentUser.UserProfilePicture" alt="">
+                                                </div>
+                                                <div class="we-comment" style="box-shadow:1px 1px 5px gray">
+                                                    <div class="coment-head">
+                                                        <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@comment.CommentUser.UserId">@comment.CommentUser.UserFirstName @comment.CommentUser.UserLastName</a></h5>
+                                                        <span>@comment.CommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
+                                                        @{
+                                                            var firstName = comment.CommentUser.UserFirstName;
+                                                            var lastName = comment.CommentUser.UserLastName;
+                                                        }
+                                                        <a class="we-reply" href="javascript:void(0)" onclick="replyToComment('@comment.CommentId','@comment.CommentContent', '@firstName','@lastName','@comment.CommentPostId');" title="Reply"><i class="fa fa-reply"></i></a>
+                                                    </div>
+                                                    <p>@comment.CommentContent</p>
+                                                </div>
+                                                <ul>
+                                                    @{
+                                                        comment.ReplyComments.Reverse();
+                                                    }
+                                                    @foreach (var reply in comment.ReplyComments)
+                                                    {
+                                                        if (reply.ReplyCommentId != 0)
+                                                        {
+                                                            <li>
+                                                                <div class="comet-avatar">
+                                                                    <img width="50" src="@reply.ReplyCommentUser.UserProfilePicture" alt="">
+                                                                </div>
+                                                                <div class="we-comment" style="box-shadow:1px 1px 5px gray">
+                                                                    <div class="coment-head">
+                                                                        <h5><a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@reply.ReplyCommentUser.UserId">@reply.ReplyCommentUser.UserFirstName @reply.ReplyCommentUser.UserLastName</a></h5>
+                                                                        <span>@reply.ReplyCommentDate.ToString("dd.MM.yyyy H:mm:s")</span>
+                                                                    </div>
+                                                                    <p>@reply.ReplyCommentContent</p>
+                                                                </div>
+                                                            </li>
+                                                        }
+
+                                                    }
+                                                </ul>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <div class="text-center">
+                                                <h4><strong> Henüz yorum yok!</strong></h4>
+                                            </div>
+
+                                        }
+                                    }
+                                    <li>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="post-comment">
+                                <div class="comet-avatar">
+                                    <img width="50" src="@ViewBag.profilPicture" alt="">
+                                </div>
+                                <div class="post-comt-box">
+                                    <form method="post" id="addcomment5" onsubmit="submitForm('addcomment5')">
+                                        <div style="background-color:lightgrey; height:60px; border-top-right-radius:20px; border-top-left-radius:20px; display:none;" id='replyArea@(Model.PostId)'>
+
+                                            <div style="float: right; margin-top:8px; margin-right:10px; cursor:pointer;" onclick="closeReplyToArea('@Model.PostId')">
+                                                <i class="fa-solid fa-xmark"></i>
+                                            </div>
+                                            <div style="font-size:12px; font-weight:bold; display:flex; padding-top:8px; padding-left:8px;" id='commentUser@(Model.PostId)'>Cevap Veriliyor:</div>
+                                            <div id='commentContent@(Model.PostId)' style="font-size:16px; padding-left:10px;">
+                                                deneme
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="postId" value="@Model.PostId">
+                                        <input type="hidden" name="commentId" id='parentComment@(Model.PostId)'>
+                                        <input type="hidden" name="postOwnerUserId" value="@Model.PostUserId">
+
+                                        <textarea name="comment" placeholder="Yorumunuz..."></textarea>
+
+                                        <div class="add-smiles">
+                                            <span class="em em-expressionless" title="add icon"></span>
+                                        </div>
+                                        <div class="smiles-bunch">
+                                            <i class="em em---1"></i>
+                                            <i class="em em-smiley"></i>
+                                            <i class="em em-anguished"></i>
+                                            <i class="em em-laughing"></i>
+                                            <i class="em em-angry"></i>
+                                            <i class="em em-astonished"></i>
+                                            <i class="em em-blush"></i>
+                                            <i class="em em-disappointed"></i>
+                                            <i class="em em-worried"></i>
+                                            <i class="em em-kissing_heart"></i>
+                                            <i class="em em-rage"></i>
+                                            <i class="em em-stuck_out_tongue"></i>
+                                        </div>
+                                        <button type="submit"></button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        function showMoreComments() {
+            var commentArea = document.querySelector('.coment-area');
+            commentArea.style.maxHeight = 'none';  // 'none' değeri, maksimum yüksekliği kaldırır
+            commentArea.style.overflowY = 'auto';  // Yükseklik aşıldığında scrollbar göster
+        }
+    </script>
+}

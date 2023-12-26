@@ -14,7 +14,7 @@
 		public int PostDislikeNumber { get; set; }
 		public string PostLink { get; set; }
 		public string PostType { get; set; }
-		public virtual List<CommentViewModel> CommentsDto { get; set; }
-        public virtual UserViewModel PostUserDto { get; set; }
+		public virtual List<CommentViewModel> Comments { get; set; }
+        public virtual UserViewModel PostUser { get; set; }
     }
 }
