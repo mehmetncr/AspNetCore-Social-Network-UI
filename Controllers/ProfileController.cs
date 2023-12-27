@@ -424,6 +424,10 @@ namespace AspNetCore_Social_Network_UI.Controllers
                 var errorMessage = await result.Content.ReadAsStringAsync();
                 if (result.IsSuccessStatusCode)
                 {
+                    var userSession = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));
+                    userSession.UserProfilePicture = newUser.UserProfilePicture;
+                    HttpContext.Session.SetString("user", JsonConvert.SerializeObject( userSession));
+                 
                     return RedirectToAction("MyProfile");
                 }
             }

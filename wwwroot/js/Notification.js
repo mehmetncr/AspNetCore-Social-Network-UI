@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         var lielement = document.createElement("li");
         lielement.innerHTML = `
-                <a href="#" onclick="viewPost('${notification.notificationDescription}')" title="">
+                <a href="#" onclick="viewPost('${notification.notificationDescription}'); return false;" title="">
                     <img src="${notification.notificationSenderUser.userProfilePicture}" alt="">
                     <div class="mesg-meta">
                         <h6>${notification.notificationTitle}</h6>
@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function viewPost(id) {
-    alert(id);
+    window.location.href = "https://localhost:7184/Post/PostDetail?postId="+id;
 }
 
 connection.on("ReceivePostNotifRes", (notification) => {
@@ -219,7 +219,7 @@ connection.on("ReceivePostNotifRes", (notification) => {
 
     var newLiElement = document.createElement('li');
     newLiElement.innerHTML = `
-        <a href="notifications.html" title="">
+        <a href="#" onclick="viewPost('${notification.notificationDescription}'); return false;" title="">
                     <img src="${notification.notificationSenderUser.userProfilePicture}" alt="">
                     <div class="mesg-meta">
                         <h6>${notification.notificationTitle}</h6>
@@ -229,7 +229,8 @@ connection.on("ReceivePostNotifRes", (notification) => {
                 </a>
               
             `;
-    ulElement.appendChild(newLiElement);
+    var firstChild = ulElement.firstChild;
+    ulElement.insertBefore(newLiElement, firstChild);
 });
 
 

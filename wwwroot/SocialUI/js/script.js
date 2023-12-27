@@ -333,10 +333,10 @@ jQuery(document).ready(function ($) {
             data: form.serialize(), // Form verilerini al
             success: function (result) {
                 // Başarılı yanıt alındığında yeni yorumu sayfaya ekle
-                debugger;
+            
                 var commentContainer = $(`#${postId}`);
                 commentContainer.empty();
-                postNotification(postOwnerUserId, "Comment");       //Yorum yapıldığında post sahibine bildirim gönderme işlemi
+                postNotification(postOwnerUserId, "Comment", postId);       //Yorum yapıldığında post sahibine bildirim gönderme işlemi
                 result.forEach(function (item) {
                     form.find("textarea[name='comment']").val('');
                     var date = new Date(item.commentDate);

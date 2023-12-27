@@ -160,13 +160,13 @@ namespace AspNetCore_Social_Network_UI.Controllers
         {
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var userProfilPicture = HttpContext.Session.GetJsonUser().UserProfilePicture;
-            var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
+            var http = _httpClientFactory.CreateClient(); 
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var respons = await http.GetAsync("https://localhost:7091/api/Post/PostDetails/" + postId);  //API adresi ve get isteği 
-            if (respons.IsSuccessStatusCode)  //gelen sonuç Ok ise  kodu ise
+            var respons = await http.GetAsync("https://localhost:7091/api/Post/PostDetails/" + postId); 
+            if (respons.IsSuccessStatusCode)  
             {
-                var jsonData = await respons.Content.ReadAsStringAsync();  //gelen datanın içindeki veriler çıkarılır
-                var data = JsonConvert.DeserializeObject<PostViewModel>(jsonData);  //gelen Json Tipindeki data view modele deserilize edilir
+                var jsonData = await respons.Content.ReadAsStringAsync();  
+                var data = JsonConvert.DeserializeObject<PostViewModel>(jsonData); 
                 ViewBag.profilPicture = userProfilPicture;
                 return View(data);
             }

@@ -24,7 +24,7 @@
                 likeCountElement.innerHTML = result;
                 console.log(userId);
                 
-                postNotification(userId, "Like");
+                postNotification(userId, "Like",postId);
                 
                 var newLikedPost = {
                     postId: postId,
@@ -94,8 +94,8 @@ function postTakeBackLike(postId) {
     }
 }
 
-function postNotification(userId, notificationType) {
-    connection.invoke("PostNotification", userId,notificationType);
+function postNotification(userId, notificationType, postId) {
+    connection.invoke("PostNotification", userId,notificationType ,postId);
 }
 
 function postDislike(postId, userId) {
@@ -124,7 +124,7 @@ function postDislike(postId, userId) {
                 dislikeIcon.classList.remove("fa-regular");
                 dislikeIcon.classList.add("fa-solid");
                 dislikeCountElement.innerHTML = result;
-                postNotification(userId, "Dislike");
+                postNotification(userId, "Dislike", postId);
                 var newDislikedPost = {
                     postId: postId,
                     isDislike: true
