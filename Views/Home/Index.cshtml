@@ -80,7 +80,7 @@
                                                     <figure><img src="@offeruser.UserProfilePicture" alt=""></figure>
                                                     <div class="friend-meta">
                                                         <h4><a asp-controller="Profile" asp-action="OtherProfile" asp-route-id="@offeruser.UserId" title="">@offeruser.UserFirstName @offeruser.UserLastName</a></h4>
-                                                        <a href="#" title="" class="underline">Arkadaş Ekle</a>
+                                                        <a href="#" title="" id="offer_@offeruser.UserId" onclick="addFriend('@offeruser.UserId'); return false;" class="underline">Arkadaş Ekle</a>
                                                     </div>
                                                 </li>
                                             }

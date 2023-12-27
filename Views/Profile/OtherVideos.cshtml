@@ -32,7 +32,11 @@
                                         @if (Model.Posts.Where(x => x.PostType == "Video").Count() < 1)
                                         {
 
-                                            <h3>Hiç Vieo Paylaşılmamış..</h3>
+                                            <div class="central-meta">
+                                                <div class="new-postbox text-center">
+                                                    <h2>Henüz hiçbir şey paylaşılmamış..</h2>
+                                                </div>
+                                            </div>
 
                                         }
                                         else

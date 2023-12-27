@@ -27,6 +27,9 @@
                                     <h5 class="f-title"><i class="ti-bell"></i>Tüm Bildirimler</h5>
                                     <div class="notification-box" style="height:700px;">
                                         <ul>
+                                            @{
+                                                Model.Reverse();
+                                            }
                                             @foreach (var notification in Model)
                                             {
                                                 if (notification.NotificationTitle == "Arkadaşlık İsteği")
@@ -55,7 +58,7 @@
                                                         </a>
                                                       
                                                         <div class="notifi-meta">
-                                                            <a  asp-route-id="@notification.NotificationDescription">
+                                                            <a href="#" onclick="viewPost('@notification.NotificationDescription'); return false;">
                                                             <span style="display:block">@notification.NotificationTitle</span>
                                                             </a>
                                                             <a asp-action="OtherProfile" asp-controller="Profile" asp-route-id="@notification.NotificationSenderUser.UserId">

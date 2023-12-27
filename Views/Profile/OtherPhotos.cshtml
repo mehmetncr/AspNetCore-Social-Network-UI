@@ -35,7 +35,11 @@
                                     <ul class="photos">
                                         @if (Model.Posts.Where(x => x.PostType == "Image").Count() < 1)
                                         {
-                                            <h3>Hiç Fotoğraf Paylaşılmamış..</h3>
+                                            <div class="central-meta">
+                                                <div class="new-postbox text-center">
+                                                    <h2>Henüz hiçbir şey paylaşılmamış..</h2>
+                                                </div>
+                                            </div>
                                         }
                                         else
                                         {
