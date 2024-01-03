@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
+using System.Reflection;
 
 namespace AspNetCore_Social_Network_UI.Controllers
 {
@@ -97,5 +98,20 @@ namespace AspNetCore_Social_Network_UI.Controllers
 			}
 			return null;
         }
+		[HttpGet]
+		public async Task<IActionResult> Logout()
+		{
+            var http = _httpClientFactory.CreateClient();
+            var result = await http.GetAsync("https://localhost:7091/api/Accounts/Logout");
+            if (result.IsSuccessStatusCode)
+            {
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+        }
+		
 	}
 }

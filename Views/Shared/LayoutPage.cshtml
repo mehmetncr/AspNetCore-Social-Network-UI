@@ -113,13 +113,12 @@
                 <div class="user-img">
                     <vc:name></vc:name>
                     <div class="user-setting">
-                        <a href="#" title=""><span class="status f-online"></span>online</a>
-                        <a href="#" title=""><span class="status f-away"></span>away</a>
-                        <a href="#" title=""><span class="status f-off"></span>offline</a>
-                        <a href="javascript:void(0)" onclick="viewProfile()"><i class="ti-user"></i> view profile</a>
-                        <a href="javascript:void(0)" onclick="viewEditUser()"><i class="ti-pencil-alt"></i>edit profile</a>
-                        <a href="javascript:void(0)" onclick="accountSettings()"><i class="ti-settings"></i>account setting</a>
-                        <a href="#" title=""><i class="ti-power-off"></i>log out</a>
+                        <a href="javascript:void(0)" onclick="turnOnlineOfflineUser('Online')"><span class="status f-online"></span>Çevrimiçi</a>
+                        <a href="javascript:void(0)" onclick="turnOnlineOfflineUser('Offline')"><span class="status f-off"></span>Çevrimdışı</a>
+                        <a href="javascript:void(0)" onclick="viewProfile()"><i class="ti-user"></i> Profil</a>
+                        <a href="javascript:void(0)" onclick="viewEditUser()"><i class="ti-pencil-alt"></i>Profili Düzenle</a>
+                        <a href="javascript:void(0)" onclick="accountSettings()"><i class="ti-settings"></i>Hesap Ayarları</a>
+                        <a href="javascript:void(0)" onclick="logout()"><i class="ti-power-off"></i>Çıkış Yap</a>
                     </div>
                 </div>
 
@@ -168,15 +167,56 @@
             });
         }
 
+        // User online ve offline butonu fonksiyonları.
+        function turnOnlineOfflineUser(type) {
+            $.ajax({
+                type: "GET",
+                url: "/Profile/TurnOnlineOfflineUser",
+                data: { type: type },
+                success: function (result) {
+                    if (result.success) {
+                        var onlineOfflineSpan = document.getElementById('onlineOfflineSpan');
+                        if (type == "Online") {
+                            onlineOfflineSpan.classList.add('f-online');
+                            onlineOfflineSpan.classList.remove('f-off');
+                        }
+                        else {
+                            onlineOfflineSpan.classList.remove('f-online');
+                            onlineOfflineSpan.classList.add('f-off');
+                        }
+                    }
+                    else {
+                        console.log("başarısız")
+                    }
+                }
+            })
+        }
+
+        function logout() {
+            $.ajax({
+                type: "GET",
+                url: "/Account/Logout",
+                success: function (data) {
+                    console.log(data);
+
+                    if (data.success) {
+                        window.location.href = "/Account/Index";
+                    } else {
+                        alert("Çıkış Hatalı");
+                    }
+                },
+                error: function () {
+                    alert("An error occurred during logout");
+                }
+            });
+        }
+
         async function searchTop(query) {
             const searchResultsContainer = document.getElementById("searchResults");
 
             try {
-                // Asenkron işlemi bekleyerek filtrelenmiş sonuçları al
+                // Asenkron işlemi bekleyerek filtrelenmiş sonuçlar
                 const filteredResults = await getFilteredResults(query);
-                console.log(filteredResults);
-                // Sonuçları ekrana yazdır
-                console.log(filteredResults);
                 searchResultsContainer.innerHTML = "";
                 filteredResults.forEach(result => {
                     const resultElement = document.createElement("div");
@@ -191,7 +231,7 @@
                     nameElement.textContent = result.userFirstName +" " + result.userLastName;
                     resultElement.appendChild(nameElement);
 
-                    // İsterseniz burada click event'i ekleyebilirsiniz
+                    // click event'i 
                     resultElement.addEventListener("click", () => {
                         window.location.href = "https://localhost:7184/Profile/OtherProfile/" + result.userId;
                     });

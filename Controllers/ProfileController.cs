@@ -45,11 +45,11 @@ namespace AspNetCore_Social_Network_UI.Controllers
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Images");  
-            if (respons.IsSuccessStatusCode) 
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Images");
+            if (respons.IsSuccessStatusCode)
             {
-                var jsonData = await respons.Content.ReadAsStringAsync(); 
-                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData); 
+                var jsonData = await respons.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData);
                 return View(data);
             }
             return View();
@@ -57,19 +57,19 @@ namespace AspNetCore_Social_Network_UI.Controllers
 
         public IActionResult MyAbout()
         {
-			var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));
-			return View(user);
+            var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));
+            return View(user);
         }
         public async Task<IActionResult> MyVideos()
         {
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Videos"); 
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Videos");
             if (respons.IsSuccessStatusCode)
             {
-                var jsonData = await respons.Content.ReadAsStringAsync(); 
-                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData);  
+                var jsonData = await respons.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<List<PostViewModel>>(jsonData);
                 return View(data);
             }
             return View();
@@ -79,15 +79,15 @@ namespace AspNetCore_Social_Network_UI.Controllers
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();  //HttpClient döndürür
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Friends"); 
-			if (respons.IsSuccessStatusCode)  
-			{
-				var jsonData = await respons.Content.ReadAsStringAsync(); 
-				var data = JsonConvert.DeserializeObject<ProfileFriendsViewModel>(jsonData); 
-				return View(data);
-			}
-			return View();
-		}
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/Friends");
+            if (respons.IsSuccessStatusCode)
+            {
+                var jsonData = await respons.Content.ReadAsStringAsync();
+                var data = JsonConvert.DeserializeObject<ProfileFriendsViewModel>(jsonData);
+                return View(data);
+            }
+            return View();
+        }
         public async Task<IActionResult> MyNotifications()
         {
             string token = HttpContext.Session.GetJsonUser().AccessToken;
@@ -107,18 +107,18 @@ namespace AspNetCore_Social_Network_UI.Controllers
         [HttpGet]
         public IActionResult EditUserInfo()
         {
-			var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));
-			return View(user);
-		}
-		[HttpPost]
-		public async Task<IActionResult> EditUserInfo(UserViewModel model, string month, string day, string year, string gender)
-		{
+            var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));
+            return View(user);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditUserInfo(UserViewModel model, string month, string day, string year, string gender)
+        {
             UserViewModel user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));  //user bilgileri alınır ve ekrandan gelen bilgiler ile değişşerek apiye gönderilir
-            string date = year+"-"+month+"-"+day;
-            user.UserFirstName=model.UserFirstName;
-            user.UserLastName=model.UserLastName;
+            string date = year + "-" + month + "-" + day;
+            user.UserFirstName = model.UserFirstName;
+            user.UserLastName = model.UserLastName;
             user.UserGender = gender;
-            user.UserBirthDate= DateTime.Parse(date);
+            user.UserBirthDate = DateTime.Parse(date);
             user.UserLocation = model.UserLocation;
             user.UserBiography = model.UserBiography;
             user.UserPhoneNumber = model.UserPhoneNumber;
@@ -135,7 +135,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var errorMessage = await result.Content.ReadAsStringAsync();
             if (result.IsSuccessStatusCode)
             {
-                UserViewModel newUser = JsonConvert.DeserializeObject < UserViewModel >( await result.Content.ReadAsStringAsync());
+                UserViewModel newUser = JsonConvert.DeserializeObject<UserViewModel>(await result.Content.ReadAsStringAsync());
                 newUser.AccessToken = token;
                 HttpContext.Session.SetString("user", JsonConvert.SerializeObject(newUser));
                 return View(model);
@@ -153,9 +153,9 @@ namespace AspNetCore_Social_Network_UI.Controllers
             var user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));
             return View(user);
         }
-		[HttpPost]
-		public async Task<IActionResult> EditUserJobEdu(UserViewModel model)
-		{
+        [HttpPost]
+        public async Task<IActionResult> EditUserJobEdu(UserViewModel model)
+        {
             UserViewModel user = JsonConvert.DeserializeObject<UserViewModel>(HttpContext.Session.GetString("user"));
             user.UserEducationInfo = model.UserEducationInfo;
             user.UserJobInfo = model.UserJobInfo;
@@ -180,31 +180,31 @@ namespace AspNetCore_Social_Network_UI.Controllers
         }
 
 
-        
+
         [HttpGet]
-		public async Task<IActionResult> EditUserInterest()   //ilgi alanları sayfası için usera ait ilgi alanlarını çeker
-		{
+        public async Task<IActionResult> EditUserInterest()   //ilgi alanları sayfası için usera ait ilgi alanlarını çeker
+        {
             string token = HttpContext.Session.GetJsonUser().AccessToken;
-            var http = _httpClientFactory.CreateClient();  
+            var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetInterest");  
-            if (respons.IsSuccessStatusCode)  
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetInterest");
+            if (respons.IsSuccessStatusCode)
             {
-                var jsonData = await respons.Content.ReadAsStringAsync();  
+                var jsonData = await respons.Content.ReadAsStringAsync();
                 var data = JsonConvert.DeserializeObject<List<InterestViewModel>>(jsonData);
                 data.Reverse();
                 return View(data);
             }
             return View();
 
-           
-		}
+
+        }
         [HttpPost]
         public async Task<List<InterestViewModel>> AddUserIntrest(string interest)    //ilgi alanı ekleme
         {
-            var user = HttpContext.Session.GetJsonUser();        
+            var user = HttpContext.Session.GetJsonUser();
             string token = user.AccessToken;
-            var http = _httpClientFactory.CreateClient(); 
+            var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
             var jsondata = JsonConvert.SerializeObject(interest);
             var content = new StringContent(jsondata, encoding: Encoding.UTF8, "application/json");
@@ -253,15 +253,15 @@ namespace AspNetCore_Social_Network_UI.Controllers
             if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<PrivacySettingsViewModel>(jsonData);               
+                var data = JsonConvert.DeserializeObject<PrivacySettingsViewModel>(jsonData);
                 return View(data);
             }
             return View();
         }
         [HttpPost]
-        public async Task<PrivacySettingsViewModel> UpdateSettings(string settingName) 
+        public async Task<PrivacySettingsViewModel> UpdateSettings(string settingName)
         {
-           
+
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
@@ -271,7 +271,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
             if (result.IsSuccessStatusCode)
             {
                 var jsonData = await result.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<PrivacySettingsViewModel>(jsonData);             
+                var data = JsonConvert.DeserializeObject<PrivacySettingsViewModel>(jsonData);
                 return data;
             }
             var errorMessage = await result.Content.ReadAsStringAsync();
@@ -281,62 +281,62 @@ namespace AspNetCore_Social_Network_UI.Controllers
 
 
 
-		[HttpGet]
-		public IActionResult EditUserPassword()
-		{
-			
-			return View();
-		}
+        [HttpGet]
+        public IActionResult EditUserPassword()
+        {
+
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> EditUserPassword(EditPasswordViewModel model)
         {
 
-			string token = HttpContext.Session.GetJsonUser().AccessToken;
-			var http = _httpClientFactory.CreateClient();
-			http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-			var jsonData = JsonConvert.SerializeObject(model);
-			var content = new StringContent(jsonData, encoding: Encoding.UTF8, "application/json");
-			var result = await http.PutAsync("https://localhost:7091/api/Accounts/EditPassword", content);
-			var errorMessage = await result.Content.ReadAsStringAsync();
-			if (result.IsSuccessStatusCode)
-			{
+            string token = HttpContext.Session.GetJsonUser().AccessToken;
+            var http = _httpClientFactory.CreateClient();
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
+            var jsonData = JsonConvert.SerializeObject(model);
+            var content = new StringContent(jsonData, encoding: Encoding.UTF8, "application/json");
+            var result = await http.PutAsync("https://localhost:7091/api/Accounts/EditPassword", content);
+            var errorMessage = await result.Content.ReadAsStringAsync();
+            if (result.IsSuccessStatusCode)
+            {
 
                 ModelState.AddModelError("", "Şifre Değiştirme Başarılı");
-			}
-            else if (result.StatusCode== System.Net.HttpStatusCode.NotFound)
+            }
+            else if (result.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 ModelState.AddModelError("", "Hay Aksi Birşeyler Ters Gitti");
 
             }
             else
             {
-				ModelState.AddModelError("", "Mevcut Şifre Yanlış");
-			}		
+                ModelState.AddModelError("", "Mevcut Şifre Yanlış");
+            }
 
-			return View(model);
-		}
+            return View(model);
+        }
         [HttpGet]
         public async Task<IActionResult> OtherProfile(int id)
         {
 
             int userId = HttpContext.Session.GetJsonUser().UserId;
-            if (id==userId)
+            if (id == userId)
             {
                 return RedirectToAction("MyProfile");
             }
             string token = HttpContext.Session.GetJsonUser().AccessToken;
             var http = _httpClientFactory.CreateClient();
             http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherProfile/"+id);
+            var respons = await http.GetAsync("https://localhost:7091/api/Profiles/GetOtherProfile/" + id);
             if (respons.IsSuccessStatusCode)
             {
                 var jsonData = await respons.Content.ReadAsStringAsync();
-                var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);         
+                var data = JsonConvert.DeserializeObject<UserViewModel>(jsonData);
                 ViewBag.UserId = userId;
                 return View(data);
             }
             return View();
-            
+
         }
         [HttpGet]
         public async Task<IActionResult> OtherPhotos(int id)
@@ -415,7 +415,7 @@ namespace AspNetCore_Social_Network_UI.Controllers
                 formFile.CopyTo(stream);
                 UserViewModel newUser = user;
                 newUser.UserProfilePicture = "/images/profilpictures/" + formFile.FileName;
-                
+
                 var http = _httpClientFactory.CreateClient();
                 http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, user.AccessToken);
                 var jsonData = JsonConvert.SerializeObject(newUser);
@@ -428,6 +428,37 @@ namespace AspNetCore_Social_Network_UI.Controllers
                 }
             }
             return RedirectToAction("MyProfile");
+        }
+        [HttpGet]
+        public async Task<IActionResult> TurnOnlineOfflineUser(string type)
+        {
+            var user = HttpContext.Session.GetJsonUser();
+            var http = _httpClientFactory.CreateClient();
+            var jsonData = JsonConvert.SerializeObject(type);
+            http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, user.AccessToken);
+            var content = new StringContent(jsonData, encoding: Encoding.UTF8, "application/json");
+            var result = await http.PutAsync("https://localhost:7091/api/Profiles/TurnOnlineOfflineUser", content);
+            if (result.IsSuccessStatusCode)
+            {
+                
+                if (type == "Online")
+                {
+                    user.UserIsOnline = true;
+                    var newUser = JsonConvert.SerializeObject(user);
+                    HttpContext.Session.SetString("user", newUser);
+                }
+                else
+                {
+                    user.UserIsOnline = false;
+                    var newUser = JsonConvert.SerializeObject(user);
+                    HttpContext.Session.SetString("user", newUser);
+                }
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
         }
     }
 
