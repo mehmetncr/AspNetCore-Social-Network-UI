@@ -1,4 +1,4 @@
 ﻿@model UserViewModel
 <span>@Model.UserFirstName @Model.UserLastName</span>
 <img width="50" src="@Model.UserProfilePicture" alt="">
-<span class="status @(Model.UserIsOnline ? "f-online" : "f-off")"></span>
+<span class="status @(Model.UserIsOnline ? "f-online" : "f-off")" id="onlineOfflineSpan"></span>

@@ -3,12 +3,15 @@
 <ul class="chat-users" style="height:450px;">
     @foreach (var friend in Model.Friends)
     {
-        <li>
-            <div class="author-thmb" onclick="sendMessage('@friend.Friend.UserId')">
-                <img width="50" height="50" src="@friend.Friend.UserProfilePicture" alt="">
-                <span class="status f-online"></span>
-            </div>
-        </li>
+        if(friend.Friend.UserIsOnline == true)
+        {
+            <li>
+                <div class="author-thmb" onclick="sendMessage('@friend.Friend.UserId')">
+                    <img width="50" height="50" src="@friend.Friend.UserProfilePicture" alt="">
+                    <span class="status f-online"></span>
+                </div>
+            </li>
+        }
     }
 </ul>
 
